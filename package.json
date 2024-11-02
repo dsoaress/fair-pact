@@ -1,0 +1,15 @@
+{
+  "name": "fair-pact",
+  "description": "",
+  "author": "Daniel Soares <daniel.soares@me.com>",
+  "version": "0.0.0",
+  "license": "ISC",
+  "type": "module",
+  "scripts": {
+    "prepare": "lefthook install"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "lefthook": "1.8.2"
+  }
+}

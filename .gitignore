@@ -1,0 +1,21 @@
+# Logs
+logs
+*.log
+.pnpm-debug.log*
+
+# Coverage directory used by tools like istanbul
+coverage
+*.lcov
+
+# Dependency directories
+node_modules/
+
+# dotenv environment variable files
+.env
+
+# Next.js build output
+.next
+out
+
+# OS files
+.DS_Store
