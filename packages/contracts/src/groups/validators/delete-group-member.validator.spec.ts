@@ -6,8 +6,8 @@ import { deleteGroupMemberValidator } from './delete-group-member.validator'
 
 describe('deleteGroupMemberValidator', () => {
   it.each([
-    [{ id: IdValueObject.create().value }, true],
-    [{ id: 'invalid-id' }, false],
+    [{ groupId: IdValueObject.create().value, userId: IdValueObject.create().value }, true],
+    [{ groupId: 'invalid-id', userId: 'invalid-id' }, false],
     [{}, false]
   ])('should validate the schema: %o (valid: %j)', (data, expected) => {
     const result = deleteGroupMemberValidator.safeParse(data)

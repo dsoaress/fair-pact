@@ -16,11 +16,12 @@ type GroupTransactionResult = {
   updatedAt: Date | null
   groupId: string
   amount: number
-  payerMemberId: string
+  payerUserId: string
   groupTransactionParticipants: {
-    memberId: string
+    userId: string
     amount: number
   }[]
+  date: Date
 }
 
 export class GroupTransactionsRepository implements Repository<GroupTransactionModel> {
@@ -32,7 +33,7 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
       with: {
         groupTransactionParticipants: {
           columns: {
-            memberId: true,
+            userId: true,
             amount: true
           }
         }
@@ -47,8 +48,9 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
       id: model.id.value,
       name: model.name,
       groupId: model.groupId.value,
-      payerMemberId: model.payerMemberId.value,
+      payerUserId: model.payerUserId.value,
       amount: model.amount,
+      date: model.date,
       createdBy: model.createdBy.value,
       createdAt: model.createdAt
     })
@@ -56,9 +58,10 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
     await this.drizzleService.insert(groupTransactionParticipants).values(
       model.participants.map(participant => ({
         groupTransactionId: model.id.value,
-        memberId: participant.memberId.value,
+        userId: participant.userId.value,
         amount: participant.amount,
-        payerMemberId: model.payerMemberId.value
+        payerUserId: model.payerUserId.value,
+        groupId: model.groupId.value
       }))
     )
   }
@@ -71,7 +74,8 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
       .update(groupTransactions)
       .set({
         name: model.name,
-        payerMemberId: model.payerMemberId.value,
+        payerUserId: model.payerUserId.value,
+        date: model.date,
         updatedAt: model.updatedAt,
         updatedBy: model.updatedBy?.value ?? null
       })
@@ -79,9 +83,10 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
     await this.drizzleService.insert(groupTransactionParticipants).values(
       model.participants.map(participant => ({
         groupTransactionId: model.id.value,
-        memberId: participant.memberId.value,
+        userId: participant.userId.value,
         amount: participant.amount,
-        payerMemberId: model.payerMemberId.value
+        payerUserId: model.payerUserId.value,
+        groupId: model.groupId.value
       }))
     )
   }
@@ -103,11 +108,12 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
       updatedAt: result.updatedAt ?? undefined,
       groupId: IdValueObject.create(result.groupId),
       amount: result.amount,
-      payerMemberId: IdValueObject.create(result.payerMemberId),
+      payerUserId: IdValueObject.create(result.payerUserId),
       participants: result.groupTransactionParticipants.map(participant => ({
-        memberId: IdValueObject.create(participant.memberId),
+        userId: IdValueObject.create(participant.userId),
         amount: participant.amount
-      }))
+      })),
+      date: result.date
     }
   }
 }

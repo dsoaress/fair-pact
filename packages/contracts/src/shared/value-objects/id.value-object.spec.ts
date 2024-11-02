@@ -1,4 +1,4 @@
-import { createId } from '@paralleldrive/cuid2'
+import { randomUUID } from 'node:crypto'
 import { describe, expect, it } from 'vitest'
 
 import { IdValueObject } from './id.value-object'
@@ -10,7 +10,7 @@ describe('IdValueObject', () => {
   })
 
   it('should create a new id with a given value', () => {
-    const input = createId()
+    const input = randomUUID()
     const id = IdValueObject.create(input)
     expect(id.value).toBe(input)
   })

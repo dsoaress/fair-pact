@@ -5,7 +5,6 @@ import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.valu
 import type { UseCase } from '@/shared/base/use-case'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
-
 import type { GroupMemberModel } from '../models/group-member.model'
 import type { GroupMembersRepository } from '../repositories/group-members.repository'
 import type { GroupsRepository } from '../repositories/groups.repository'
@@ -22,7 +21,6 @@ export class CreateGroupMemberUseCase implements UseCase<CreateGroupMemberDto, P
     const group = await this.groupsRepository.findById(parsedData.data.groupId)
     if (!group) throw new NotFoundException('Group')
     const groupMember: GroupMemberModel = {
-      id: IdValueObject.create(),
       groupId: IdValueObject.create(parsedData.data.groupId),
       userId: IdValueObject.create(parsedData.data.userId),
       createdAt: new Date()

@@ -3,8 +3,11 @@ import { drizzleSevice } from '@/infra/database/drizzle/drizzle.service'
 import { GroupMembersController } from './controllers/group-members.controller'
 import { GroupTransactionsController } from './controllers/group-transactions.controller'
 import { GroupsController } from './controllers/groups.controller'
+import { GroupTransactionsDao } from './daos/group-transactions.dao'
 import { GroupsDao } from './daos/groups.dao'
 import { GetGroupByIdQuery } from './queries/get-group-by-id.query'
+import { GetGroupTransactionByIdQuery } from './queries/get-group-transaction-by-id.query'
+import { GetGroupTransactionsByGroupIdQuery } from './queries/get-group-transactions-by-group-id.query'
 import { GetGroupsQuery } from './queries/get-groups.query'
 import { GroupMembersRepository } from './repositories/group-members.repository'
 import { GroupTransactionsRepository } from './repositories/group-transactions.respository'
@@ -29,6 +32,7 @@ type Output = {
 
 export function groupsFactory(): Output {
   const groupsDao = new GroupsDao(drizzleSevice)
+  const groupTransactionsDao = new GroupTransactionsDao(drizzleSevice)
   const groupsRepository = new GroupsRepository(drizzleSevice)
   const groupMembersRepository = new GroupMembersRepository(drizzleSevice)
   const groupTransactionsRepository = new GroupTransactionsRepository(drizzleSevice)
@@ -45,6 +49,10 @@ export function groupsFactory(): Output {
   )
   const deleteGroupMemberUseCase = new DeleteGroupMemberUseCase(groupMembersRepository)
 
+  const getGroupTransactionByIdQuery = new GetGroupTransactionByIdQuery(groupTransactionsDao)
+  const getGroupTransactionsByGroupIdQuery = new GetGroupTransactionsByGroupIdQuery(
+    groupTransactionsDao
+  )
   const createGroupTransactionUseCase = new CreateGroupTransactionUseCase(
     groupsRepository,
     groupTransactionsRepository
@@ -71,6 +79,8 @@ export function groupsFactory(): Output {
   )
 
   const groupTransactionsController = new GroupTransactionsController(
+    getGroupTransactionByIdQuery,
+    getGroupTransactionsByGroupIdQuery,
     createGroupTransactionUseCase,
     updateGroupTransactionUseCase,
     deleteGroupTransactionUseCase

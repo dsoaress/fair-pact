@@ -17,7 +17,7 @@ type GroupResult = {
   updatedBy: string | null
   updatedAt: Date | null
   groupMembers: {
-    id: string
+    userId: string
   }[]
 }
 
@@ -27,7 +27,7 @@ export class GroupsRepository implements Repository<GroupModel> {
   async findById(id: string): Promise<GroupModel | null> {
     const result = await this.drizzleService.query.groups.findFirst({
       where: and(eq(groups.id, id)),
-      with: { groupMembers: { columns: { id: true } } }
+      with: { groupMembers: { columns: { userId: true } } }
     })
     if (!result) return null
     return this.mapToModel(result)
@@ -36,7 +36,7 @@ export class GroupsRepository implements Repository<GroupModel> {
   async findByNameAndCreatedBy(name: string, createdBy: string): Promise<GroupModel | null> {
     const result = await this.drizzleService.query.groups.findFirst({
       where: and(eq(groups.name, name), eq(groups.createdBy, createdBy)),
-      with: { groupMembers: { columns: { id: true } } }
+      with: { groupMembers: { columns: { userId: true } } }
     })
     if (!result) return null
     return this.mapToModel(result)
@@ -73,7 +73,7 @@ export class GroupsRepository implements Repository<GroupModel> {
       id: IdValueObject.create(result.id),
       name: result.name,
       currency: result.currency as CurrencyDto,
-      members: result.groupMembers.map(member => IdValueObject.create(member.id)),
+      members: result.groupMembers.map(member => IdValueObject.create(member.userId)),
       createdBy: IdValueObject.create(result.createdBy),
       createdAt: result.createdAt,
       updatedAt: result.updatedAt ?? undefined,

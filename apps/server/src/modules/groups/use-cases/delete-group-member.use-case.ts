@@ -13,9 +13,9 @@ export class DeleteGroupMemberUseCase implements UseCase<DeleteGroupMemberDto, P
   async execute(data: DeleteGroupMemberDto): Promise<void> {
     const parsedData = deleteGroupMemberValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
-    const { id } = parsedData.data
-    const groupMember = await this.groupMembersRepository.findById(id)
+    const { groupId, userId } = parsedData.data
+    const groupMember = await this.groupMembersRepository.findByGroupIdAndUserId(groupId, userId)
     if (!groupMember) throw new NotFoundException('Group Member')
-    await this.groupMembersRepository.delete(id)
+    await this.groupMembersRepository.delete(groupId, userId)
   }
 }

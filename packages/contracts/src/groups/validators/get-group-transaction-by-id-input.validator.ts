@@ -1,7 +1,8 @@
 import { z } from 'zod'
+
 import { idValidator } from '../../shared/validators/id.validator'
 
-export const deleteGroupMemberValidator = z.object({
-  groupId: idValidator,
+export const getGroupTransactionByIdInputValidator = z.object({
+  id: idValidator,
   userId: idValidator
 })

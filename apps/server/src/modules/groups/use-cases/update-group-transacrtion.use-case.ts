@@ -38,12 +38,12 @@ export class UpdateGroupTransactionUseCase
   ): void {
     originalTransaction.name = data.name || originalTransaction.name
     originalTransaction.amount = data.amount || originalTransaction.amount
-    originalTransaction.payerMemberId =
-      IdValueObject.create(data.payerMemberId) || originalTransaction.payerMemberId
+    originalTransaction.payerUserId =
+      IdValueObject.create(data.payerUserId) || originalTransaction.payerUserId
     originalTransaction.groupId = IdValueObject.create(data.groupId) || originalTransaction.groupId
     originalTransaction.participants = data.participants
       ? data.participants.map(p => ({
-          memberId: IdValueObject.create(p.memberId),
+          userId: IdValueObject.create(p.userId),
           amount: p.amount
         }))
       : originalTransaction.participants

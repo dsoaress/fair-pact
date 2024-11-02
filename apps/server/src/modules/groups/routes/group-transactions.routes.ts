@@ -7,36 +7,73 @@ import type { GroupTransactionsController } from '../controllers/group-transacti
 export class GroupTransactionsRoutes {
   constructor(private readonly groupTransactionsController: GroupTransactionsController) {}
 
-  async createGroupTransaction(
+  async getGroupTransactionById(
     request: FastifyRequest<{
       Headers: { 'user-id': string }
-      Body: Omit<CreateGroupTransactionDto, 'createdBy'>
+      Params: { id: string }
     }>,
     reply: FastifyReply
   ): Promise<void> {
     const userId = request.headers['user-id']
+    const { id } = request.params
+    const { statusCode, data } = await this.groupTransactionsController.getGroupTransactionById({
+      id,
+      userId
+    })
+    reply.status(statusCode).send({ data })
+  }
+
+  async getGroupTransactionsByGroupId(
+    request: FastifyRequest<{
+      Headers: { 'user-id': string }
+      Params: { groupId: string }
+    }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const userId = request.headers['user-id']
+    const { groupId } = request.params
+    const { statusCode, data } =
+      await this.groupTransactionsController.getGroupTransactionsByGroupId({
+        groupId,
+        userId
+      })
+    reply.status(statusCode).send({ data })
+  }
+
+  async createGroupTransaction(
+    request: FastifyRequest<{
+      Headers: { 'user-id': string }
+      Params: { groupId: string }
+      Body: Omit<CreateGroupTransactionDto, 'groupId' | 'createdBy'>
+    }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const userId = request.headers['user-id']
+    const { groupId } = request.params
     const data = request.body
     const { statusCode } = await this.groupTransactionsController.createGroupTransaction({
       ...data,
+      groupId,
       createdBy: userId
     })
-    reply.send(statusCode)
+    reply.status(statusCode).send()
   }
 
   async updateGroupTransaction(
     request: FastifyRequest<{
-      Params: { id: string }
-      Body: Omit<UpdateGroupTransactionDto, 'id'>
+      Params: { id: string; groupId: string }
+      Body: Omit<UpdateGroupTransactionDto, 'id' | 'groupId'>
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    const id = request.params.id
+    const { id, groupId } = request.params
     const data = request.body
     const { statusCode } = await this.groupTransactionsController.updateGroupTransaction({
       ...data,
-      id
+      id,
+      groupId
     })
-    reply.send(statusCode)
+    reply.status(statusCode).send()
   }
 
   async deleteGroupTransaction(
@@ -45,6 +82,6 @@ export class GroupTransactionsRoutes {
   ): Promise<void> {
     const id = request.params.id
     const { statusCode } = await this.groupTransactionsController.deleteGroupTransaction({ id })
-    reply.send(statusCode)
+    reply.status(statusCode).send()
   }
 }

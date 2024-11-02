@@ -4,8 +4,7 @@ import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.valu
 
 import type { UseCase } from '@/shared/base/use-case'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
-import { ConflicException } from '@/shared/exceptions/conflict.exception'
-
+import { ConflictException } from '@/shared/exceptions/conflict.exception'
 import type { GroupMemberModel } from '../models/group-member.model'
 import type { GroupModel } from '../models/group.model'
 import type { GroupMembersRepository } from '../repositories/group-members.repository'
@@ -29,7 +28,6 @@ export class CreateGroupUseCase implements UseCase<CreateGroupDto, Promise<void>
       createdAt: new Date()
     }
     const groupMember: GroupMemberModel = {
-      id: IdValueObject.create(),
       groupId: group.id,
       userId: group.createdBy,
       createdAt: new Date()
@@ -38,10 +36,8 @@ export class CreateGroupUseCase implements UseCase<CreateGroupDto, Promise<void>
       group.name,
       group.createdBy.value
     )
-    if (existingGroup) throw new ConflicException('Group')
-    await Promise.all([
-      this.groupsRepository.create(group),
-      this.groupMembersRepository.create(groupMember)
-    ])
+    if (existingGroup) throw new ConflictException('Group')
+    await this.groupsRepository.create(group)
+    await this.groupMembersRepository.create(groupMember)
   }
 }

@@ -36,7 +36,6 @@ describe('CreateGroupMemberUseCase', () => {
       fakeGroupMemberData.userId.value
     )
     expect(groupMember).toEqual({
-      id: expect.any(Object),
       groupId: fakeGroupMemberData.groupId,
       userId: expect.any(Object),
       createdAt: expect.any(Date)

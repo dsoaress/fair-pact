@@ -5,35 +5,37 @@ meta {
 }
 
 post {
-  url: http://localhost:3000/groups/transactions
+  url: http://localhost:3000/groups/f4a76e2a-ef83-46de-bd1e-c05c6167df2f/transactions
   body: json
   auth: none
 }
 
+headers {
+  user-id: 042b6155-d7f5-4143-b424-53a2f7068455
+}
+
 body:json {
   {
-    "name": "Test transaction 2",
-    "amount": 40,
-    "groupId": "sh7yn9kdmiqsg0jg57ak9a73",
-    "payerMemberId": "tq2de24sgfwby1wq6oycq3kn",
+    "name": "Test transaction",
+    "amount": 20,
+    "payerUserId": "042b6155-d7f5-4143-b424-53a2f7068455",
     "participants": [
-    {
-    "memberId": "h6aw9cx8dr3o788vtivt179r",
-    "amount": 10
-    },
-    {
-    "memberId": "tq2de24sgfwby1wq6oycq3kn",
-    "amount": 10
-    },
-    {
-    "memberId": "g0m0o8vqq0srbnwbq62y0zqk",
-    "amount": 10
-    },
-    {
-    "memberId": "f920wmj7hse1n06k288tw1g1",
-    "amount": 10
-    }
-    ],
-    "createdBy": "tq2de24sgfwby1wq6oycq3kn"
+      {
+        "userId": "93665c9d-96e4-43d2-9ecc-86c88dc3fbf0",
+        "amount": 10
+      },
+      {
+        "userId": "042b6155-d7f5-4143-b424-53a2f7068455",
+        "amount": 10
+      }
+    // {
+    // "userId": "45de0f9a-c8b8-4eae-a142-41f672035ff2",
+    // "amount": 10
+    // },
+    // {
+    // "userId": "a6571535-7b0d-4608-bf39-d7a0b9290078",
+    // "amount": 10
+    // }
+    ]
   }
 }

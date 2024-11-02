@@ -9,14 +9,15 @@ export const baseCreateGroupTransactionValidator = z
     name: z.string().min(3).max(255),
     amount: z.number().int(),
     groupId: idValidator,
-    payerMemberId: idValidator,
+    payerUserId: idValidator,
     participants: z
       .object({
-        memberId: idValidator,
+        userId: idValidator,
         amount: z.number().int()
       })
       .array()
       .min(1),
+    date: z.coerce.date(),
     createdBy: idValidator
   })
   .strict()

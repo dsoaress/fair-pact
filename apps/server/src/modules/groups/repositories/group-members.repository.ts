@@ -8,22 +8,13 @@ import type { Repository } from '@/shared/base/repository'
 import type { GroupMemberModel } from '../models/group-member.model'
 
 type GroupMemberResult = {
-  id: string
   createdAt: Date
   groupId: string
   userId: string
 }
 
-export class GroupMembersRepository implements Repository<GroupMemberModel> {
+export class GroupMembersRepository implements Omit<Repository<GroupMemberModel>, 'delete'> {
   constructor(private readonly drizzleService: DrizzleService) {}
-
-  async findById(id: string): Promise<GroupMemberModel | null> {
-    const result = await this.drizzleService.query.groupMembers.findFirst({
-      where: and(eq(groupMembers.id, id))
-    })
-    if (!result) return null
-    return this.mapToModel(result)
-  }
 
   async findByGroupIdAndUserId(groupId: string, userId: string): Promise<GroupMemberModel | null> {
     const result = await this.drizzleService.query.groupMembers.findFirst({
@@ -42,30 +33,30 @@ export class GroupMembersRepository implements Repository<GroupMemberModel> {
 
   async findMandyByGroupIdAndMemberIds(
     groupId: string,
-    memberIds: string[]
+    userIds: string[]
   ): Promise<GroupMemberModel[]> {
     const results = await this.drizzleService.query.groupMembers.findMany({
-      where: and(eq(groupMembers.groupId, groupId), inArray(groupMembers.id, memberIds))
+      where: and(eq(groupMembers.groupId, groupId), inArray(groupMembers.userId, userIds))
     })
     return results.map(this.mapToModel)
   }
 
   async create(model: GroupMemberModel): Promise<void> {
     await this.drizzleService.insert(groupMembers).values({
-      id: model.id.value,
       groupId: model.groupId.value,
       userId: model.userId.value,
       createdAt: model.createdAt
     })
   }
 
-  async delete(id: string): Promise<void> {
-    await this.drizzleService.delete(groupMembers).where(eq(groupMembers.id, id))
+  async delete(groupId: string, userId: string): Promise<void> {
+    await this.drizzleService
+      .delete(groupMembers)
+      .where(and(eq(groupMembers.groupId, groupId), eq(groupMembers.userId, userId)))
   }
 
   private mapToModel(result: GroupMemberResult): GroupMemberModel {
     return {
-      id: IdValueObject.create(result.id),
       groupId: IdValueObject.create(result.groupId),
       userId: IdValueObject.create(result.userId),
       createdAt: result.createdAt

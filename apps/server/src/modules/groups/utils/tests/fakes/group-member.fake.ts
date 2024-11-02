@@ -4,7 +4,6 @@ import type { GroupMemberModel } from '@/modules/groups/models/group-member.mode
 
 export function groupMemberFake(overrides?: Partial<GroupMemberModel>): GroupMemberModel {
   return {
-    id: IdValueObject.create(),
     groupId: IdValueObject.create(),
     userId: IdValueObject.create(),
     createdAt: new Date(),

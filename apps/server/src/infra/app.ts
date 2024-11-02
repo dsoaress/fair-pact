@@ -24,6 +24,6 @@ const app = fastify({
 })
 
 app.register(cors)
-app.register(groupsRoutes)
+app.register(groupsRoutes, { prefix: '/groups' })
 
 export { app }
