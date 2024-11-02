@@ -7,6 +7,7 @@ import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
 import {
   groupMembers,
   groupTransactionParticipants,
+  groupTransactions,
   groups,
   users
 } from '@/infra/database/drizzle/schemas'
@@ -26,7 +27,7 @@ export class GroupsDao {
               WHEN final_balances.total_amount > 0 THEN final_balances.total_amount
               ELSE final_balances.total_amount  
             END
-          ),
+          )
         ) AS balance
       FROM ${groups}
       JOIN ${groupMembers} ON ${groups.id} = ${groupMembers.groupId}
@@ -43,9 +44,12 @@ export class GroupsDao {
               ELSE - ${groupTransactionParticipants.amount}
             END AS amount
           FROM ${groupTransactionParticipants}
+          JOIN ${groupTransactions} ON ${groupTransactionParticipants.groupTransactionId} = ${groupTransactions.id}
           WHERE 
             ${groupTransactionParticipants.groupId} = ${groups.id}
             AND (${groupTransactionParticipants.payerUserId} = ${userId} OR ${groupTransactionParticipants.userId} = ${userId})
+            AND EXTRACT(YEAR FROM ${groupTransactions.date}) = EXTRACT(YEAR FROM NOW())
+            AND EXTRACT(MONTH FROM ${groupTransactions.date}) = EXTRACT(MONTH FROM NOW())
         ) AS user_balances
         WHERE other_user_id != ${userId}
         GROUP BY other_user_id
@@ -66,11 +70,21 @@ export class GroupsDao {
         CAST(COALESCE((
           (SELECT COALESCE(SUM(${groupTransactionParticipants.amount}), 0)
           FROM ${groupTransactionParticipants}
-          WHERE ${groupTransactionParticipants.groupId} = ${groups.id} AND ${groupTransactionParticipants.payerUserId} = ${userId})
+          JOIN ${groupTransactions} ON ${groupTransactionParticipants.groupTransactionId} = ${groupTransactions.id}
+          WHERE ${groupTransactionParticipants.groupId} = ${groups.id} 
+            AND ${groupTransactionParticipants.payerUserId} = ${userId}
+            AND EXTRACT(YEAR FROM ${groupTransactions.date}) = EXTRACT(YEAR FROM NOW())
+            AND EXTRACT(MONTH FROM ${groupTransactions.date}) = EXTRACT(MONTH FROM NOW())
+          )
           -
           (SELECT COALESCE(SUM(${groupTransactionParticipants.amount}), 0)
           FROM ${groupTransactionParticipants}
-          WHERE ${groupTransactionParticipants.groupId} = ${groups.id} AND ${groupTransactionParticipants.userId} = ${userId})
+          JOIN ${groupTransactions} ON ${groupTransactionParticipants.groupTransactionId} = ${groupTransactions.id}
+          WHERE ${groupTransactionParticipants.groupId} = ${groups.id} 
+            AND ${groupTransactionParticipants.userId} = ${userId}
+            AND EXTRACT(YEAR FROM ${groupTransactions.date}) = EXTRACT(YEAR FROM NOW())
+            AND EXTRACT(MONTH FROM ${groupTransactions.date}) = EXTRACT(MONTH FROM NOW())
+          )
         ), 0) AS integer) AS balance
       FROM ${groups}
       LEFT JOIN ${groupMembers} ON ${groups.id} = ${groupMembers.groupId}

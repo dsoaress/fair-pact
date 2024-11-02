@@ -46,7 +46,9 @@ export class GroupTransactionsDao {
       JOIN ${users} AS payer ON ${groupTransactions.payerUserId} = payer.id
       JOIN ${groupTransactionParticipants} ON ${groupTransactions.id} = ${groupTransactionParticipants.groupTransactionId}
       JOIN ${users} ON ${groupTransactionParticipants.userId} = ${users.id}
-      WHERE ${groupTransactions.id} = ${id}
+      WHERE ${groupTransactions.id} = ${id} 
+        AND EXTRACT(YEAR FROM ${groupTransactions.date}) = EXTRACT(YEAR FROM NOW()) 
+        AND EXTRACT(MONTH FROM ${groupTransactions.date}) = EXTRACT(MONTH FROM NOW())
       GROUP BY ${groupTransactions.id}, ${groups.currency}, payer.id, payer.first_name, payer.last_name;
     `
     const { rows } = await this.drizzleService.execute(query)
@@ -87,7 +89,9 @@ export class GroupTransactionsDao {
       JOIN ${groups} ON ${groupTransactions.groupId} = ${groups.id}
       JOIN ${groupMembers} ON ${groups.id} = ${groupMembers.groupId} AND ${groupMembers.userId} = ${userId}
       JOIN ${users} AS payer ON ${groupTransactions.payerUserId} = payer.id
-      WHERE ${groups.id} = ${groupId}
+      WHERE ${groups.id} = ${groupId} 
+        AND EXTRACT(YEAR FROM ${groupTransactions.date}) = EXTRACT(YEAR FROM NOW()) 
+        AND EXTRACT(MONTH FROM ${groupTransactions.date}) = EXTRACT(MONTH FROM NOW())
       GROUP BY ${groupTransactions.id}, ${groups.currency}, payer.id, payer.first_name, payer.last_name
       ORDER BY ${groupTransactions.date} DESC;
     `
