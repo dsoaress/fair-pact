@@ -3,6 +3,7 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import { useParams } from '@tanstack/react-router'
 
 import { api } from '@/lib/api'
+
 import { keys } from './keys'
 
 async function getGroupById(groupId: string): Promise<GetGroupByIdOutputDto> {
@@ -10,7 +11,7 @@ async function getGroupById(groupId: string): Promise<GetGroupByIdOutputDto> {
 }
 
 export function useGetGroupById(): UseQueryResult<GetGroupByIdOutputDto, Error> {
-  const { 'group-id': groupId } = useParams({ strict: false }) as { 'group-id'?: string }
+  const { 'group-id': groupId } = useParams({ strict: false })
   if (!groupId) throw new Error('Group ID param is required')
   return useQuery({
     queryKey: [keys.GROUPS, groupId],

@@ -2,6 +2,7 @@ import type { GetGroupByIdInputDto } from '@fair-pact/contracts/groups/dtos/get-
 import type { GetGroupByIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-by-id-output.dto'
 import type { GetGroupsInputDto } from '@fair-pact/contracts/groups/dtos/get-groups-input.dto'
 import type { GetGroupsOutputDto } from '@fair-pact/contracts/groups/dtos/get-groups-output.dto'
+import { and, eq, sql } from 'drizzle-orm'
 
 import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
 import {
@@ -11,14 +12,16 @@ import {
   groups,
   users
 } from '@/infra/database/drizzle/schemas'
-import { sql } from 'drizzle-orm'
 
 export class GroupsDao {
   constructor(private readonly drizzleService: DrizzleService) {}
 
   async getGroupById({ id, userId }: GetGroupByIdInputDto): Promise<GetGroupByIdOutputDto | null> {
     const query = sql`
-      SELECT ${groups.id}, ${groups.name}, ${groups.currency},
+      SELECT 
+        ${groups.id}, 
+        ${groups.name}, 
+        ${groups.currency},
         jsonb_agg(
           jsonb_build_object(
             'userId', final_balances.other_user_id, 'firstName', ${users.firstName}, 'lastName', ${users.lastName},
@@ -59,14 +62,32 @@ export class GroupsDao {
       GROUP BY ${groups.id}, ${groups.name}, ${groups.currency};
     `
     const { rows } = await this.drizzleService.execute(query)
-    if (rows.length === 0) return null
+    if (rows.length === 0) {
+      // TODO: fix this
+      // If no rows are returns, is possible that the group has no transactions
+      // This is a bug on the first query, we need to make a second query to get the group data
+      const result = await this.drizzleService
+        .select({
+          id: groups.id,
+          name: groups.name,
+          currency: groups.currency,
+          balance: sql<[]>`jsonb_build_array()`
+        })
+        .from(groups)
+        .where(and(eq(groups.id, id), eq(groupMembers.userId, userId)))
+        .leftJoin(groupMembers, eq(groupMembers.groupId, groups.id))
+      if (!result) return null
+      return result[0]
+    }
     return rows[0] as GetGroupByIdOutputDto
   }
 
   async getGroups({ userId }: GetGroupsInputDto): Promise<GetGroupsOutputDto> {
     const query = sql`
       SELECT
-        ${groups.id}, ${groups.name}, ${groups.currency},
+        ${groups.id}, 
+        ${groups.name}, 
+        ${groups.currency},
         CAST(COALESCE((
           (SELECT COALESCE(SUM(${groupTransactionParticipants.amount}), 0)
           FROM ${groupTransactionParticipants}

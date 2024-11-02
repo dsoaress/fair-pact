@@ -7,7 +7,7 @@ import type { UseCase } from '@/shared/base/use-case'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 import type { GroupTransactionModel } from '../models/group-transaction.model'
-import type { GroupTransactionsRepository } from '../repositories/group-transactions.respository'
+import type { GroupTransactionsRepository } from '../repositories/group-transactions.repository'
 import type { GroupsRepository } from '../repositories/groups.repository'
 
 export class UpdateGroupTransactionUseCase

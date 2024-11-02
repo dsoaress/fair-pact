@@ -1,7 +1,7 @@
 import cors from '@fastify/cors'
 import { fastify } from 'fastify'
-
 import { env } from './config/env'
+import { errorHandlerMiddleware } from './middleares/error-handlers.middleware'
 import { groupsRoutes } from './routes/groups.routes'
 
 const envToLogger = {
@@ -25,5 +25,7 @@ const app = fastify({
 
 app.register(cors)
 app.register(groupsRoutes, { prefix: '/groups' })
+
+app.setErrorHandler(errorHandlerMiddleware)
 
 export { app }

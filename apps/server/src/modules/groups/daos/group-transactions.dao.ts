@@ -2,6 +2,7 @@ import type { GetGroupTransactionByIdInputDto } from '@fair-pact/contracts/group
 import type { GetGroupTransactionByIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-transaction-by-id-output.dto'
 import type { GetGroupTransactionsByGroupIdInputDto } from '@fair-pact/contracts/groups/dtos/get-group-transactions-by-group-id-input.dto'
 import type { GetGroupTransactionsByGroupIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-transactions-by-group-id-output.dto'
+import { sql } from 'drizzle-orm'
 
 import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
 import {
@@ -11,7 +12,6 @@ import {
   groups,
   users
 } from '@/infra/database/drizzle/schemas'
-import { sql } from 'drizzle-orm'
 
 export class GroupTransactionsDao {
   constructor(private readonly drizzleService: DrizzleService) {}
@@ -61,7 +61,10 @@ export class GroupTransactionsDao {
     userId
   }: GetGroupTransactionsByGroupIdInputDto): Promise<GetGroupTransactionsByGroupIdOutputDto> {
     const query = sql`
-      SELECT ${groupTransactions.id}, ${groupTransactions.name}, ${groups.currency},
+      SELECT 
+        ${groupTransactions.id}, 
+        ${groupTransactions.name}, 
+        ${groups.currency},
         ${groupTransactions.amount},
         (
           SELECT 

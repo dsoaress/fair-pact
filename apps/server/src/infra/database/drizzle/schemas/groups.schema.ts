@@ -1,5 +1,4 @@
 import { relations } from 'drizzle-orm'
-// import { relations } from "drizzle-orm";
 import {
   index,
   integer,
@@ -10,7 +9,9 @@ import {
   uuid,
   varchar
 } from 'drizzle-orm/pg-core'
+
 import { users } from './auth.schema'
+
 export const groups = pgTable(
   'groups',
   {
@@ -52,13 +53,6 @@ export const groupMemberRelations = relations(groupMembers, ({ one }) => ({
   })
 }))
 
-// export const groupMembersUserRelation = relations(groupMembers, ({ one }) => ({
-//   user: one(users, {
-//     fields: [groupMembers.userId],
-//     references: [users.id],
-//   }),
-// }));
-
 export const groupTransactions = pgTable(
   'group_transactions',
   {
@@ -82,10 +76,6 @@ export const groupTransactions = pgTable(
   t => [index().on(t.groupId)]
 )
 
-// export const groupTransactionsRelations = relations(groupTransactions, ({ many }) => ({
-//   groupTransactionParticipants: many(groupTransactionParticipants),
-// }));
-
 export const groupTransactionParticipants = pgTable(
   'group_transaction_participants',
   {
@@ -107,13 +97,3 @@ export const groupTransactionParticipants = pgTable(
   },
   t => [primaryKey({ columns: [t.groupTransactionId, t.userId] })]
 )
-
-// export const groupTransactionParticipantRelations = relations(
-//   groupTransactionParticipants,
-//   ({ one }) => ({
-//     groupTransaction: one(groupTransactions, {
-//       fields: [groupTransactionParticipants.groupTransactionId],
-//       references: [groupTransactions.id],
-//     }),
-//   })
-// );

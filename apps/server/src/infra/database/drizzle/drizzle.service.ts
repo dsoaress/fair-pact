@@ -4,10 +4,10 @@ import { env } from '@/infra/config/env'
 
 import * as schema from './schemas'
 
-export const drizzleSevice = drizzle({
+export const drizzleService = drizzle({
   connection: env.DATABASE_URL,
   schema,
-  logger: true
+  logger: env.NODE_ENV === 'local'
 })
 
-export type DrizzleService = typeof drizzleSevice
+export type DrizzleService = typeof drizzleService

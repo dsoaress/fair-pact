@@ -1,3 +1,4 @@
 export const keys = {
-  GROUPS: 'GROUPS'
+  GROUPS: 'GROUPS',
+  GROUP_TRANSACTIONS: 'GROUP_TRANSACTIONS'
 }

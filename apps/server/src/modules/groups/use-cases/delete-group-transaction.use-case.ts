@@ -5,7 +5,7 @@ import type { UseCase } from '@/shared/base/use-case'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
-import type { GroupTransactionsRepository } from '../repositories/group-transactions.respository'
+import type { GroupTransactionsRepository } from '../repositories/group-transactions.repository'
 
 export class DeleteGroupTransactionUseCase
   implements UseCase<DeleteGroupTransactionDto, Promise<void>>

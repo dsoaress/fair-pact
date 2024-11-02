@@ -1,5 +1,5 @@
 import type { GroupTransactionModel } from '@/modules/groups/models/group-transaction.model'
-import { GroupTransactionsRepository } from '@/modules/groups/repositories/group-transactions.respository'
+import { GroupTransactionsRepository } from '@/modules/groups/repositories/group-transactions.repository'
 
 export class InMemoryGroupTransactionsRepository extends GroupTransactionsRepository {
   constructor(private readonly groupTransactions: GroupTransactionModel[] = []) {

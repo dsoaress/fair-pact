@@ -1,4 +1,4 @@
-import { drizzleSevice } from '@/infra/database/drizzle/drizzle.service'
+import { drizzleService } from '@/infra/database/drizzle/drizzle.service'
 
 import { GroupMembersController } from './controllers/group-members.controller'
 import { GroupTransactionsController } from './controllers/group-transactions.controller'
@@ -10,7 +10,7 @@ import { GetGroupTransactionByIdQuery } from './queries/get-group-transaction-by
 import { GetGroupTransactionsByGroupIdQuery } from './queries/get-group-transactions-by-group-id.query'
 import { GetGroupsQuery } from './queries/get-groups.query'
 import { GroupMembersRepository } from './repositories/group-members.repository'
-import { GroupTransactionsRepository } from './repositories/group-transactions.respository'
+import { GroupTransactionsRepository } from './repositories/group-transactions.repository'
 import { GroupsRepository } from './repositories/groups.repository'
 import { GroupMembersRoutes } from './routes/group-members.routes'
 import { GroupTransactionsRoutes } from './routes/group-transactions.routes'
@@ -21,7 +21,7 @@ import { CreateGroupUseCase } from './use-cases/create-group.use-case'
 import { DeleteGroupMemberUseCase } from './use-cases/delete-group-member.use-case'
 import { DeleteGroupTransactionUseCase } from './use-cases/delete-group-transaction.use-case'
 import { DeleteGroupUseCase } from './use-cases/delete-group.use-case'
-import { UpdateGroupTransactionUseCase } from './use-cases/update-group-transacrtion.use-case'
+import { UpdateGroupTransactionUseCase } from './use-cases/update-group-transaction.use-case'
 import { UpdateGroupUseCase } from './use-cases/update-group.use-case'
 
 type Output = {
@@ -31,11 +31,11 @@ type Output = {
 }
 
 export function groupsFactory(): Output {
-  const groupsDao = new GroupsDao(drizzleSevice)
-  const groupTransactionsDao = new GroupTransactionsDao(drizzleSevice)
-  const groupsRepository = new GroupsRepository(drizzleSevice)
-  const groupMembersRepository = new GroupMembersRepository(drizzleSevice)
-  const groupTransactionsRepository = new GroupTransactionsRepository(drizzleSevice)
+  const groupsDao = new GroupsDao(drizzleService)
+  const groupTransactionsDao = new GroupTransactionsDao(drizzleService)
+  const groupsRepository = new GroupsRepository(drizzleService)
+  const groupMembersRepository = new GroupMembersRepository(drizzleService)
+  const groupTransactionsRepository = new GroupTransactionsRepository(drizzleService)
 
   const getGroupByIdQuery = new GetGroupByIdQuery(groupsDao)
   const getGroupsQuery = new GetGroupsQuery(groupsDao)

@@ -9,9 +9,7 @@ export const Route = createFileRoute('/app/')({
 function Index(): JSX.Element {
   const { data } = useGetGroups()
 
-  if (!data) {
-    return <div>Loading...</div>
-  }
+  if (!data) return <div>Loading...</div>
 
   return (
     <div className="p-2">
@@ -21,7 +19,11 @@ function Index(): JSX.Element {
           <Link to="/app/$group-id" params={{ 'group-id': group.id }}>
             {group.name}
           </Link>
-          <p>{group.currency}</p>
+          <p>
+            {Intl.NumberFormat('pt-BR', { style: 'currency', currency: group.currency }).format(
+              group.balance / 100
+            )}
+          </p>
         </div>
       ))}
     </div>

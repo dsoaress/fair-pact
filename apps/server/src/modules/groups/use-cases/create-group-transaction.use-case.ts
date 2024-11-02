@@ -8,7 +8,7 @@ import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
 import type { GroupTransactionModel } from '../models/group-transaction.model'
 import type { GroupModel } from '../models/group.model'
-import type { GroupTransactionsRepository } from '../repositories/group-transactions.respository'
+import type { GroupTransactionsRepository } from '../repositories/group-transactions.repository'
 import type { GroupsRepository } from '../repositories/groups.repository'
 
 export class CreateGroupTransactionUseCase
@@ -36,8 +36,6 @@ export class CreateGroupTransactionUseCase
     participants: CreateGroupTransactionDto['participants']
   ): void {
     const userIds = group.members.map(member => member.value)
-    console.log(userIds)
-    console.log(payerUserId)
     const isValidUserId =
       userIds.includes(payerUserId) &&
       userIds.includes(createdBy) &&

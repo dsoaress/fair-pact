@@ -1,18 +1,18 @@
 import type { CreateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/create-group-transaction.dto'
 import type { DeleteGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/delete-group-transaction.dto'
+import type { GetGroupTransactionByIdInputDto } from '@fair-pact/contracts/groups/dtos/get-group-transaction-by-id-input.dto'
+import type { GetGroupTransactionByIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-transaction-by-id-output.dto'
+import type { GetGroupTransactionsByGroupIdInputDto } from '@fair-pact/contracts/groups/dtos/get-group-transactions-by-group-id-input.dto'
+import type { GetGroupTransactionsByGroupIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-transactions-by-group-id-output.dto'
 import type { UpdateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/update-group-transaction.dto'
 
 import { type HttpResponse, httpStatusCode } from '@/shared/base/http-response'
 
-import type { GetGroupTransactionByIdInputDto } from '@fair-pact/contracts/src/groups/dtos/get-group-transaction-by-id-input.dto'
-import type { GetGroupTransactionByIdOutputDto } from '@fair-pact/contracts/src/groups/dtos/get-group-transaction-by-id-output.dto'
-import type { GetGroupTransactionsByGroupIdInputDto } from '@fair-pact/contracts/src/groups/dtos/get-group-transactions-by-group-id-input.dto'
-import type { GetGroupTransactionsByGroupIdOutputDto } from '@fair-pact/contracts/src/groups/dtos/get-group-transactions-by-group-id-output.dto'
 import type { GetGroupTransactionByIdQuery } from '../queries/get-group-transaction-by-id.query'
 import type { GetGroupTransactionsByGroupIdQuery } from '../queries/get-group-transactions-by-group-id.query'
 import type { CreateGroupTransactionUseCase } from '../use-cases/create-group-transaction.use-case'
 import type { DeleteGroupTransactionUseCase } from '../use-cases/delete-group-transaction.use-case'
-import type { UpdateGroupTransactionUseCase } from '../use-cases/update-group-transacrtion.use-case'
+import type { UpdateGroupTransactionUseCase } from '../use-cases/update-group-transaction.use-case'
 
 export class GroupTransactionsController {
   constructor(
