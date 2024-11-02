@@ -6,6 +6,8 @@
     "build": "tsc -b && vite build"
   },
   "dependencies": {
+    "@fair-pact/contracts": "workspace:*",
+    "@paralleldrive/cuid2": "2.2.2",
     "@radix-ui/react-icons": "1.3.1",
     "@radix-ui/react-slot": "1.1.0",
     "@tanstack/react-form": "0.34.4",

@@ -1,7 +1,7 @@
-import type { Model } from '@/shared/base/model'
-import type { IdValueObject } from '@/shared/value-objects/id.value-object'
+import type { CurrencyDto } from '@fair-pact/contracts/groups/dtos/currency.dto'
+import type { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
 
-import type { CurrencyDto } from '../dtos/currency.dto'
+import type { Model } from '@/shared/base/model'
 
 export interface GroupModel extends Model {
   name: string

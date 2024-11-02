@@ -1,13 +1,14 @@
+import type { CreateGroupMemberDto } from '@fair-pact/contracts/groups/dtos/create-group-member.dto'
+import { createGroupMemberValidator } from '@fair-pact/contracts/groups/validators/create-group-member.validator'
+import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
+
 import type { UseCase } from '@/shared/base/use-case'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
-import type { CreateGroupMemberDto } from '../dtos/create-group-member.dto'
 import type { GroupMemberModel } from '../models/group-member.model'
 import type { GroupMembersRepository } from '../repositories/group-members.repository'
 import type { GroupsRepository } from '../repositories/groups.repository'
-import { createGroupMemberValidator } from '../validators/create-group-member.validator'
 
 export class CreateGroupMemberUseCase implements UseCase<CreateGroupMemberDto, Promise<void>> {
   constructor(

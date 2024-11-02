@@ -1,8 +1,8 @@
+import type { CreateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/create-group-transaction.dto'
+import type { UpdateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/update-group-transaction.dto'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
 import type { GroupTransactionsController } from '../controllers/group-transactions.controller'
-import type { CreateGroupTransactionDto } from '../dtos/create-group-transaction.dto'
-import type { UpdateGroupTransactionDto } from '../dtos/update-group-transaction.dto'
 
 export class GroupTransactionsRoutes {
   constructor(private readonly groupTransactionsController: GroupTransactionsController) {}

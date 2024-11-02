@@ -1,12 +1,11 @@
+import type { GetGroupByIdInputDto } from '@fair-pact/contracts/groups/dtos/get-group-by-id-input.dto'
+import type { GetGroupByIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-by-id-output.dto'
+import type { GetGroupsInputDto } from '@fair-pact/contracts/groups/dtos/get-groups-input.dto'
+import type { GetGroupsOutputDto } from '@fair-pact/contracts/groups/dtos/get-groups-output.dto'
 import { desc, eq } from 'drizzle-orm'
 
 import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
 import { groupMembers, groups } from '@/infra/database/drizzle/schemas'
-
-import type { GetGroupByIdInputDto } from '../dtos/get-group-by-id-input.dto'
-import type { GetGroupByIdOutputDto } from '../dtos/get-group-by-id-output.dto'
-import type { GetGroupsInputDto } from '../dtos/get-groups-input.dto'
-import type { GetGroupsOutputDto } from '../dtos/get-groups-output.dto'
 
 export class GroupsDao {
   constructor(private readonly drizzleService: DrizzleService) {}

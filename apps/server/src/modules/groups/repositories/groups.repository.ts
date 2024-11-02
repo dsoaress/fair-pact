@@ -1,11 +1,11 @@
+import type { CurrencyDto } from '@fair-pact/contracts/groups/dtos/currency.dto'
+import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
 import { and, eq } from 'drizzle-orm'
 
 import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
 import { groups } from '@/infra/database/drizzle/schemas'
 import type { Repository } from '@/shared/base/repository'
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
-import type { CurrencyDto } from '../dtos/currency.dto'
 import type { GroupModel } from '../models/group.model'
 
 type GroupResult = {

@@ -1,7 +1,7 @@
+import type { CreateGroupMemberDto } from '@fair-pact/contracts/groups/dtos/create-group-member.dto'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
 import type { GroupMembersController } from '../controllers/group-members.controller'
-import type { CreateGroupMemberDto } from '../dtos/create-group-member.dto'
 
 export class GroupMembersRoutes {
   constructor(private readonly groupMembersController: GroupMembersController) {}
@@ -24,7 +24,7 @@ export class GroupMembersRoutes {
     reply: FastifyReply
   ): Promise<void> {
     const { id } = request.params
-    const { statusCode } = await this.groupMembersController.deleteGroupMember(id)
+    const { statusCode } = await this.groupMembersController.deleteGroupMember({ id })
     reply.status(statusCode).send()
   }
 }

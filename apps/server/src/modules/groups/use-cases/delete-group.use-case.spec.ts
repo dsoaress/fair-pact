@@ -1,6 +1,5 @@
+import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
 import { beforeEach, describe, expect, it } from 'vitest'
-
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 import type { GroupsRepository } from '../repositories/groups.repository'
 import { groupFake } from '../utils/tests/fakes/group.fake'

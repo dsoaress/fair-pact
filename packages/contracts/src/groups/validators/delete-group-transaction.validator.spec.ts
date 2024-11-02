@@ -1,16 +1,16 @@
 import { describe, expect, it } from 'vitest'
 
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
+import { IdValueObject } from '../../shared/value-objects/id.value-object'
 
-import { deleteGroupMemberValidator } from './delete-group-member.validator'
+import { deleteGroupTransactionValidator } from './delete-group-transaction.validator'
 
-describe('deleteGroupMemberValidator', () => {
+describe('deleteGroupTransactionValidator', () => {
   it.each([
     [{ id: IdValueObject.create().value }, true],
     [{ id: 'invalid-id' }, false],
     [{}, false]
   ])('should validate the schema: %o (valid: %j)', (data, expected) => {
-    const result = deleteGroupMemberValidator.safeParse(data)
+    const result = deleteGroupTransactionValidator.safeParse(data)
     expect(result.success).toBe(expected)
   })
 })

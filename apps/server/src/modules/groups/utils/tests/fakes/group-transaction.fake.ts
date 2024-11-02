@@ -1,5 +1,6 @@
+import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
+
 import type { GroupTransactionModel } from '@/modules/groups/models/group-transaction.model'
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 export function groupTransactionFake(
   overrides?: Partial<GroupTransactionModel>

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { amountValidator } from './amount-validator'
+import { amountValidator } from './amount.validator'
 
 describe('amountValidator', () => {
   it.each([

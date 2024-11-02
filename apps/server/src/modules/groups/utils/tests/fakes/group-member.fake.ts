@@ -1,5 +1,6 @@
+import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
+
 import type { GroupMemberModel } from '@/modules/groups/models/group-member.model'
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 export function groupMemberFake(overrides?: Partial<GroupMemberModel>): GroupMemberModel {
   return {

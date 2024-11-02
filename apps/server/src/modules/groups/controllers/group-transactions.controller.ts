@@ -1,8 +1,9 @@
+import type { CreateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/create-group-transaction.dto'
+import type { DeleteGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/delete-group-transaction.dto'
+import type { UpdateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/update-group-transaction.dto'
+
 import { type HttpResponse, httpStatusCode } from '@/shared/base/http-response'
 
-import type { CreateGroupTransactionDto } from '../dtos/create-group-transaction.dto'
-import type { DeleteGroupTransactionDto } from '../dtos/delete-group-transaction.dto'
-import type { UpdateGroupTransactionDto } from '../dtos/update-group-transaction.dto'
 import type { CreateGroupTransactionUseCase } from '../use-cases/create-group-transaction.use-case'
 import type { DeleteGroupTransactionUseCase } from '../use-cases/delete-group-transaction.use-case'
 import type { UpdateGroupTransactionUseCase } from '../use-cases/update-group-transacrtion.use-case'

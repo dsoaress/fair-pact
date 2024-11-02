@@ -1,5 +1,6 @@
+import type { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
+
 import type { Model } from '@/shared/base/model'
-import type { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 export interface GroupTransactionModel extends Model {
   name: string

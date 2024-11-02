@@ -1,4 +1,4 @@
-import type { IdValueObject } from '../value-objects/id.value-object'
+import type { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
 
 export interface Model {
   id: IdValueObject

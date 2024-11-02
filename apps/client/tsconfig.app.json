@@ -19,7 +19,8 @@
     "noUncheckedSideEffectImports": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@fair-pact/contracts/*": ["./node_modules/@fair-pact/contracts/src/*"]
     }
   },
   "include": ["src"]

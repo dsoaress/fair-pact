@@ -1,12 +1,10 @@
 import { createId } from '@paralleldrive/cuid2'
 
-import type { ValueObject } from '../base/value-object'
-
-export class IdValueObject implements ValueObject<string> {
+export class IdValueObject {
   readonly #value: string
 
   private constructor(value?: string) {
-    this.#value = value || createId()
+    this.#value = value ?? createId()
   }
 
   static create(value?: string): IdValueObject {

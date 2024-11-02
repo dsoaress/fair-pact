@@ -1,9 +1,9 @@
+import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
 import { and, eq, inArray } from 'drizzle-orm'
 
 import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
 import { groupMembers } from '@/infra/database/drizzle/schemas'
 import type { Repository } from '@/shared/base/repository'
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 import type { GroupMemberModel } from '../models/group-member.model'
 

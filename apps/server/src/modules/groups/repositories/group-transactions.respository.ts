@@ -1,9 +1,9 @@
+import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
 import { eq } from 'drizzle-orm'
 
 import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
 import { groupTransactionParticipants, groupTransactions } from '@/infra/database/drizzle/schemas'
 import type { Repository } from '@/shared/base/repository'
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 import type { GroupTransactionModel } from '../models/group-transaction.model'
 

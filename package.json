@@ -5,12 +5,13 @@
   "version": "0.0.0",
   "license": "ISC",
   "scripts": {
-    "dev": "pnpm -r dev",
-    "dev:client": "pnpm -F client dev",
-    "dev:server": "pnpm -F server dev",
-    "build": "pnpm -r build",
-    "build:client": "pnpm -F client build",
-    "build:server": "pnpm -F server build",
+    "dev": "pnpm --parallel dev",
+    "dev:client": "pnpm --filter client dev",
+    "dev:server": "pnpm --filter server dev",
+    "build": "pnpm --parallel build",
+    "build:client": "pnpm --filter client build",
+    "build:server": "pnpm --filter server build",
+    "test": "pnpm --filter server test && pnpm --filter contracts test",
     "lint": "pnpm biome check --write .",
     "lint:ci": "pnpm biome ci src",
     "prepare": "lefthook install"
@@ -20,7 +21,8 @@
     "lefthook": "1.8.2"
   },
   "engines": {
-    "node": "22.11.0"
+    "node": "22.11.0",
+    "pnpm": "9.12.3"
   },
   "packageManager": "pnpm@9.12.3"
 }

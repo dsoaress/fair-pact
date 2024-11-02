@@ -1,14 +1,15 @@
+import type { CreateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/create-group-transaction.dto'
+import { createGroupTransactionValidator } from '@fair-pact/contracts/groups/validators/create-group-transaction.validator'
+import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
+
 import type { UseCase } from '@/shared/base/use-case'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
-import type { CreateGroupTransactionDto } from '../dtos/create-group-transaction.dto'
 import type { GroupTransactionModel } from '../models/group-transaction.model'
 import type { GroupModel } from '../models/group.model'
 import type { GroupTransactionsRepository } from '../repositories/group-transactions.respository'
 import type { GroupsRepository } from '../repositories/groups.repository'
-import { createGroupTransactionValidator } from '../validators/create-group-transaction.validator'
 
 export class CreateGroupTransactionUseCase
   implements UseCase<CreateGroupTransactionDto, Promise<void>>

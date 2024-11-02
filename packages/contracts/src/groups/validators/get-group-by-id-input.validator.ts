@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { idValidator } from '@/shared/validators/id.validator'
+import { idValidator } from '../../shared/validators/id.validator'
 
 export const getGroupByIdInputValidator = z.object({
   id: idValidator,

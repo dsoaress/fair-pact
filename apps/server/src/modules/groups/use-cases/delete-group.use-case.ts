@@ -1,10 +1,11 @@
+import type { DeleteGroupDto } from '@fair-pact/contracts/groups/dtos/delete-group.dto'
+import { deleteGroupValidator } from '@fair-pact/contracts/groups/validators/delete-group.validator'
+
 import type { UseCase } from '@/shared/base/use-case'
+import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
-import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
-import type { DeleteGroupDto } from '../dtos/delete-group.dto'
 import type { GroupsRepository } from '../repositories/groups.repository'
-import { deleteGroupValidator } from '../validators/delete-group.validator'
 
 export class DeleteGroupUseCase implements UseCase<DeleteGroupDto, Promise<void>> {
   constructor(private readonly groupsRepository: GroupsRepository) {}

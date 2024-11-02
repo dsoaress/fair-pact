@@ -1,10 +1,11 @@
+import type { DeleteGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/delete-group-transaction.dto'
+import { deleteGroupTransactionValidator } from '@fair-pact/contracts/groups/validators/delete-group-transaction.validator'
+
 import type { UseCase } from '@/shared/base/use-case'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
-import type { DeleteGroupTransactionDto } from '../dtos/delete-group-transaction.dto'
 import type { GroupTransactionsRepository } from '../repositories/group-transactions.respository'
-import { deleteGroupTransactionValidator } from '../validators/delete-group-transaction.validator'
 
 export class DeleteGroupTransactionUseCase
   implements UseCase<DeleteGroupTransactionDto, Promise<void>>
