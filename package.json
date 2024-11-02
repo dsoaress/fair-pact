@@ -6,7 +6,11 @@
   "license": "ISC",
   "scripts": {
     "dev": "pnpm -r dev",
+    "dev:client": "pnpm -F client dev",
     "dev:server": "pnpm -F server dev",
+    "build": "pnpm -r build",
+    "build:client": "pnpm -F client build",
+    "build:server": "pnpm -F server build",
     "lint": "pnpm biome check --write .",
     "lint:ci": "pnpm biome ci src",
     "prepare": "lefthook install"
