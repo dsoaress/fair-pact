@@ -75,6 +75,7 @@ export const groupTransactionParticipants = pgTable(
     groupTransactionId: varchar('group_transaction_id', { length: 24 })
       .notNull()
       .references(() => groupTransactions.id),
+    groupId: varchar('group_id', { length: 24 }).references(() => groups.id),
     memberId: varchar('member_id', { length: 24 })
       .notNull()
       .references(() => groupMembers.id),

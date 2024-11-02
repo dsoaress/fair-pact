@@ -43,7 +43,7 @@ export class CreateGroupTransactionUseCase
     console.log(payerMemberId)
     const isValidMemberId =
       memberIds.includes(payerMemberId) &&
-      memberIds.includes(createdBy) &&
+      // memberIds.includes(createdBy) &&
       participants?.every(p => memberIds.includes(p.memberId))
     if (!isValidMemberId) throw new BadRequestException('Invalid member id')
   }

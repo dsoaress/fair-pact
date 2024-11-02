@@ -11,6 +11,7 @@ export class GetGroupsQuery implements Query<GetGroupsInputDto, Promise<GetGroup
   constructor(private readonly groupsDao: GroupsDao) {}
 
   async execute(data: GetGroupsInputDto): Promise<GetGroupsOutputDto> {
+    console.log('data', data)
     const parsedData = getGroupsInputValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
     return this.groupsDao.getGroups(parsedData.data)
