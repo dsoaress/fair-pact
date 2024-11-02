@@ -1,9 +1,13 @@
 {
   "name": "server",
+  "type": "module",
   "scripts": {
-    "dev": "tsx watch src/server.ts",
-    "start": "node dist/server.js",
-    "build": "tsup src --out-dir dist"
+    "dev": "tsx watch src/main.ts",
+    "start": "node dist/main.js",
+    "build": "tsup"
+  },
+  "dependencies": {
+    "fastify": "5.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
@@ -11,8 +15,5 @@
     "tsup": "8.3.5",
     "tsx": "4.19.2",
     "typescript": "5.6.3"
-  },
-  "dependencies": {
-    "fastify": "5.1.0"
   }
 }

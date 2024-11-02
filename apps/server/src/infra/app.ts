@@ -1,4 +1,4 @@
-import { fastify } from 'node_modules/fastify/fastify'
+import { fastify } from 'fastify'
 
 const app = fastify()
 
