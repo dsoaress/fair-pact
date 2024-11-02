@@ -1,15 +1,22 @@
 {
   "name": "fair-pact",
-  "description": "",
+  "description": "A open-source solution for you and your friends to efficiently manage and track debts",
   "author": "Daniel Soares <daniel.soares@me.com>",
   "version": "0.0.0",
   "license": "ISC",
-  "type": "module",
   "scripts": {
+    "dev": "pnpm -r dev",
+    "dev:server": "pnpm -F server dev",
+    "lint": "pnpm biome check --write .",
+    "lint:ci": "pnpm biome ci src",
     "prepare": "lefthook install"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "lefthook": "1.8.2"
-  }
+  },
+  "engines": {
+    "node": "22.11.0"
+  },
+  "packageManager": "pnpm@9.12.3"
 }
