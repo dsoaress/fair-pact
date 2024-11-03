@@ -2,7 +2,7 @@ import type { UseCase } from '@/shared/base/use-case'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
-import { type DeleteGroupMemberDto, DeleteGroupMemberSchema } from '../dtos/delete-group.dto'
+import { type DeleteGroupMemberDto, DeleteGroupMemberSchema } from '../dtos/delete-group-member.dto'
 import type { GroupMembersRepository } from '../repositories/group-members.repository'
 
 export class DeleteGroupMemberUseCase implements UseCase<DeleteGroupMemberDto, Promise<void>> {

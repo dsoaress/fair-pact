@@ -1,7 +1,7 @@
 import { type HttpResponse, httpStatusCode } from '@/shared/base/http-response'
 
 import type { CreateGroupDto } from '../dtos/create-group.dto'
-import type { DeleteGroupDto } from '../dtos/delete-group-member.dto'
+import type { DeleteGroupDto } from '../dtos/delete-group.dto'
 import type { UpdateGroupDto } from '../dtos/update-group.dto'
 import type { CreateGroupUseCase } from '../use-cases/create-group.use-case'
 import type { DeleteGroupUseCase } from '../use-cases/delete-group.use-case'
