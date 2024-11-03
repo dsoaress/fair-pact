@@ -6,6 +6,7 @@ describe('ConflicException', () => {
   it('should create an instance of ConflicException', () => {
     const exception = new ConflicException('Resource')
     expect(exception).toBeInstanceOf(Error)
+    expect(exception.name).toBe('ConflicException')
   })
 
   it('should have the correct message', () => {

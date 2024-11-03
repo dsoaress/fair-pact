@@ -7,23 +7,18 @@ import { type CreateGroupDto, CreateGroupSchema } from '../dtos/create-group.dto
 import type { GroupModel } from '../models/group.model'
 import type { GroupsRepository } from '../repositories/groups.repository'
 
-type Input = {
-  data: CreateGroupDto
-  createdBy: string
-}
-
-export class CreateGroupUseCase implements UseCase<Input, Promise<void>> {
+export class CreateGroupUseCase implements UseCase<CreateGroupDto, Promise<void>> {
   constructor(private readonly groupsRepository: GroupsRepository) {}
 
-  async execute({ createdBy, data }: Input): Promise<void> {
+  async execute(data: CreateGroupDto): Promise<void> {
     const parsedData = CreateGroupSchema.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
 
     const group: GroupModel = {
       id: IdValueObject.create(),
       name: parsedData.data.name,
-      members: parsedData.data.members.map(IdValueObject.create),
-      createdBy: IdValueObject.create(createdBy),
+      members: [],
+      createdBy: IdValueObject.create(data.createdBy),
       createdAt: new Date()
     }
 

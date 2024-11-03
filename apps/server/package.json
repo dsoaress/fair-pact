@@ -5,9 +5,8 @@
     "dev": "tsx watch src/main.ts",
     "start": "node dist/main.js",
     "build": "tsup",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:cov": "vitest run --coverage",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest --coverage",
     "test:ui": "vitest --ui"
   },
   "dependencies": {

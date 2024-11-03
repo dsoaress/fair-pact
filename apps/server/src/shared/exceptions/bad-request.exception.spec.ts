@@ -6,6 +6,7 @@ describe('BadRequestException', () => {
   it('should create an instance of BadRequestException', () => {
     const exception = new BadRequestException('Invalid id')
     expect(exception).toBeInstanceOf(BadRequestException)
+    expect(exception.name).toBe('BadRequestException')
   })
 
   it('should have a message', () => {

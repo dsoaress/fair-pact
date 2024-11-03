@@ -18,10 +18,7 @@ describe('CreateGroupUseCase', () => {
   it('should create a group', async () => {
     const fakeData = groupFake()
     const input = {
-      data: {
-        name: fakeData.name,
-        members: fakeData.members.map(m => m.value)
-      },
+      name: fakeData.name,
       createdBy: fakeData.createdBy.value
     }
     await createGroupUseCase.execute(input)
@@ -39,10 +36,7 @@ describe('CreateGroupUseCase', () => {
   it('should throw an error if group already exists', async () => {
     const fakeData = groupFake()
     const input = {
-      data: {
-        name: fakeData.name,
-        members: fakeData.members.map(m => m.value)
-      },
+      name: fakeData.name,
       createdBy: fakeData.createdBy.value
     }
     await createGroupUseCase.execute(input)

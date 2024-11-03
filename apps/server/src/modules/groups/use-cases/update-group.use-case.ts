@@ -6,25 +6,18 @@ import { IdValueObject } from '@/shared/value-objects/id.value-object'
 import { type UpdateGroupDto, UpdateGroupSchema } from '../dtos/update-group.dto'
 import type { GroupsRepository } from '../repositories/groups.repository'
 
-type Input = {
-  id: string
-  data: UpdateGroupDto
-  updatedBy: string
-}
-
-export class UpdateGroupUseCase implements UseCase<Input, Promise<void>> {
+export class UpdateGroupUseCase implements UseCase<UpdateGroupDto, Promise<void>> {
   constructor(private readonly groupsRepository: GroupsRepository) {}
 
-  async execute({ updatedBy, data, id }: Input): Promise<void> {
+  async execute(data: UpdateGroupDto): Promise<void> {
     const parsedData = UpdateGroupSchema.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
 
-    const group = await this.groupsRepository.findById(id)
+    const group = await this.groupsRepository.findById(data.id)
     if (!group) throw new NotFoundException('Group')
 
     group.name = parsedData.data.name || group.name
-    group.members = parsedData.data.members?.map(IdValueObject.create) || group.members
-    group.updatedBy = IdValueObject.create(updatedBy)
+    group.updatedBy = IdValueObject.create(data.updatedBy)
     group.updatedAt = new Date()
 
     await this.groupsRepository.update(group)

@@ -18,22 +18,18 @@ describe('UpdateGroupUseCase', () => {
   })
 
   it('should update a group', async () => {
-    const newMemberId = IdValueObject.create()
-    const data = { name: 'New name', members: [newMemberId.value] }
     await updateGroupUseCase.execute({
       id: id.value,
-      data,
+      name: 'New name',
       updatedBy: IdValueObject.create().value
     })
     const group = await groupsRepository.findById(id.value)
-    expect(group?.name).toBe(data.name)
-    expect(group?.members[0].value).toBe(newMemberId.value)
+    expect(group?.name).toBe('New name')
   })
 
   it('should do nothing if data is empty', async () => {
     await updateGroupUseCase.execute({
       id: id.value,
-      data: {},
       updatedBy: IdValueObject.create().value
     })
     const group = await groupsRepository.findById(id.value)
@@ -41,12 +37,10 @@ describe('UpdateGroupUseCase', () => {
   })
 
   it('should throw if data is invalid', async () => {
-    const data = { name: 'a' }
-
     await expect(
       updateGroupUseCase.execute({
         id: id.value,
-        data,
+        name: 'a',
         updatedBy: IdValueObject.create().value
       })
     ).rejects.toThrow()
@@ -56,7 +50,7 @@ describe('UpdateGroupUseCase', () => {
     await expect(
       updateGroupUseCase.execute({
         id: IdValueObject.create().value,
-        data: { name: 'New name' },
+        name: 'New name',
         updatedBy: IdValueObject.create().value
       })
     ).rejects.toThrow()
