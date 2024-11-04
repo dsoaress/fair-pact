@@ -2,6 +2,8 @@ import { z } from 'zod'
 
 import { idValidator } from '@/shared/validators/id.validator'
 
+import { amountValidator, amountValidatorErrorMessage } from '../utils/amount-validator'
+
 export const baseCreateGroupTransactionValidator = z.object({
   name: z.string().min(3).max(255),
   amount: z.number().int(),
@@ -13,15 +15,11 @@ export const baseCreateGroupTransactionValidator = z.object({
       amount: z.number().int()
     })
     .array()
-    .optional(),
+    .min(1),
   createdBy: idValidator
 })
 
 export const createGroupTransactionValidator = baseCreateGroupTransactionValidator.refine(
-  ({ amount, participants }) => {
-    if (!participants) return true
-    const totalParticipantsAmount = participants.reduce((acc, p) => acc + p.amount, 0)
-    return participants.length > 0 ? totalParticipantsAmount === amount : true
-  },
-  'The sum of the participants amount must be equal to the transaction amount'
+  amountValidator,
+  amountValidatorErrorMessage
 )

@@ -1,6 +1,8 @@
 import { z } from 'zod'
 
+import { idValidator } from '@/shared/validators/id.validator'
+
 export const createGroupMemberValidator = z.object({
-  groupId: z.string(),
-  userId: z.string()
+  groupId: idValidator,
+  userId: idValidator
 })

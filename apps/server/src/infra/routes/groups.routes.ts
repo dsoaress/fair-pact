@@ -16,7 +16,7 @@ export async function groupRoutes(app: FastifyInstance): Promise<void> {
   const groupsRepository = new DrizzleGroupsRepository()
   const groupMembersRepository = new DrizzleGroupMembersRepository()
   const groupTransactionsRepository = new DrizzleGroupTransactionsRepository()
-  const groupsController = groupsFactory(groupsRepository)
+  const groupsController = groupsFactory(groupsRepository, groupMembersRepository)
   const groupMembersController = groupMembersFactory(groupsRepository, groupMembersRepository)
   const groupTransactionsController = groupTransactionsFactory(
     groupsRepository,

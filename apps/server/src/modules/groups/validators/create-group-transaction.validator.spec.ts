@@ -27,7 +27,7 @@ describe('createGroupTransactionValidator', () => {
         payerMemberId: IdValueObject.create().value,
         createdBy: IdValueObject.create().value
       },
-      true
+      false
     ],
     [
       {

@@ -4,7 +4,7 @@ import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 import { deleteGroupMemberValidator } from './delete-group-member.validator'
 
-describe('DeleteGroupSchema', () => {
+describe('deleteGroupMemberValidator', () => {
   it.each([
     [{ id: IdValueObject.create().value }, true],
     [{ id: 'invalid-id' }, false],

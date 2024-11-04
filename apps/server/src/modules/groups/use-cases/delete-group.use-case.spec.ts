@@ -29,7 +29,7 @@ describe('DeleteGroupUseCase', () => {
   })
 
   it('should throw an error if group does not exist', async () => {
-    await expect(deleteGroupUseCase.execute({ id: 'invalid-id' })).rejects.toThrow(
+    await expect(deleteGroupUseCase.execute({ id: IdValueObject.create().value })).rejects.toThrow(
       'Group not found'
     )
   })
