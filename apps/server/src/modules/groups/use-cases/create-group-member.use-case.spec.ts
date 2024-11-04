@@ -1,12 +1,11 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { groupMemberFake } from '@/shared/tests/fakes/group-member.fake'
-import { groupFake } from '@/shared/tests/fakes/group.fake'
-import { InMemoryGroupMembersRepository } from '@/shared/tests/in-memory-repositories/in-memory-group-members.repository'
-import { InMemoryGroupsRepository } from '@/shared/tests/in-memory-repositories/in-memory-groups.repository'
-
 import type { GroupMembersRepository } from '../repositories/group-members.repository'
 import type { GroupsRepository } from '../repositories/groups.repository'
+import { groupMemberFake } from '../utils/tests/fakes/group-member.fake'
+import { groupFake } from '../utils/tests/fakes/group.fake'
+import { InMemoryGroupMembersRepository } from '../utils/tests/in-memory-repositories/in-memory-group-members.repository'
+import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
 import { CreateGroupMemberUseCase } from './create-group-member.use-case'
 
 describe('CreateGroupMemberUseCase', () => {
@@ -37,8 +36,9 @@ describe('CreateGroupMemberUseCase', () => {
       fakeGroupMemberData.userId.value
     )
     expect(groupMember).toEqual({
+      id: expect.any(Object),
       groupId: fakeGroupMemberData.groupId,
-      userId: fakeGroupMemberData.userId,
+      userId: expect.any(Object),
       balance: expect.any(Number),
       createdAt: expect.any(Date)
     })

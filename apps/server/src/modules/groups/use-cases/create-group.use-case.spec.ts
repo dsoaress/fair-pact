@@ -1,9 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { groupFake } from '@/shared/tests/fakes/group.fake'
-import { InMemoryGroupsRepository } from '@/shared/tests/in-memory-repositories/in-memory-groups.repository'
-
 import type { GroupsRepository } from '../repositories/groups.repository'
+import { groupFake } from '../utils/tests/fakes/group.fake'
+import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
 import { CreateGroupUseCase } from './create-group.use-case'
 
 describe('CreateGroupUseCase', () => {
@@ -19,6 +18,7 @@ describe('CreateGroupUseCase', () => {
     const fakeData = groupFake()
     const input = {
       name: fakeData.name,
+      currency: fakeData.currency,
       createdBy: fakeData.createdBy.value
     }
     await createGroupUseCase.execute(input)
@@ -37,6 +37,7 @@ describe('CreateGroupUseCase', () => {
     const fakeData = groupFake()
     const input = {
       name: fakeData.name,
+      currency: fakeData.currency,
       createdBy: fakeData.createdBy.value
     }
     await createGroupUseCase.execute(input)

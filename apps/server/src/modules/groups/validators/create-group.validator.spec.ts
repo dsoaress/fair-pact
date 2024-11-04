@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
 
-import { CreateGroupSchema } from './create-group.dto'
+import { createGroupValidator } from './create-group.validator'
 
-describe('CreateGroupSchema', () => {
+describe('createGroupValidator', () => {
   it.each([
-    [{ name: 'Group 1', createdBy: 'id' }, true],
+    [{ name: 'Group 1', currency: 'USD', createdBy: 'id' }, true],
     [{ name: 'a'.repeat(2), createdBy: 'id' }, false],
     [{ name: 'a'.repeat(256), createdBy: 'id' }, false],
     [{ name: 1, createdBy: 'id' }, false],
@@ -15,7 +15,7 @@ describe('CreateGroupSchema', () => {
     [{ name: 'Group 1', createdBy: null }, false],
     [{ name: 'Group 1', createdBy: true }, false]
   ])('should validate the schema: %o (valid: %j)', (data, expected) => {
-    const result = CreateGroupSchema.safeParse(data)
+    const result = createGroupValidator.safeParse(data)
     expect(result.success).toBe(expected)
   })
 })

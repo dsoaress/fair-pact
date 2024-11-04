@@ -1,0 +1,18 @@
+meta {
+  name: create-group
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/groups
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Group test",
+    "currency": "USD"
+  }
+}

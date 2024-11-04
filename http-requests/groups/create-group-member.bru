@@ -1,0 +1,18 @@
+meta {
+  name: create-group-member
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/groups/members
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "groupId": "o51yqssfn4lnptgywdf6xngy",
+    "userId": "o51yqssfn4lnptgywdf6xngy"
+  }
+}

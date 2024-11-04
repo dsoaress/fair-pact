@@ -1,8 +1,5 @@
-import { z } from 'zod'
+import type { z } from 'zod'
 
-export const DeleteGroupMemberSchema = z.object({
-  groupId: z.string(),
-  userId: z.string()
-})
+import type { deleteGroupMemberValidator } from '../validators/delete-group-member.validator'
 
-export type DeleteGroupMemberDto = z.infer<typeof DeleteGroupMemberSchema>
+export type DeleteGroupMemberDto = z.infer<typeof deleteGroupMemberValidator>

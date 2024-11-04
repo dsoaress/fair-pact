@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { groupFake } from '@/shared/tests/fakes/group.fake'
-import { InMemoryGroupsRepository } from '@/shared/tests/in-memory-repositories/in-memory-groups.repository'
 import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 import type { GroupsRepository } from '../repositories/groups.repository'
+import { groupFake } from '../utils/tests/fakes/group.fake'
+import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
 import { UpdateGroupUseCase } from './update-group.use-case'
 
 describe('UpdateGroupUseCase', () => {
@@ -21,10 +21,12 @@ describe('UpdateGroupUseCase', () => {
     await updateGroupUseCase.execute({
       id: id.value,
       name: 'New name',
+      currency: 'EUR',
       updatedBy: IdValueObject.create().value
     })
     const group = await groupsRepository.findById(id.value)
     expect(group?.name).toBe('New name')
+    expect(group?.currency).toBe('EUR')
   })
 
   it('should do nothing if data is empty', async () => {

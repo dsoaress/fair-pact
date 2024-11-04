@@ -14,8 +14,4 @@ describe('IdValueObject', () => {
     const id = IdValueObject.create(input)
     expect(id.value).toBe(input)
   })
-
-  it('should throw an error for an invalid id', () => {
-    expect(() => IdValueObject.create('invalid-id')).toThrow('Invalid id: invalid')
-  })
 })

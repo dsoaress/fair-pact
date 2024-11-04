@@ -1,11 +1,5 @@
-import { z } from 'zod'
+import type { z } from 'zod'
 
-import { CreateGroupSchema } from './create-group.dto'
+import type { updateGroupValidator } from '../validators/update-group.validator'
 
-export const UpdateGroupSchema = z.object({
-  id: z.string(),
-  name: CreateGroupSchema.shape.name.optional(),
-  updatedBy: z.string()
-})
-
-export type UpdateGroupDto = z.infer<typeof UpdateGroupSchema>
+export type UpdateGroupDto = z.infer<typeof updateGroupValidator>

@@ -1,8 +1,5 @@
-import { z } from 'zod'
+import type { z } from 'zod'
 
-export const CreateGroupSchema = z.object({
-  name: z.string().min(3).max(255),
-  createdBy: z.string()
-})
+import type { createGroupValidator } from '../validators/create-group.validator'
 
-export type CreateGroupDto = z.infer<typeof CreateGroupSchema>
+export type CreateGroupDto = z.infer<typeof createGroupValidator>

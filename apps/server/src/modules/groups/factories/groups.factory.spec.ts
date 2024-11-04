@@ -1,9 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { InMemoryGroupsRepository } from '@/shared/tests/in-memory-repositories/in-memory-groups.repository'
-
 import { GroupsController } from '../controllers/groups.controller'
 import type { GroupsRepository } from '../repositories/groups.repository'
+import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
 import { groupsFactory } from './groups.factory'
 
 describe('groupsFactory', () => {

@@ -1,0 +1,31 @@
+meta {
+  name: create-group-transaction
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/groups/transactions
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Test transaction",
+    "amount": -100,
+    "groupId": "o51yqssfn4lnptgywdf6xngy",
+    "payerMemberId": "xh96ryosfrylvt2nqro1y3it",
+    "participants": [
+      {
+        "memberId": "xh96ryosfrylvt2nqro1y3it",
+        "amount": -50
+      },
+      {
+        "memberId": "etqbglfgw6qdsa4gem64anxl",
+        "amount": -50
+      }
+    ],
+    "createdBy": "xh96ryosfrylvt2nqro1y3it"
+  }
+}

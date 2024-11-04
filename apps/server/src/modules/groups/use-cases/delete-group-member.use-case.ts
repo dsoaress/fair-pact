@@ -2,24 +2,21 @@ import type { UseCase } from '@/shared/base/use-case'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
-import { type DeleteGroupMemberDto, DeleteGroupMemberSchema } from '../dtos/delete-group-member.dto'
+import type { DeleteGroupMemberDto } from '../dtos/delete-group-member.dto'
 import type { GroupMembersRepository } from '../repositories/group-members.repository'
+import { deleteGroupMemberValidator } from '../validators/delete-group-member.validator'
 
 export class DeleteGroupMemberUseCase implements UseCase<DeleteGroupMemberDto, Promise<void>> {
   constructor(private readonly groupMembersRepository: GroupMembersRepository) {}
 
   async execute(data: DeleteGroupMemberDto): Promise<void> {
-    const parsedData = DeleteGroupMemberSchema.safeParse(data)
+    const parsedData = deleteGroupMemberValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
-
-    const { groupId, userId } = parsedData.data
-
-    const groupMember = await this.groupMembersRepository.findByGroupIdAndUserId(groupId, userId)
+    const { id } = parsedData.data
+    const groupMember = await this.groupMembersRepository.findById(id)
     if (!groupMember) throw new NotFoundException('Group Member')
-
     if (groupMember.balance)
       throw new BadRequestException(`Group member has balance of ${groupMember.balance}`)
-
-    await this.groupMembersRepository.delete(groupId, userId)
+    await this.groupMembersRepository.delete(id, 'user-id-here')
   }
 }

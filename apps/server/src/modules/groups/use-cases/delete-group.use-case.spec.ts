@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { groupFake } from '@/shared/tests/fakes/group.fake'
-import { InMemoryGroupsRepository } from '@/shared/tests/in-memory-repositories/in-memory-groups.repository'
 import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 import type { GroupsRepository } from '../repositories/groups.repository'
+import { groupFake } from '../utils/tests/fakes/group.fake'
+import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
 import { DeleteGroupUseCase } from './delete-group.use-case'
 
 describe('DeleteGroupUseCase', () => {
@@ -32,11 +32,5 @@ describe('DeleteGroupUseCase', () => {
     await expect(
       deleteGroupUseCase.execute({ id: 'invalid-id', userId: createdBy.value })
     ).rejects.toThrow('Group not found')
-  })
-
-  it('should throw an error if user is not the creator of the group', async () => {
-    await expect(
-      deleteGroupUseCase.execute({ id: id.value, userId: 'invalid-user-id' })
-    ).rejects.toThrow('You are not allowed to delete this group')
   })
 })

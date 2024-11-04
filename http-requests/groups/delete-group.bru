@@ -1,0 +1,18 @@
+meta {
+  name: delete-group
+  type: http
+  seq: 2
+}
+
+delete {
+  url: http://localhost:3000/groups/owd9ayaywdbe1m2xy42ulsqk
+  body: none
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Group test",
+    "currency": "USD"
+  }
+}
