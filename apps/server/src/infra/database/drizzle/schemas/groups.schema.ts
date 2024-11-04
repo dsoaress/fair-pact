@@ -8,9 +8,7 @@ export const groups = pgTable('groups', {
   createdBy: varchar('created_by', { length: 24 }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true, precision: 6 }).notNull(),
   updatedBy: varchar('updated_by', { length: 24 }),
-  updatedAt: timestamp('updated_at', { withTimezone: true, precision: 6 }),
-  deletedBy: varchar('deleted_by', { length: 24 }),
-  deletedAt: timestamp('deleted_at', { withTimezone: true, precision: 6 })
+  updatedAt: timestamp('updated_at', { withTimezone: true, precision: 6 })
 })
 
 export const groupsRelations = relations(groups, ({ many }) => ({
@@ -23,12 +21,9 @@ export const groupMembers = pgTable(
     id: varchar({ length: 24 }).primaryKey().notNull(),
     groupId: varchar('group_id', { length: 24 })
       .notNull()
-      .references(() => groups.id),
+      .references(() => groups.id, { onDelete: 'cascade' }),
     userId: varchar('user_id', { length: 24 }).notNull(),
-    balance: integer().notNull(),
-    createdAt: timestamp('created_at', { withTimezone: true, precision: 6 }).notNull(),
-    deletedBy: varchar('deleted_by', { length: 24 }),
-    deletedAt: timestamp('deleted_at', { withTimezone: true, precision: 6 })
+    createdAt: timestamp('created_at', { withTimezone: true, precision: 6 }).notNull()
   },
   t => ({ unq: unique().on(t.groupId, t.userId) })
 )
@@ -48,10 +43,10 @@ export const groupTransactions = pgTable(
     amount: integer().notNull(),
     groupId: varchar('group_id', { length: 24 })
       .notNull()
-      .references(() => groups.id),
+      .references(() => groups.id, { onDelete: 'cascade' }),
     payerMemberId: varchar('payer_member_id', { length: 24 })
       .notNull()
-      .references(() => groupMembers.id),
+      .references(() => groupMembers.id, { onDelete: 'cascade' }),
     createdBy: varchar('created_by', { length: 24 }).notNull(),
     createdAt: timestamp('created_at', { withTimezone: true, precision: 6 }).notNull(),
     updatedBy: varchar('updated_by', { length: 24 }),

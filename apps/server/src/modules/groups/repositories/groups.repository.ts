@@ -7,5 +7,5 @@ export interface GroupsRepository extends Repository<GroupModel> {
   findByNameAndCreatedBy(name: string, createdBy: string): Promise<GroupModel | null>
   create(model: GroupModel): Promise<void>
   update(model: GroupModel): Promise<void>
-  delete(id: string, deletedBy: string): Promise<void>
+  delete(id: string): Promise<void>
 }

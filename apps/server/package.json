@@ -2,9 +2,10 @@
   "name": "server",
   "type": "module",
   "scripts": {
-    "dev": "pnpm setenv tsx watch src/main.ts",
+    "dev": "pnpm type:check && pnpm setenv tsx watch src/main.ts",
     "start": "node dist/main.js",
-    "build": "tsup",
+    "build": "pnpm type:check && tsup",
+    "type:check": "tsc --noEmit",
     "test": "vitest run --coverage",
     "test:watch": "vitest --coverage",
     "test:ui": "vitest --ui",

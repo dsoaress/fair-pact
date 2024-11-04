@@ -8,6 +8,5 @@ export interface GroupMembersRepository extends Repository<GroupMemberModel> {
   findMandyByGroupIdAndMemberIds(groupId: string, memberIds: string[]): Promise<GroupMemberModel[]>
   findManyByGroupIdAndUserId(groupId: string, userId: string): Promise<GroupMemberModel[]>
   create(model: GroupMemberModel): Promise<void>
-  update(model: GroupMemberModel): Promise<void>
-  delete(id: string, deletedBy: string): Promise<void>
+  delete(id: string): Promise<void>
 }

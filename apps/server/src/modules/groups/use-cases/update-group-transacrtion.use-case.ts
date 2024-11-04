@@ -7,7 +7,6 @@ import type { UpdateGroupTransactionDto } from '../dtos/update-group-transaction
 import type { GroupTransactionModel } from '../models/group-transaction.model'
 import type { GroupTransactionsRepository } from '../repositories/group-transactions.respository'
 import type { GroupsRepository } from '../repositories/groups.repository'
-import type { UpdateGroupMembersBalanceService } from '../services/update-group-members-balance.service'
 import { updateGroupTransactionValidator } from '../validators/update-group-transaction.validator'
 
 export class UpdateGroupTransactionUseCase
@@ -15,8 +14,7 @@ export class UpdateGroupTransactionUseCase
 {
   constructor(
     private readonly groupsRepository: GroupsRepository,
-    private readonly groupTransactionsRepository: GroupTransactionsRepository,
-    private readonly updateGroupMembersBalanceService: UpdateGroupMembersBalanceService
+    private readonly groupTransactionsRepository: GroupTransactionsRepository
   ) {}
 
   async execute(data: UpdateGroupTransactionDto): Promise<void> {
@@ -30,13 +28,7 @@ export class UpdateGroupTransactionUseCase
     if (!group) throw new NotFoundException('Group')
     if (!transaction) throw new NotFoundException('Transaction')
     this.updateGroupTransaction(transaction, parsedData.data)
-    await Promise.all([
-      this.groupTransactionsRepository.update(transaction),
-      this.updateGroupMembersBalanceService.execute({
-        groupId,
-        participants: transaction.participants
-      })
-    ])
+    await this.groupTransactionsRepository.update(transaction)
   }
 
   private updateGroupTransaction(

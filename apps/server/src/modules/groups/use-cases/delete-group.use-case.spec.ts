@@ -19,7 +19,7 @@ describe('DeleteGroupUseCase', () => {
   })
 
   it('should delete a group', async () => {
-    await deleteGroupUseCase.execute({ id: id.value, userId: createdBy.value })
+    await deleteGroupUseCase.execute({ id: id.value })
     const deletedGroup = await groupsRepository.findById(id.value)
     expect(deletedGroup).toBeNull()
   })
@@ -29,8 +29,8 @@ describe('DeleteGroupUseCase', () => {
   })
 
   it('should throw an error if group does not exist', async () => {
-    await expect(
-      deleteGroupUseCase.execute({ id: 'invalid-id', userId: createdBy.value })
-    ).rejects.toThrow('Group not found')
+    await expect(deleteGroupUseCase.execute({ id: 'invalid-id' })).rejects.toThrow(
+      'Group not found'
+    )
   })
 })

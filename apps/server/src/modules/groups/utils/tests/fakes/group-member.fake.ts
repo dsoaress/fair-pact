@@ -6,7 +6,6 @@ export function groupMemberFake(overrides?: Partial<GroupMemberModel>): GroupMem
     id: IdValueObject.create(),
     groupId: IdValueObject.create(),
     userId: IdValueObject.create(),
-    balance: 10,
     createdAt: new Date(),
     ...overrides
   }

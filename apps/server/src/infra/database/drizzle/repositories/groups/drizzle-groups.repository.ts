@@ -1,4 +1,4 @@
-import { and, eq, isNull } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 
 import type { CurrencyDto } from '@/modules/groups/dtos/currency.dto'
 import type { GroupModel } from '@/modules/groups/models/group.model'
@@ -24,7 +24,7 @@ type GroupResult = {
 export class DrizzleGroupsRepository implements GroupsRepository {
   async findById(id: string): Promise<GroupModel | null> {
     const result = await db.query.groups.findFirst({
-      where: and(eq(groups.id, id), isNull(groups.deletedAt)),
+      where: and(eq(groups.id, id)),
       with: {
         groupMembers: { columns: { id: true } }
       }
@@ -35,7 +35,7 @@ export class DrizzleGroupsRepository implements GroupsRepository {
 
   async findByNameAndCreatedBy(name: string, createdBy: string): Promise<GroupModel | null> {
     const result = await db.query.groups.findFirst({
-      where: and(eq(groups.name, name), eq(groups.createdBy, createdBy), isNull(groups.deletedAt)),
+      where: and(eq(groups.name, name), eq(groups.createdBy, createdBy)),
       with: {
         groupMembers: { columns: { id: true } }
       }
@@ -66,14 +66,8 @@ export class DrizzleGroupsRepository implements GroupsRepository {
       .where(eq(groups.id, model.id.value))
   }
 
-  async delete(id: string, deletedBy: string): Promise<void> {
-    await db
-      .update(groups)
-      .set({
-        deletedBy,
-        deletedAt: new Date()
-      })
-      .where(eq(groups.id, id))
+  async delete(id: string): Promise<void> {
+    await db.delete(groups).where(eq(groups.id, id))
   }
 
   private mapToModel(result: GroupResult): GroupModel {

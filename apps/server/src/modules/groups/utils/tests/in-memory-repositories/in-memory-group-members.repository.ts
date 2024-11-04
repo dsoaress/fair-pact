@@ -36,15 +36,6 @@ export class InMemoryGroupMembersRepository implements GroupMembersRepository {
     this.groupMembers.push(model)
   }
 
-  async update(model: GroupMemberModel): Promise<void> {
-    const index = this.groupMembers.findIndex(
-      groupMember =>
-        groupMember.groupId.value === model.groupId.value &&
-        groupMember.userId.value === model.userId.value
-    )
-    this.groupMembers[index] = model
-  }
-
   async delete(id: string): Promise<void> {
     const index = this.groupMembers.findIndex(groupMember => groupMember.id.value === id)
     this.groupMembers.splice(index, 1)

@@ -1,11 +1,11 @@
-import { eq, sql } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 
 import type { GroupTransactionModel } from '@/modules/groups/models/group-transaction.model'
 import type { GroupTransactionsRepository } from '@/modules/groups/repositories/group-transactions.respository'
 import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 import { db } from '../../drizzle.service'
-import { groupMembers, groupTransactionParticipants, groupTransactions } from '../../schemas'
+import { groupTransactionParticipants, groupTransactions } from '../../schemas'
 
 type GroupTransactionResult = {
   id: string
@@ -56,18 +56,6 @@ export class DrizzleGroupTransactionsRepository implements GroupTransactionsRepo
         memberId: participant.memberId.value,
         amount: participant.amount
       }))
-    )
-    await Promise.all(
-      model.participants
-        .filter(p => p.memberId !== model.payerMemberId)
-        .map(p =>
-          db
-            .update(groupMembers)
-            .set({
-              balance: sql`${groupMembers.balance} + ${p.amount}`
-            })
-            .where(eq(groupMembers.id, p.memberId.value))
-        )
     )
   }
 

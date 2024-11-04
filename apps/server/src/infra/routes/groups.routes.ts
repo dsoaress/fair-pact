@@ -20,7 +20,6 @@ export async function groupRoutes(app: FastifyInstance): Promise<void> {
   const groupMembersController = groupMembersFactory(groupsRepository, groupMembersRepository)
   const groupTransactionsController = groupTransactionsFactory(
     groupsRepository,
-    groupMembersRepository,
     groupTransactionsRepository
   )
 
@@ -53,8 +52,7 @@ export async function groupRoutes(app: FastifyInstance): Promise<void> {
   app.delete<{ Params: { id: string } }>('/groups/:id', async (request, reply) => {
     const { id } = request.params
     const { statusCode } = await groupsController.deleteGroup({
-      id,
-      userId: 'vjczf65fzbghg79eclf86q4n'
+      id
     })
     reply.status(statusCode).send()
   })
@@ -90,15 +88,11 @@ export async function groupRoutes(app: FastifyInstance): Promise<void> {
     }
   )
 
-  app.delete<{ Params: { id: string; groupId: string } }>(
-    '/groups/:groupId/transactions/:id',
-    async (request, reply) => {
-      const { id, groupId } = request.params
-      const { statusCode } = await groupTransactionsController.deleteGroupTransection({
-        id,
-        groupId
-      })
-      reply.status(statusCode).send()
-    }
-  )
+  app.delete<{ Params: { id: string } }>('/groups/transactions/:id', async (request, reply) => {
+    const { id } = request.params
+    const { statusCode } = await groupTransactionsController.deleteGroupTransection({
+      id
+    })
+    reply.status(statusCode).send()
+  })
 }

@@ -63,7 +63,6 @@ describe('createGroupTransactionValidator', () => {
     [{ name: 'Transaction', amount: 100, groupId: IdValueObject.create().value }, false],
     [{ name: 'Transaction', amount: 100 }, false],
     [{ name: 'Transaction' }, false],
-    // [{ userId: 'id' }, false],
     [{}, false]
   ])('should validate the schema: %o (valid: %j)', (data, expected) => {
     const result = createGroupTransactionValidator.safeParse(data)

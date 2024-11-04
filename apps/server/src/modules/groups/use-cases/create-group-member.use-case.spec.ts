@@ -39,7 +39,6 @@ describe('CreateGroupMemberUseCase', () => {
       id: expect.any(Object),
       groupId: fakeGroupMemberData.groupId,
       userId: expect.any(Object),
-      balance: expect.any(Number),
       createdAt: expect.any(Date)
     })
   })

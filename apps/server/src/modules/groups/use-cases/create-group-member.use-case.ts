@@ -24,7 +24,6 @@ export class CreateGroupMemberUseCase implements UseCase<CreateGroupMemberDto, P
       id: IdValueObject.create(),
       groupId: IdValueObject.create(parsedData.data.groupId),
       userId: IdValueObject.create(parsedData.data.userId),
-      balance: 0,
       createdAt: new Date()
     }
     await this.groupMembersRepository.create(groupMember)

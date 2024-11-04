@@ -15,8 +15,6 @@ export class DeleteGroupMemberUseCase implements UseCase<DeleteGroupMemberDto, P
     const { id } = parsedData.data
     const groupMember = await this.groupMembersRepository.findById(id)
     if (!groupMember) throw new NotFoundException('Group Member')
-    if (groupMember.balance)
-      throw new BadRequestException(`Group member has balance of ${groupMember.balance}`)
-    await this.groupMembersRepository.delete(id, 'user-id-here')
+    await this.groupMembersRepository.delete(id)
   }
 }
