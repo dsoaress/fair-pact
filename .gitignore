@@ -17,6 +17,8 @@ node_modules/
 .next
 out
 dist
+dist-ssr
+*.local
 
 # OS files
 .DS_Store
