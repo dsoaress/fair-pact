@@ -6,6 +6,9 @@ import { amountValidator, amountValidatorErrorMessage } from '../utils/amount-va
 
 export const updateGroupTransactionValidator = baseCreateGroupTransactionValidator
   .partial()
+  .omit({
+    createdBy: true
+  })
   .extend({
     id: idValidator,
     groupId: idValidator,

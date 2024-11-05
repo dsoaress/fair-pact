@@ -1,5 +1,6 @@
 import { relations } from 'drizzle-orm'
 import { index, integer, pgTable, timestamp, unique, varchar } from 'drizzle-orm/pg-core'
+import { users } from './auth.schema'
 
 export const groups = pgTable('groups', {
   id: varchar({ length: 24 }).primaryKey().notNull(),
@@ -21,8 +22,10 @@ export const groupMembers = pgTable(
     id: varchar({ length: 24 }).primaryKey().notNull(),
     groupId: varchar('group_id', { length: 24 })
       .notNull()
-      .references(() => groups.id, { onDelete: 'cascade' }),
-    userId: varchar('user_id', { length: 24 }).notNull(),
+      .references(() => groups.id),
+    userId: varchar('user_id', { length: 24 })
+      .notNull()
+      .references(() => users.id),
     createdAt: timestamp('created_at', { withTimezone: true, precision: 6 }).notNull()
   },
   t => ({ unq: unique().on(t.groupId, t.userId) })
@@ -35,6 +38,13 @@ export const groupMemberRelations = relations(groupMembers, ({ one }) => ({
   })
 }))
 
+export const groupMembersUserRelation = relations(groupMembers, ({ one }) => ({
+  user: one(users, {
+    fields: [groupMembers.userId],
+    references: [users.id]
+  })
+}))
+
 export const groupTransactions = pgTable(
   'group_transactions',
   {
@@ -43,10 +53,10 @@ export const groupTransactions = pgTable(
     amount: integer().notNull(),
     groupId: varchar('group_id', { length: 24 })
       .notNull()
-      .references(() => groups.id, { onDelete: 'cascade' }),
+      .references(() => groups.id),
     payerMemberId: varchar('payer_member_id', { length: 24 })
       .notNull()
-      .references(() => groupMembers.id, { onDelete: 'cascade' }),
+      .references(() => groupMembers.id),
     createdBy: varchar('created_by', { length: 24 }).notNull(),
     createdAt: timestamp('created_at', { withTimezone: true, precision: 6 }).notNull(),
     updatedBy: varchar('updated_by', { length: 24 }),
@@ -68,7 +78,10 @@ export const groupTransactionParticipants = pgTable(
     memberId: varchar('member_id', { length: 24 })
       .notNull()
       .references(() => groupMembers.id),
-    amount: integer().notNull()
+    amount: integer().notNull(),
+    payerMemberId: varchar('payer_member_id', { length: 24 })
+      .notNull()
+      .references(() => groupMembers.id)
   },
   t => ({ unq: unique().on(t.groupTransactionId, t.memberId) })
 )

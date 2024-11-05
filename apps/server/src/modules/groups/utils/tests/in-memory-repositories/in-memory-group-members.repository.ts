@@ -1,8 +1,10 @@
 import type { GroupMemberModel } from '@/modules/groups/models/group-member.model'
-import type { GroupMembersRepository } from '@/modules/groups/repositories/group-members.repository'
+import { GroupMembersRepository } from '@/modules/groups/repositories/group-members.repository'
 
-export class InMemoryGroupMembersRepository implements GroupMembersRepository {
-  constructor(private readonly groupMembers: GroupMemberModel[] = []) {}
+export class InMemoryGroupMembersRepository extends GroupMembersRepository {
+  constructor(private readonly groupMembers: GroupMemberModel[] = []) {
+    super({} as never)
+  }
 
   async findById(id: string): Promise<GroupMemberModel | null> {
     return this.groupMembers.find(groupMember => groupMember.id.value === id) || null

@@ -9,23 +9,23 @@ import type { UpdateGroupTransactionUseCase } from '../use-cases/update-group-tr
 
 export class GroupTransactionsController {
   constructor(
-    private readonly createGroupTransectionUseCase: CreateGroupTransactionUseCase,
-    private readonly updateGroupTransectionUseCase: UpdateGroupTransactionUseCase,
-    private readonly deleteGroupTransectionUseCase: DeleteGroupTransactionUseCase
+    private readonly createGroupTransactionUseCase: CreateGroupTransactionUseCase,
+    private readonly updateGroupTransactionUseCase: UpdateGroupTransactionUseCase,
+    private readonly deleteGroupTransactionUseCase: DeleteGroupTransactionUseCase
   ) {}
 
-  async createGroupTransection(data: CreateGroupTransactionDto): Promise<HttpResponse<void>> {
-    await this.createGroupTransectionUseCase.execute(data)
+  async createGroupTransaction(data: CreateGroupTransactionDto): Promise<HttpResponse<void>> {
+    await this.createGroupTransactionUseCase.execute(data)
     return { statusCode: httpStatusCode.CREATED }
   }
 
-  async updateGroupTransection(data: UpdateGroupTransactionDto): Promise<HttpResponse<void>> {
-    await this.updateGroupTransectionUseCase.execute(data)
+  async updateGroupTransaction(data: UpdateGroupTransactionDto): Promise<HttpResponse<void>> {
+    await this.updateGroupTransactionUseCase.execute(data)
     return { statusCode: httpStatusCode.NO_CONTENT }
   }
 
-  async deleteGroupTransection(data: DeleteGroupTransactionDto): Promise<HttpResponse<void>> {
-    await this.deleteGroupTransectionUseCase.execute(data)
+  async deleteGroupTransaction(data: DeleteGroupTransactionDto): Promise<HttpResponse<void>> {
+    await this.deleteGroupTransactionUseCase.execute(data)
     return { statusCode: httpStatusCode.NO_CONTENT }
   }
 }

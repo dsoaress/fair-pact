@@ -1,1 +1,0 @@
-ALTER TABLE "group_members" DROP COLUMN IF EXISTS "balance";

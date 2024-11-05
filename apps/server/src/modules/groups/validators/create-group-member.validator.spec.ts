@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { IdValueObject } from '@/shared/value-objects/id.value-object'
+
 import { createGroupMemberValidator } from './create-group-member.validator'
 
 describe('createGroupMemberValidator', () => {

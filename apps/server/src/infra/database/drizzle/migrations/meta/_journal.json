@@ -5,36 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1730701069707,
-      "tag": "0000_jittery_nemesis",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1730701279623,
-      "tag": "0001_striped_johnny_storm",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1730736350047,
-      "tag": "0002_reflective_the_fury",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1730746940932,
-      "tag": "0003_bizarre_kitty_pryde",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1730747117048,
-      "tag": "0004_clammy_stone_men",
+      "when": 1730773810429,
+      "tag": "0000_giant_vampiro",
       "breakpoints": true
     }
   ]

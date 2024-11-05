@@ -38,6 +38,8 @@ export class CreateGroupTransactionUseCase
     participants: CreateGroupTransactionDto['participants']
   ): void {
     const memberIds = group.members.map(member => member.value)
+    console.log(memberIds)
+    console.log(payerMemberId)
     const isValidMemberId =
       memberIds.includes(payerMemberId) &&
       memberIds.includes(createdBy) &&

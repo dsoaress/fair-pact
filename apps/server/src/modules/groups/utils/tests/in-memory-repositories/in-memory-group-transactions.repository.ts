@@ -1,8 +1,10 @@
 import type { GroupTransactionModel } from '@/modules/groups/models/group-transaction.model'
-import type { GroupTransactionsRepository } from '@/modules/groups/repositories/group-transactions.respository'
+import { GroupTransactionsRepository } from '@/modules/groups/repositories/group-transactions.respository'
 
-export class InMemoryGroupTransactionsRepository implements GroupTransactionsRepository {
-  constructor(private readonly groupTransactions: GroupTransactionModel[] = []) {}
+export class InMemoryGroupTransactionsRepository extends GroupTransactionsRepository {
+  constructor(private readonly groupTransactions: GroupTransactionModel[] = []) {
+    super({} as never)
+  }
 
   async findById(id: string): Promise<GroupTransactionModel | null> {
     return this.groupTransactions.find(groupTransaction => groupTransaction.id.value === id) || null

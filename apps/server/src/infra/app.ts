@@ -1,6 +1,6 @@
 import { fastify } from 'fastify'
 import { env } from './config/env'
-import { groupRoutes } from './routes/groups.routes'
+import { groupsRoutes } from './routes/groups.routes'
 
 const envToLogger = {
   local: {
@@ -21,6 +21,6 @@ const app = fastify({
   logger: envToLogger[env.NODE_ENV] ?? true
 })
 
-groupRoutes(app)
+app.register(groupsRoutes)
 
 export { app }
