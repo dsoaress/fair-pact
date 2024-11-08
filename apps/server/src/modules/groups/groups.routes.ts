@@ -3,9 +3,8 @@ import type { FastifyInstance } from 'fastify'
 import { groupsFactory } from './groups.factory'
 
 export function groupsRoutes(app: FastifyInstance): void {
-  const { groupsController, groupMembersController, groupTransactionsController } = groupsFactory()
+  const { groupsController, groupTransactionsController } = groupsFactory()
   const { createGroup, deleteGroup, getGroupById, getGroups, updateGroup } = groupsController
-  const { createGroupMember, deleteGroupMember } = groupMembersController
   const {
     createGroupTransaction,
     deleteGroupTransaction,
@@ -19,9 +18,6 @@ export function groupsRoutes(app: FastifyInstance): void {
   app.post('/', createGroup.bind(groupsController))
   app.patch('/:id', updateGroup.bind(groupsController))
   app.delete('/:id', deleteGroup.bind(groupsController))
-
-  app.post('/:groupId/members', createGroupMember.bind(groupMembersController))
-  app.delete('/:groupId/members', deleteGroupMember.bind(groupMembersController))
 
   app.get('/:groupId/transactions', getGroupTransactionsByGroupId.bind(groupTransactionsController))
   app.get('/:groupId/transactions/:id', getGroupTransactionById.bind(groupTransactionsController))
