@@ -22,12 +22,12 @@ export class GroupTransactionsController {
   async getGroupTransactionById(
     request: FastifyRequest<{
       Headers: { 'user-id': string }
-      Params: { id: string }
+      Params: { groupTransactionId: string }
     }>,
     reply: FastifyReply
   ): Promise<void> {
     const userId = request.headers['user-id']
-    const { id } = request.params
+    const id = request.params.groupTransactionId
     const groupTransaction = await this.GetGroupTransactionByIdQuery.execute({ id, userId })
     reply.status(httpStatusCode.OK).send({ data: groupTransaction })
   }
@@ -69,22 +69,22 @@ export class GroupTransactionsController {
 
   async updateGroupTransaction(
     request: FastifyRequest<{
-      Params: { id: string; groupId: string }
+      Params: { groupTransactionId: string; groupId: string }
       Body: Omit<UpdateGroupTransactionDto, 'id' | 'groupId'>
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    const { id, groupId } = request.params
+    const { groupTransactionId: id, groupId } = request.params
     const data = request.body
     await this.updateGroupTransactionUseCase.execute({ ...data, id, groupId })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
   async deleteGroupTransaction(
-    request: FastifyRequest<{ Params: { id: string } }>,
+    request: FastifyRequest<{ Params: { groupTransactionId: string } }>,
     reply: FastifyReply
   ): Promise<void> {
-    const id = request.params.id
+    const id = request.params.groupTransactionId
     await this.deleteGroupTransactionUseCase.execute({ id })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
