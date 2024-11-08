@@ -9,7 +9,7 @@ type Input = {
   userId: string
 }
 
-export class AddGroupMemberUseCase implements UseCase<Input, Promise<void>> {
+export class JoinGroupUseCase implements UseCase<Input, Promise<void>> {
   constructor(private readonly groupsRepository: GroupsRepository) {}
 
   async execute(data: Input): Promise<void> {
