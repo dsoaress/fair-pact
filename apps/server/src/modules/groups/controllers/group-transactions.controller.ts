@@ -1,12 +1,8 @@
 import type { CreateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/create-group-transaction.dto'
-import type { DeleteGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/delete-group-transaction.dto'
-import type { GetGroupTransactionByIdInputDto } from '@fair-pact/contracts/groups/dtos/get-group-transaction-by-id-input.dto'
-import type { GetGroupTransactionByIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-transaction-by-id-output.dto'
-import type { GetGroupTransactionsByGroupIdInputDto } from '@fair-pact/contracts/groups/dtos/get-group-transactions-by-group-id-input.dto'
-import type { GetGroupTransactionsByGroupIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-transactions-by-group-id-output.dto'
 import type { UpdateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/update-group-transaction.dto'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { type HttpResponse, httpStatusCode } from '@/shared/base/http-response'
+import { httpStatusCode } from '@/shared/base/http-status-code'
 
 import type { GetGroupTransactionByIdQuery } from '../queries/get-group-transaction-by-id.query'
 import type { GetGroupTransactionsByGroupIdQuery } from '../queries/get-group-transactions-by-group-id.query'
@@ -24,31 +20,72 @@ export class GroupTransactionsController {
   ) {}
 
   async getGroupTransactionById(
-    data: GetGroupTransactionByIdInputDto
-  ): Promise<HttpResponse<GetGroupTransactionByIdOutputDto>> {
-    const groupTransaction = await this.GetGroupTransactionByIdQuery.execute(data)
-    return { statusCode: httpStatusCode.OK, data: groupTransaction }
+    request: FastifyRequest<{
+      Headers: { 'user-id': string }
+      Params: { id: string }
+    }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const userId = request.headers['user-id']
+    const { id } = request.params
+    const groupTransaction = await this.GetGroupTransactionByIdQuery.execute({ id, userId })
+    reply.status(httpStatusCode.OK).send({ data: groupTransaction })
   }
 
   async getGroupTransactionsByGroupId(
-    data: GetGroupTransactionsByGroupIdInputDto
-  ): Promise<HttpResponse<GetGroupTransactionsByGroupIdOutputDto>> {
-    const groupTransaction = await this.GetGroupTransactionsByGroupIdQuery.execute(data)
-    return { statusCode: httpStatusCode.OK, data: groupTransaction }
+    request: FastifyRequest<{
+      Headers: { 'user-id': string }
+      Params: { groupId: string }
+    }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const userId = request.headers['user-id']
+    const { groupId } = request.params
+    const groupTransaction = await this.GetGroupTransactionsByGroupIdQuery.execute({
+      groupId,
+      userId
+    })
+    reply.status(httpStatusCode.OK).send({ data: groupTransaction })
   }
 
-  async createGroupTransaction(data: CreateGroupTransactionDto): Promise<HttpResponse<void>> {
-    await this.createGroupTransactionUseCase.execute(data)
-    return { statusCode: httpStatusCode.CREATED }
+  async createGroupTransaction(
+    request: FastifyRequest<{
+      Headers: { 'user-id': string }
+      Params: { groupId: string }
+      Body: Omit<CreateGroupTransactionDto, 'groupId' | 'createdBy'>
+    }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const userId = request.headers['user-id']
+    const { groupId } = request.params
+    const data = request.body
+    await this.createGroupTransactionUseCase.execute({
+      ...data,
+      groupId,
+      createdBy: userId
+    })
+    reply.status(httpStatusCode.CREATED).send()
   }
 
-  async updateGroupTransaction(data: UpdateGroupTransactionDto): Promise<HttpResponse<void>> {
-    await this.updateGroupTransactionUseCase.execute(data)
-    return { statusCode: httpStatusCode.NO_CONTENT }
+  async updateGroupTransaction(
+    request: FastifyRequest<{
+      Params: { id: string; groupId: string }
+      Body: Omit<UpdateGroupTransactionDto, 'id' | 'groupId'>
+    }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const { id, groupId } = request.params
+    const data = request.body
+    await this.updateGroupTransactionUseCase.execute({ ...data, id, groupId })
+    reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
-  async deleteGroupTransaction(data: DeleteGroupTransactionDto): Promise<HttpResponse<void>> {
-    await this.deleteGroupTransactionUseCase.execute(data)
-    return { statusCode: httpStatusCode.NO_CONTENT }
+  async deleteGroupTransaction(
+    request: FastifyRequest<{ Params: { id: string } }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const id = request.params.id
+    await this.deleteGroupTransactionUseCase.execute({ id })
+    reply.status(httpStatusCode.NO_CONTENT).send()
   }
 }

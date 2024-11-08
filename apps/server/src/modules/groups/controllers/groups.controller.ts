@@ -1,12 +1,8 @@
 import type { CreateGroupDto } from '@fair-pact/contracts/groups/dtos/create-group.dto'
-import type { DeleteGroupDto } from '@fair-pact/contracts/groups/dtos/delete-group.dto'
-import type { GetGroupByIdInputDto } from '@fair-pact/contracts/groups/dtos/get-group-by-id-input.dto'
-import type { GetGroupByIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-by-id-output.dto'
-import type { GetGroupsInputDto } from '@fair-pact/contracts/groups/dtos/get-groups-input.dto'
-import type { GetGroupsOutputDto } from '@fair-pact/contracts/groups/dtos/get-groups-output.dto'
 import type { UpdateGroupDto } from '@fair-pact/contracts/groups/dtos/update-group.dto'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { type HttpResponse, httpStatusCode } from '@/shared/base/http-response'
+import { httpStatusCode } from '@/shared/base/http-status-code'
 
 import type { GetGroupByIdQuery } from '../queries/get-group-by-id.query'
 import type { GetGroupsQuery } from '../queries/get-groups.query'
@@ -23,28 +19,59 @@ export class GroupsController {
     private readonly deleteGroupUseCase: DeleteGroupUseCase
   ) {}
 
-  async getGroupById(data: GetGroupByIdInputDto): Promise<HttpResponse<GetGroupByIdOutputDto>> {
-    const group = await this.getGroupByIdQuery.execute(data)
-    return { statusCode: httpStatusCode.OK, data: group }
+  async getGroupById(
+    request: FastifyRequest<{ Headers: { 'user-id': string }; Params: { id: string } }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const userId = request.headers['user-id']
+    const { id } = request.params
+    const group = await this.getGroupByIdQuery.execute({ userId, id })
+    reply.status(httpStatusCode.OK).send({ data: group })
   }
 
-  async getGroups(data: GetGroupsInputDto): Promise<HttpResponse<GetGroupsOutputDto>> {
-    const groups = await this.getGroupsQuery.execute(data)
-    return { statusCode: httpStatusCode.OK, data: groups }
+  async getGroups(
+    request: FastifyRequest<{ Headers: { 'user-id': string } }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const userId = request.headers['user-id']
+    const groups = await this.getGroupsQuery.execute({ userId })
+    reply.status(httpStatusCode.OK).send({ data: groups })
   }
 
-  async createGroup(data: CreateGroupDto): Promise<HttpResponse<void>> {
-    await this.createGroupUseCase.execute(data)
-    return { statusCode: httpStatusCode.CREATED }
+  async createGroup(
+    request: FastifyRequest<{
+      Headers: { 'user-id': string }
+      Body: Pick<CreateGroupDto, 'name' | 'currency'>
+    }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const userId = request.headers['user-id']
+    const data = request.body
+    await this.createGroupUseCase.execute({ ...data, createdBy: userId })
+    reply.status(httpStatusCode.CREATED).send()
   }
 
-  async updateGroup(data: UpdateGroupDto): Promise<HttpResponse<void>> {
-    await this.updateGroupUseCase.execute(data)
-    return { statusCode: httpStatusCode.NO_CONTENT }
+  async updateGroup(
+    request: FastifyRequest<{
+      Headers: { 'user-id': string }
+      Body: Pick<UpdateGroupDto, 'name' | 'currency'>
+      Params: { id: string }
+    }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const userId = request.headers['user-id']
+    const data = request.body
+    const { id } = request.params
+    await this.updateGroupUseCase.execute({ ...data, id, updatedBy: userId })
+    reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
-  async deleteGroup(data: DeleteGroupDto): Promise<HttpResponse<void>> {
-    await this.deleteGroupUseCase.execute(data)
-    return { statusCode: httpStatusCode.NO_CONTENT }
+  async deleteGroup(
+    request: FastifyRequest<{ Headers: { 'user-id': string }; Params: { id: string } }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const { id } = request.params
+    await this.deleteGroupUseCase.execute({ id })
+    reply.status(httpStatusCode.NO_CONTENT).send()
   }
 }

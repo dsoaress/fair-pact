@@ -1,8 +1,9 @@
 import cors from '@fastify/cors'
 import { fastify } from 'fastify'
+
+import { groupsRoutes } from '../modules/groups/groups.routes'
 import { env } from './config/env'
 import { errorHandlerMiddleware } from './middleares/error-handlers.middleware'
-import { groupsRoutes } from './routes/groups.routes'
 
 const envToLogger = {
   local: {

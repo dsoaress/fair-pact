@@ -5,16 +5,11 @@ import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.valu
 import type { UseCase } from '@/shared/base/use-case'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { ConflictException } from '@/shared/exceptions/conflict.exception'
-import type { GroupMemberModel } from '../models/group-member.model'
 import type { GroupModel } from '../models/group.model'
-import type { GroupMembersRepository } from '../repositories/group-members.repository'
 import type { GroupsRepository } from '../repositories/groups.repository'
 
 export class CreateGroupUseCase implements UseCase<CreateGroupDto, Promise<void>> {
-  constructor(
-    private readonly groupsRepository: GroupsRepository,
-    private readonly groupMembersRepository: GroupMembersRepository
-  ) {}
+  constructor(private readonly groupsRepository: GroupsRepository) {}
 
   async execute(data: CreateGroupDto): Promise<void> {
     const parsedData = createGroupValidator.safeParse(data)
@@ -27,17 +22,11 @@ export class CreateGroupUseCase implements UseCase<CreateGroupDto, Promise<void>
       createdBy: IdValueObject.create(data.createdBy),
       createdAt: new Date()
     }
-    const groupMember: GroupMemberModel = {
-      groupId: group.id,
-      userId: group.createdBy,
-      createdAt: new Date()
-    }
     const existingGroup = await this.groupsRepository.findByNameAndCreatedBy(
       group.name,
       group.createdBy.value
     )
     if (existingGroup) throw new ConflictException('Group')
     await this.groupsRepository.create(group)
-    await this.groupMembersRepository.create(groupMember)
   }
 }

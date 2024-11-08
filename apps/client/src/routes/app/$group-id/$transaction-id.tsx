@@ -1,5 +1,6 @@
-import { useGetGroupTransactionById } from '@/services/get-group-transaction-by-id'
 import { createFileRoute } from '@tanstack/react-router'
+
+import { useGetGroupTransactionById } from '@/hooks/use-get-group-transaction-by-id'
 
 export const Route = createFileRoute('/app/$group-id/$transaction-id')({
   component: RouteComponent

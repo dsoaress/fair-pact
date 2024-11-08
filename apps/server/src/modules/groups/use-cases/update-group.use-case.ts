@@ -16,8 +16,8 @@ export class UpdateGroupUseCase implements UseCase<UpdateGroupDto, Promise<void>
     if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
     const group = await this.groupsRepository.findById(data.id)
     if (!group) throw new NotFoundException('Group')
-    group.name = parsedData.data.name || group.name
-    group.currency = parsedData.data.currency || group.currency
+    group.name = parsedData.data.name ?? group.name
+    group.currency = parsedData.data.currency ?? group.currency
     group.updatedBy = IdValueObject.create(data.updatedBy)
     group.updatedAt = new Date()
     await this.groupsRepository.update(group)

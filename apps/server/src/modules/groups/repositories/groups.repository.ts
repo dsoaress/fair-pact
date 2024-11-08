@@ -3,7 +3,7 @@ import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.valu
 import { and, eq } from 'drizzle-orm'
 
 import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
-import { groups } from '@/infra/database/drizzle/schemas'
+import { groupMembers, groups } from '@/infra/database/drizzle/schemas'
 import type { Repository } from '@/shared/base/repository'
 
 import type { GroupModel } from '../models/group.model'
@@ -16,7 +16,7 @@ type GroupResult = {
   createdAt: Date
   updatedBy: string | null
   updatedAt: Date | null
-  groupMembers: {
+  members: {
     userId: string
   }[]
 }
@@ -27,7 +27,7 @@ export class GroupsRepository implements Repository<GroupModel> {
   async findById(id: string): Promise<GroupModel | null> {
     const result = await this.drizzleService.query.groups.findFirst({
       where: and(eq(groups.id, id)),
-      with: { groupMembers: { columns: { userId: true } } }
+      with: { members: { columns: { userId: true } } }
     })
     if (!result) return null
     return this.mapToModel(result)
@@ -36,19 +36,27 @@ export class GroupsRepository implements Repository<GroupModel> {
   async findByNameAndCreatedBy(name: string, createdBy: string): Promise<GroupModel | null> {
     const result = await this.drizzleService.query.groups.findFirst({
       where: and(eq(groups.name, name), eq(groups.createdBy, createdBy)),
-      with: { groupMembers: { columns: { userId: true } } }
+      with: { members: { columns: { userId: true } } }
     })
     if (!result) return null
     return this.mapToModel(result)
   }
 
   async create(model: GroupModel): Promise<void> {
-    await this.drizzleService.insert(groups).values({
-      id: model.id.value,
-      name: model.name,
-      currency: model.currency,
-      createdAt: model.createdAt,
-      createdBy: model.createdBy.value
+    await this.drizzleService.transaction(async tx => {
+      await this.drizzleService.insert(groups).values({
+        id: model.id.value,
+        name: model.name,
+        currency: model.currency,
+        createdAt: model.createdAt,
+        createdBy: model.createdBy.value
+      })
+
+      await tx.insert(groupMembers).values({
+        userId: model.createdBy.value,
+        groupId: model.id.value,
+        createdAt: model.createdAt
+      })
     })
   }
 
@@ -73,7 +81,7 @@ export class GroupsRepository implements Repository<GroupModel> {
       id: IdValueObject.create(result.id),
       name: result.name,
       currency: result.currency as CurrencyDto,
-      members: result.groupMembers.map(member => IdValueObject.create(member.userId)),
+      members: result.members.map(member => IdValueObject.create(member.userId)),
       createdBy: IdValueObject.create(result.createdBy),
       createdAt: result.createdAt,
       updatedAt: result.updatedAt ?? undefined,

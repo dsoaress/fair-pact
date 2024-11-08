@@ -1,35 +1,34 @@
 import { relations } from 'drizzle-orm'
-import {
-  index,
-  integer,
-  pgTable,
-  primaryKey,
-  timestamp,
-  unique,
-  uuid,
-  varchar
-} from 'drizzle-orm/pg-core'
+import { index, integer, pgTable, primaryKey, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
 
 import { users } from './auth.schema'
 
-export const groups = pgTable(
-  'groups',
-  {
-    id: uuid().notNull().primaryKey(),
-    name: varchar({ length: 255 }).notNull(),
-    currency: varchar({ length: 3 }).notNull(),
-    createdBy: uuid('created_by')
-      .notNull()
-      .references(() => users.id, { onDelete: 'cascade' }),
-    createdAt: timestamp('created_at', { withTimezone: true, precision: 6 }).notNull(),
-    updatedBy: uuid('updated_by').references(() => users.id, { onDelete: 'cascade' }),
-    updatedAt: timestamp('updated_at', { withTimezone: true, precision: 6 })
-  },
-  t => [unique().on(t.name, t.createdBy)]
-)
+export const groups = pgTable('groups', {
+  id: uuid().notNull().primaryKey(),
+  name: varchar({ length: 255 }).notNull(),
+  currency: varchar({ length: 3 }).notNull(),
+  createdBy: uuid('created_by')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('created_at', { withTimezone: true, precision: 6 }).notNull(),
+  updatedBy: uuid('updated_by').references(() => users.id, { onDelete: 'cascade' }),
+  updatedAt: timestamp('updated_at', { withTimezone: true, precision: 6 })
+})
 
-export const groupsRelations = relations(groups, ({ many }) => ({
-  groupMembers: many(groupMembers)
+export const groupRelations = relations(groups, ({ many, one }) => ({
+  members: many(groupMembers),
+  transactions: many(groupTransactions),
+  transaction_participants: many(groupTransactionParticipants),
+  created_by_user: one(users, {
+    fields: [groups.createdBy],
+    references: [users.id],
+    relationName: 'created_by_user'
+  }),
+  updated_by_user: one(users, {
+    fields: [groups.updatedBy],
+    references: [users.id],
+    relationName: 'updated_by_user'
+  })
 }))
 
 export const groupMembers = pgTable(
@@ -47,10 +46,8 @@ export const groupMembers = pgTable(
 )
 
 export const groupMemberRelations = relations(groupMembers, ({ one }) => ({
-  group: one(groups, {
-    fields: [groupMembers.groupId],
-    references: [groups.id]
-  })
+  group: one(groups, { fields: [groupMembers.groupId], references: [groups.id] }),
+  user: one(users, { fields: [groupMembers.userId], references: [users.id] })
 }))
 
 export const groupTransactions = pgTable(
@@ -76,6 +73,26 @@ export const groupTransactions = pgTable(
   t => [index().on(t.groupId)]
 )
 
+export const groupTransactionRelations = relations(groupTransactions, ({ many, one }) => ({
+  participants: many(groupTransactionParticipants),
+  group: one(groups, { fields: [groupTransactions.groupId], references: [groups.id] }),
+  payer: one(users, {
+    fields: [groupTransactions.payerUserId],
+    references: [users.id],
+    relationName: 'payer_user'
+  }),
+  created_by_user: one(users, {
+    fields: [groupTransactions.createdBy],
+    references: [users.id],
+    relationName: 'created_by_user'
+  }),
+  updated_by_user: one(users, {
+    fields: [groupTransactions.updatedBy],
+    references: [users.id],
+    relationName: 'updated_by_user'
+  })
+}))
+
 export const groupTransactionParticipants = pgTable(
   'group_transaction_participants',
   {
@@ -96,4 +113,25 @@ export const groupTransactionParticipants = pgTable(
     amount: integer().notNull()
   },
   t => [primaryKey({ columns: [t.groupTransactionId, t.userId] })]
+)
+
+export const groupTransactionParticipantRelations = relations(
+  groupTransactionParticipants,
+  ({ one }) => ({
+    transaction: one(groupTransactions, {
+      fields: [groupTransactionParticipants.groupTransactionId],
+      references: [groupTransactions.id]
+    }),
+    group: one(groups, { fields: [groupTransactionParticipants.groupId], references: [groups.id] }),
+    user: one(users, {
+      fields: [groupTransactionParticipants.userId],
+      references: [users.id],
+      relationName: 'user'
+    }),
+    payer: one(users, {
+      fields: [groupTransactionParticipants.payerUserId],
+      references: [users.id],
+      relationName: 'payer_user'
+    })
+  })
 )

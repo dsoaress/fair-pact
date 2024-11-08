@@ -110,7 +110,7 @@ export class GroupsDao {
       FROM ${groups}
       LEFT JOIN ${groupMembers} ON ${groups.id} = ${groupMembers.groupId}
       WHERE ${groupMembers.userId} = ${userId}
-      ORDER BY ${groups.name} DESC;
+      ORDER BY ${groups.createdAt} DESC;
     `
     const { rows } = await this.drizzleService.execute(query)
     return rows as GetGroupsOutputDto

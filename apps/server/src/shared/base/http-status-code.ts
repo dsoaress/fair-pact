@@ -9,8 +9,3 @@ export const httpStatusCode = {
   CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500
 }
-
-export interface HttpResponse<T> {
-  statusCode: number
-  data?: T
-}

@@ -1,8 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import type { JSX } from 'react'
 
+import { CreateGroup } from '@/components/create-group'
 import { GroupItem } from '@/components/group-item'
-import { useGetGroups } from '@/services/get-groups'
+import { useGetGroups } from '@/hooks/use-get-groups'
 
 export const Route = createFileRoute('/app/')({
   component: Index
@@ -19,6 +20,8 @@ function Index(): JSX.Element {
       {data.map(g => (
         <GroupItem key={g.id} {...g} />
       ))}
+
+      <CreateGroup />
     </div>
   )
 }

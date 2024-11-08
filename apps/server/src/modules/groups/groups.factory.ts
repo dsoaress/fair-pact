@@ -12,9 +12,6 @@ import { GetGroupsQuery } from './queries/get-groups.query'
 import { GroupMembersRepository } from './repositories/group-members.repository'
 import { GroupTransactionsRepository } from './repositories/group-transactions.repository'
 import { GroupsRepository } from './repositories/groups.repository'
-import { GroupMembersRoutes } from './routes/group-members.routes'
-import { GroupTransactionsRoutes } from './routes/group-transactions.routes'
-import { GroupsRoutes } from './routes/groups.routes'
 import { CreateGroupMemberUseCase } from './use-cases/create-group-member.use-case'
 import { CreateGroupTransactionUseCase } from './use-cases/create-group-transaction.use-case'
 import { CreateGroupUseCase } from './use-cases/create-group.use-case'
@@ -25,9 +22,9 @@ import { UpdateGroupTransactionUseCase } from './use-cases/update-group-transact
 import { UpdateGroupUseCase } from './use-cases/update-group.use-case'
 
 type Output = {
-  groupRoutes: GroupsRoutes
-  groupMembersRoutes: GroupMembersRoutes
-  groupTransactionsRoutes: GroupTransactionsRoutes
+  groupsController: GroupsController
+  groupMembersController: GroupMembersController
+  groupTransactionsController: GroupTransactionsController
 }
 
 export function groupsFactory(): Output {
@@ -39,7 +36,7 @@ export function groupsFactory(): Output {
 
   const getGroupByIdQuery = new GetGroupByIdQuery(groupsDao)
   const getGroupsQuery = new GetGroupsQuery(groupsDao)
-  const createGroupUseCase = new CreateGroupUseCase(groupsRepository, groupMembersRepository)
+  const createGroupUseCase = new CreateGroupUseCase(groupsRepository)
   const updateGroupUseCase = new UpdateGroupUseCase(groupsRepository)
   const deleteGroupUseCase = new DeleteGroupUseCase(groupsRepository)
 
@@ -86,13 +83,9 @@ export function groupsFactory(): Output {
     deleteGroupTransactionUseCase
   )
 
-  const groupRoutes = new GroupsRoutes(groupsController)
-  const groupMembersRoutes = new GroupMembersRoutes(groupMembersController)
-  const groupTransactionsRoutes = new GroupTransactionsRoutes(groupTransactionsController)
-
   return {
-    groupRoutes,
-    groupMembersRoutes,
-    groupTransactionsRoutes
+    groupsController,
+    groupMembersController,
+    groupTransactionsController
   }
 }

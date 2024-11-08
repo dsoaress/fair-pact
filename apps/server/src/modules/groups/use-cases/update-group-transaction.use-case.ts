@@ -36,8 +36,8 @@ export class UpdateGroupTransactionUseCase
     originalTransaction: GroupTransactionModel,
     data: UpdateGroupTransactionDto
   ): void {
-    originalTransaction.name = data.name || originalTransaction.name
-    originalTransaction.amount = data.amount || originalTransaction.amount
+    originalTransaction.name = data.name ?? originalTransaction.name
+    originalTransaction.amount = data.amount ?? originalTransaction.amount
     originalTransaction.payerUserId =
       IdValueObject.create(data.payerUserId) || originalTransaction.payerUserId
     originalTransaction.groupId = IdValueObject.create(data.groupId) || originalTransaction.groupId

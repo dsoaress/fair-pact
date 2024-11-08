@@ -1,21 +1,16 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-
-import type { GroupMembersRepository } from '../repositories/group-members.repository'
 import type { GroupsRepository } from '../repositories/groups.repository'
 import { groupFake } from '../utils/tests/fakes/group.fake'
-import { InMemoryGroupMembersRepository } from '../utils/tests/in-memory-repositories/in-memory-group-members.repository'
 import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
 import { CreateGroupUseCase } from './create-group.use-case'
 
 describe('CreateGroupUseCase', () => {
   let createGroupUseCase: CreateGroupUseCase
   let groupsRepository: GroupsRepository
-  let groupMembersRepository: GroupMembersRepository
 
   beforeEach(() => {
     groupsRepository = new InMemoryGroupsRepository()
-    groupMembersRepository = new InMemoryGroupMembersRepository()
-    createGroupUseCase = new CreateGroupUseCase(groupsRepository, groupMembersRepository)
+    createGroupUseCase = new CreateGroupUseCase(groupsRepository)
   })
 
   it('should create a group', async () => {

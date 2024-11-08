@@ -17,7 +17,6 @@ export class GetGroupByIdQuery
     const parsedData = getGroupByIdInputValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
     const group = await this.groupsDao.getGroupById(parsedData.data)
-    console.log('group', group)
     if (!group) throw new NotFoundException('Group')
     return group
   }

@@ -1,6 +1,6 @@
 import type { FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 
-import { httpStatusCode } from '@/shared/base/http-response'
+import { httpStatusCode } from '@/shared/base/http-status-code'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { ConflictException } from '@/shared/exceptions/conflict.exception'
 import { ForbiddenException } from '@/shared/exceptions/forbidden.exception'

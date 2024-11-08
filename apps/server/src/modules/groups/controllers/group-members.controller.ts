@@ -1,7 +1,6 @@
-import type { CreateGroupMemberDto } from '@fair-pact/contracts/groups/dtos/create-group-member.dto'
-import type { DeleteGroupMemberDto } from '@fair-pact/contracts/groups/dtos/delete-group-member.dto'
+import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { type HttpResponse, httpStatusCode } from '@/shared/base/http-response'
+import { httpStatusCode } from '@/shared/base/http-status-code'
 
 import type { CreateGroupMemberUseCase } from '../use-cases/create-group-member.use-case'
 import type { DeleteGroupMemberUseCase } from '../use-cases/delete-group-member.use-case'
@@ -12,13 +11,23 @@ export class GroupMembersController {
     private readonly deleteGroupMemberUseCase: DeleteGroupMemberUseCase
   ) {}
 
-  async createGroupMember(data: CreateGroupMemberDto): Promise<HttpResponse<void>> {
-    await this.createGroupMemberUseCase.execute(data)
-    return { statusCode: httpStatusCode.CREATED }
+  async createGroupMember(
+    request: FastifyRequest<{ Headers: { 'user-id': string }; Params: { groupId: string } }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const userId = request.headers['user-id']
+    const { groupId } = request.params
+    await this.createGroupMemberUseCase.execute({ groupId, userId })
+    reply.status(httpStatusCode.CREATED).send()
   }
 
-  async deleteGroupMember(data: DeleteGroupMemberDto): Promise<HttpResponse<void>> {
-    await this.deleteGroupMemberUseCase.execute(data)
-    return { statusCode: httpStatusCode.NO_CONTENT }
+  async deleteGroupMember(
+    request: FastifyRequest<{ Headers: { 'user-id': string }; Params: { groupId: string } }>,
+    reply: FastifyReply
+  ): Promise<void> {
+    const userId = request.headers['user-id']
+    const { groupId } = request.params
+    await this.deleteGroupMemberUseCase.execute({ groupId, userId })
+    reply.status(httpStatusCode.NO_CONTENT).send()
   }
 }
