@@ -60,6 +60,20 @@ export class GroupsRepository implements Repository<GroupModel> {
     })
   }
 
+  async addGroupMember(groupId: string, userId: string): Promise<void> {
+    await this.drizzleService.insert(groupMembers).values({
+      userId,
+      groupId,
+      createdAt: new Date()
+    })
+  }
+
+  async removeGroupMember(groupId: string, userId: string): Promise<void> {
+    await this.drizzleService
+      .delete(groupMembers)
+      .where(and(eq(groupMembers.groupId, groupId), eq(groupMembers.userId, userId)))
+  }
+
   async update(model: GroupModel): Promise<void> {
     await this.drizzleService
       .update(groups)

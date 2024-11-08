@@ -9,10 +9,12 @@ import { GetGroupTransactionsByGroupIdQuery } from './queries/get-group-transact
 import { GetGroupsQuery } from './queries/get-groups.query'
 import { GroupTransactionsRepository } from './repositories/group-transactions.repository'
 import { GroupsRepository } from './repositories/groups.repository'
+import { AddGroupMemberUseCase } from './use-cases/add-group-member.use-case'
 import { CreateGroupTransactionUseCase } from './use-cases/create-group-transaction.use-case'
 import { CreateGroupUseCase } from './use-cases/create-group.use-case'
 import { DeleteGroupTransactionUseCase } from './use-cases/delete-group-transaction.use-case'
 import { DeleteGroupUseCase } from './use-cases/delete-group.use-case'
+import { RemoveGroupMemberUseCase } from './use-cases/remove-group-member.use-case'
 import { UpdateGroupTransactionUseCase } from './use-cases/update-group-transaction.use-case'
 import { UpdateGroupUseCase } from './use-cases/update-group.use-case'
 
@@ -30,6 +32,8 @@ export function groupsFactory(): Output {
   const getGroupByIdQuery = new GetGroupByIdQuery(groupsDao)
   const getGroupsQuery = new GetGroupsQuery(groupsDao)
   const createGroupUseCase = new CreateGroupUseCase(groupsRepository)
+  const addGroupMemberUseCase = new AddGroupMemberUseCase(groupsRepository)
+  const removeGroupMemberUseCase = new RemoveGroupMemberUseCase(groupsRepository)
   const updateGroupUseCase = new UpdateGroupUseCase(groupsRepository)
   const deleteGroupUseCase = new DeleteGroupUseCase(groupsRepository)
 
@@ -53,6 +57,8 @@ export function groupsFactory(): Output {
     getGroupByIdQuery,
     getGroupsQuery,
     createGroupUseCase,
+    addGroupMemberUseCase,
+    removeGroupMemberUseCase,
     updateGroupUseCase,
     deleteGroupUseCase
   )

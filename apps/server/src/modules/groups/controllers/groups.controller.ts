@@ -6,8 +6,10 @@ import { httpStatusCode } from '@/shared/base/http-status-code'
 
 import type { GetGroupByIdQuery } from '../queries/get-group-by-id.query'
 import type { GetGroupsQuery } from '../queries/get-groups.query'
+import type { AddGroupMemberUseCase } from '../use-cases/add-group-member.use-case'
 import type { CreateGroupUseCase } from '../use-cases/create-group.use-case'
 import type { DeleteGroupUseCase } from '../use-cases/delete-group.use-case'
+import type { RemoveGroupMemberUseCase } from '../use-cases/remove-group-member.use-case'
 import type { UpdateGroupUseCase } from '../use-cases/update-group.use-case'
 
 export class GroupsController {
@@ -15,6 +17,8 @@ export class GroupsController {
     private readonly getGroupByIdQuery: GetGroupByIdQuery,
     private readonly getGroupsQuery: GetGroupsQuery,
     private readonly createGroupUseCase: CreateGroupUseCase,
+    private readonly addGroupMemberUseCase: AddGroupMemberUseCase,
+    private readonly removeGroupMemberUseCase: RemoveGroupMemberUseCase,
     private readonly updateGroupUseCase: UpdateGroupUseCase,
     private readonly deleteGroupUseCase: DeleteGroupUseCase
   ) {}
@@ -60,8 +64,7 @@ export class GroupsController {
   ): Promise<void> {
     const userId = request.headers['user-id']
     const groupId = request.params.groupId
-    // TODO: Implement
-    console.log('Join group', userId, groupId)
+    await this.addGroupMemberUseCase.execute({ id: groupId, userId })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
@@ -69,24 +72,26 @@ export class GroupsController {
     request: FastifyRequest<{
       Headers: { 'user-id': string }
       Params: { groupId: string }
-    }>
+    }>,
+    reply: FastifyReply
   ): Promise<void> {
     const userId = request.headers['user-id']
     const groupId = request.params.groupId
-    // TODO: Implement
-    console.log('Leave group', userId, groupId)
+    await this.removeGroupMemberUseCase.execute({ id: groupId, userId })
+    reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
   async removeGroupMember(
     request: FastifyRequest<{
       Params: { groupId: string }
       Body: { userId: string }
-    }>
+    }>,
+    reply: FastifyReply
   ): Promise<void> {
     const { userId } = request.body
     const groupId = request.params.groupId
-    // TODO: Implement
-    console.log('Remove group member', userId, groupId)
+    await this.removeGroupMemberUseCase.execute({ id: groupId, userId })
+    reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
   async updateGroup(
