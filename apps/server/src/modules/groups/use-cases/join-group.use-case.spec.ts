@@ -23,15 +23,14 @@ describe('JoinGroupUseCase', () => {
     expect(result?.members.map(m => m.value)).toContain(newMemberId)
   })
 
-  // biome-ignore lint/suspicious/noSkippedTests: method not implemented
-  it.skip('should throw an error if invalid data is provided', async () => {
+  it('should throw an error if invalid data is provided', async () => {
     await expect(joinGroupUseCase.execute({} as never)).rejects.toThrow()
   })
 
   it('should throw an error if group does not exist', async () => {
     const newMemberId = IdValueObject.create().value
     await expect(
-      joinGroupUseCase.execute({ id: 'invalid-id', userId: newMemberId })
+      joinGroupUseCase.execute({ id: IdValueObject.create().value, userId: newMemberId })
     ).rejects.toThrow('Group not found')
   })
 

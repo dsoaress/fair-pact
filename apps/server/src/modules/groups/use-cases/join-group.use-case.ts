@@ -1,20 +1,20 @@
+import type { JoinGroupDto } from '@fair-pact/contracts/groups/dtos/join-group.dto'
+import { joinGroupValidator } from '@fair-pact/contracts/groups/validators/join-group.validator'
+
 import type { UseCase } from '@/shared/base/use-case'
+import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { ConflictException } from '@/shared/exceptions/conflict.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
+
 import type { GroupsRepository } from '../repositories/groups.repository'
 
-// TODO: create dto
-type Input = {
-  id: string
-  userId: string
-}
-
-export class JoinGroupUseCase implements UseCase<Input, Promise<void>> {
+export class JoinGroupUseCase implements UseCase<JoinGroupDto, Promise<void>> {
   constructor(private readonly groupsRepository: GroupsRepository) {}
 
-  async execute(data: Input): Promise<void> {
-    // TODO: validate data
-    const { id, userId } = data
+  async execute(data: JoinGroupDto): Promise<void> {
+    const parsedData = joinGroupValidator.safeParse(data)
+    if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
+    const { id, userId } = parsedData.data
     const group = await this.groupsRepository.findById(id)
     if (!group) throw new NotFoundException('Group')
     const member = group.members.find(member => member.value === userId)

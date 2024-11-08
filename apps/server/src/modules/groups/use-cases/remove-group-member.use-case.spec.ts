@@ -23,15 +23,14 @@ describe('RemoveGroupMemberUseCase', () => {
     expect(result?.members.map(m => m.value)).not.toContain(memberId.value)
   })
 
-  // biome-ignore lint/suspicious/noSkippedTests: method not implemented
-  it.skip('should throw an error if invalid data is provided', async () => {
+  it('should throw an error if invalid data is provided', async () => {
     await expect(removeGroupMemberUseCase.execute({} as never)).rejects.toThrow()
   })
 
   it('should throw an error if group does not exist', async () => {
     const memberId = IdValueObject.create()
     await expect(
-      removeGroupMemberUseCase.execute({ id: 'invalid-id', userId: memberId.value })
+      removeGroupMemberUseCase.execute({ id: IdValueObject.create().value, userId: memberId.value })
     ).rejects.toThrow('Group not found')
   })
 
