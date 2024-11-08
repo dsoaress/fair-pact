@@ -1,6 +1,8 @@
-import { useGetGroups } from '@/services/get-groups'
-import { Link, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import type { JSX } from 'react'
+
+import { GroupItem } from '@/components/group-item'
+import { useGetGroups } from '@/services/get-groups'
 
 export const Route = createFileRoute('/app/')({
   component: Index
@@ -12,19 +14,10 @@ function Index(): JSX.Element {
   if (!data) return <div>Loading...</div>
 
   return (
-    <div className="p-2">
-      <h3>Welcome Home!</h3>
-      {data.map(group => (
-        <div key={group.id}>
-          <Link to="/app/$group-id" params={{ 'group-id': group.id }}>
-            {group.name}
-          </Link>
-          <p>
-            {Intl.NumberFormat('pt-BR', { style: 'currency', currency: group.currency }).format(
-              group.balance / 100
-            )}
-          </p>
-        </div>
+    <div className="p-4 flex flex-col gap-4 max-w-screen-lg mx-auto">
+      <button type="button">Criar novo grupo</button>
+      {data.map(g => (
+        <GroupItem key={g.id} {...g} />
       ))}
     </div>
   )

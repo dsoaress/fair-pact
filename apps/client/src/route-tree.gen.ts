@@ -12,7 +12,6 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as AppIndexImport } from './routes/app/index'
-import { Route as AppAboutImport } from './routes/app/about'
 import { Route as AppGroupIdIndexImport } from './routes/app/$group-id/index'
 import { Route as AppGroupIdTransactionIdImport } from './routes/app/$group-id/$transaction-id'
 
@@ -21,12 +20,6 @@ import { Route as AppGroupIdTransactionIdImport } from './routes/app/$group-id/$
 const AppIndexRoute = AppIndexImport.update({
   id: '/app/',
   path: '/app/',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AppAboutRoute = AppAboutImport.update({
-  id: '/app/about',
-  path: '/app/about',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -46,13 +39,6 @@ const AppGroupIdTransactionIdRoute = AppGroupIdTransactionIdImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/app/about': {
-      id: '/app/about'
-      path: '/app/about'
-      fullPath: '/app/about'
-      preLoaderRoute: typeof AppAboutImport
-      parentRoute: typeof rootRoute
-    }
     '/app/': {
       id: '/app/'
       path: '/app'
@@ -80,14 +66,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  '/app/about': typeof AppAboutRoute
   '/app': typeof AppIndexRoute
   '/app/$group-id/$transaction-id': typeof AppGroupIdTransactionIdRoute
   '/app/$group-id': typeof AppGroupIdIndexRoute
 }
 
 export interface FileRoutesByTo {
-  '/app/about': typeof AppAboutRoute
   '/app': typeof AppIndexRoute
   '/app/$group-id/$transaction-id': typeof AppGroupIdTransactionIdRoute
   '/app/$group-id': typeof AppGroupIdIndexRoute
@@ -95,7 +79,6 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/app/about': typeof AppAboutRoute
   '/app/': typeof AppIndexRoute
   '/app/$group-id/$transaction-id': typeof AppGroupIdTransactionIdRoute
   '/app/$group-id/': typeof AppGroupIdIndexRoute
@@ -103,20 +86,11 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/app/about'
-    | '/app'
-    | '/app/$group-id/$transaction-id'
-    | '/app/$group-id'
+  fullPaths: '/app' | '/app/$group-id/$transaction-id' | '/app/$group-id'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/app/about'
-    | '/app'
-    | '/app/$group-id/$transaction-id'
-    | '/app/$group-id'
+  to: '/app' | '/app/$group-id/$transaction-id' | '/app/$group-id'
   id:
     | '__root__'
-    | '/app/about'
     | '/app/'
     | '/app/$group-id/$transaction-id'
     | '/app/$group-id/'
@@ -124,14 +98,12 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
-  AppAboutRoute: typeof AppAboutRoute
   AppIndexRoute: typeof AppIndexRoute
   AppGroupIdTransactionIdRoute: typeof AppGroupIdTransactionIdRoute
   AppGroupIdIndexRoute: typeof AppGroupIdIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  AppAboutRoute: AppAboutRoute,
   AppIndexRoute: AppIndexRoute,
   AppGroupIdTransactionIdRoute: AppGroupIdTransactionIdRoute,
   AppGroupIdIndexRoute: AppGroupIdIndexRoute,
@@ -147,14 +119,10 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/app/about",
         "/app/",
         "/app/$group-id/$transaction-id",
         "/app/$group-id/"
       ]
-    },
-    "/app/about": {
-      "filePath": "app/about.tsx"
     },
     "/app/": {
       "filePath": "app/index.tsx"
