@@ -18,11 +18,8 @@ describe('BadRequestException', () => {
   it('should be able to receive an ZodError', () => {
     const schema = z.object({ id: z.string().uuid() })
     const parsedData = schema.safeParse({ id: 'invalid' })
-    if (!parsedData.success) {
-      const exception = new BadRequestException(parsedData.error)
-      expect(exception.message).toBeDefined()
-    } else {
-      throw new Error('Test failed')
-    }
+    let exception: BadRequestException | undefined = undefined
+    if (!parsedData.success) exception = new BadRequestException(parsedData.error)
+    expect(exception?.message).toBeDefined()
   })
 })

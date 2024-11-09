@@ -12,7 +12,7 @@ export class GetGroupsQuery implements Query<GetGroupsInputDto, Promise<GetGroup
 
   async execute(data: GetGroupsInputDto): Promise<GetGroupsOutputDto> {
     const parsedData = getGroupsInputValidator.safeParse(data)
-    if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
+    if (!parsedData.success) throw new BadRequestException(parsedData.error)
     return this.groupsDao.getGroups(parsedData.data)
   }
 }

@@ -62,28 +62,30 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
   }
 
   async update(model: GroupTransactionModel): Promise<void> {
-    await this.drizzleService
-      .delete(groupTransactionParticipants)
-      .where(eq(groupTransactionParticipants.groupTransactionId, model.id.value))
-    await this.drizzleService
-      .update(groupTransactions)
-      .set({
-        name: model.name,
-        payerUserId: model.payerUserId.value,
-        date: model.date,
-        updatedAt: model.updatedAt,
-        updatedBy: model.updatedBy?.value ?? null
-      })
-      .where(eq(groupTransactions.id, model.id.value))
-    await this.drizzleService.insert(groupTransactionParticipants).values(
-      model.participants.map(participant => ({
-        groupTransactionId: model.id.value,
-        userId: participant.userId.value,
-        amount: participant.amount,
-        payerUserId: model.payerUserId.value,
-        groupId: model.groupId.value
-      }))
-    )
+    await this.drizzleService.transaction(async tx => {
+      await tx
+        .update(groupTransactions)
+        .set({
+          name: model.name,
+          payerUserId: model.payerUserId.value,
+          date: model.date,
+          updatedAt: model.updatedAt,
+          updatedBy: model.updatedBy?.value
+        })
+        .where(eq(groupTransactions.id, model.id.value))
+      await tx
+        .delete(groupTransactionParticipants)
+        .where(eq(groupTransactionParticipants.groupTransactionId, model.id.value))
+      await tx.insert(groupTransactionParticipants).values(
+        model.participants.map(participant => ({
+          groupTransactionId: model.id.value,
+          userId: participant.userId.value,
+          amount: participant.amount,
+          payerUserId: model.payerUserId.value,
+          groupId: model.groupId.value
+        }))
+      )
+    })
   }
 
   async delete(id: string): Promise<void> {

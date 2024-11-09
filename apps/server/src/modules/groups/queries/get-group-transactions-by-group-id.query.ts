@@ -17,7 +17,7 @@ export class GetGroupTransactionsByGroupIdQuery
     data: GetGroupTransactionsByGroupIdInputDto
   ): Promise<GetGroupTransactionsByGroupIdOutputDto> {
     const parsedData = getGroupTransactionsByGroupIdInputValidator.safeParse(data)
-    if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
+    if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const groupTransaction = await this.groupTransactionsDao.getGroupTransactionsByGroupId(
       parsedData.data
     )

@@ -1,5 +1,5 @@
 import { IdValueObject } from '@fair-pact/contracts/src/shared/value-objects/id.value-object'
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 
 import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
 import { users } from '@/infra/database/drizzle/schemas'
@@ -12,9 +12,13 @@ describe('GroupsRepository', () => {
   let groupsRepository: GroupsRepository
   let drizzleService: DrizzleService
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     drizzleService = await createDatabaseContainer()
     groupsRepository = new GroupsRepository(drizzleService)
+  })
+
+  afterEach(async () => {
+    await drizzleService.delete(users)
   })
 
   it('should find a group by id', async () => {

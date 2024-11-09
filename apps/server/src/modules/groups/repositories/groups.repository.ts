@@ -35,7 +35,7 @@ export class GroupsRepository implements Repository<GroupModel> {
 
   async create(model: GroupModel): Promise<void> {
     await this.drizzleService.transaction(async tx => {
-      await this.drizzleService.insert(groups).values({
+      await tx.insert(groups).values({
         id: model.id.value,
         name: model.name,
         currency: model.currency,
