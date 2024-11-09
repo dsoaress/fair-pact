@@ -1,5 +1,10 @@
 import { IdValueObject } from '@fair-pact/contracts/src/shared/value-objects/id.value-object'
 import { beforeEach, describe, expect, it } from 'vitest'
+
+import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
+import { ConflictException } from '@/shared/exceptions/conflict.exception'
+import { NotFoundException } from '@/shared/exceptions/not-found.exception'
+
 import type { GroupsRepository } from '../repositories/groups.repository'
 import { groupFake } from '../utils/tests/fakes/group.fake'
 import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
@@ -24,14 +29,14 @@ describe('JoinGroupCommand', () => {
   })
 
   it('should throw an error if invalid data is provided', async () => {
-    await expect(joinGroupCommand.execute({} as never)).rejects.toThrow()
+    await expect(joinGroupCommand.execute({} as never)).rejects.toBeInstanceOf(BadRequestException)
   })
 
   it('should throw an error if group does not exist', async () => {
     const newMemberId = IdValueObject.create().value
     await expect(
       joinGroupCommand.execute({ id: IdValueObject.create().value, userId: newMemberId })
-    ).rejects.toThrow('Group not found')
+    ).rejects.toBeInstanceOf(NotFoundException)
   })
 
   it('should throw an error if user is already a member', async () => {
@@ -40,6 +45,6 @@ describe('JoinGroupCommand', () => {
     await groupsRepository.create(group)
     await expect(
       joinGroupCommand.execute({ id: group.id.value, userId: memberId.value })
-    ).rejects.toThrow('Member already exists')
+    ).rejects.toBeInstanceOf(ConflictException)
   })
 })

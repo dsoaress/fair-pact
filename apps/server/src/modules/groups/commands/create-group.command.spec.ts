@@ -1,4 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest'
+
+import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
+
 import type { GroupsRepository } from '../repositories/groups.repository'
 import { groupFake } from '../utils/tests/fakes/group.fake'
 import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
@@ -26,6 +29,8 @@ describe('CreateGroupCommand', () => {
   })
 
   it('should throw an error if invalid data is provided', async () => {
-    await expect(createGroupCommand.execute({} as never)).rejects.toThrow()
+    await expect(createGroupCommand.execute({} as never)).rejects.toBeInstanceOf(
+      BadRequestException
+    )
   })
 })

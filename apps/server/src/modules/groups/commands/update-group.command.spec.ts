@@ -1,6 +1,9 @@
 import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
 import { beforeEach, describe, expect, it } from 'vitest'
 
+import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
+import { NotFoundException } from '@/shared/exceptions/not-found.exception'
+
 import type { GroupsRepository } from '../repositories/groups.repository'
 import { groupFake } from '../utils/tests/fakes/group.fake'
 import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
@@ -44,7 +47,7 @@ describe('UpdateGroupCommand', () => {
         name: 'a',
         updatedBy: IdValueObject.create().value
       })
-    ).rejects.toThrow()
+    ).rejects.toBeInstanceOf(BadRequestException)
   })
 
   it('should throw if group does not exist', async () => {
@@ -54,6 +57,6 @@ describe('UpdateGroupCommand', () => {
         name: 'New name',
         updatedBy: IdValueObject.create().value
       })
-    ).rejects.toThrow()
+    ).rejects.toBeInstanceOf(NotFoundException)
   })
 })
