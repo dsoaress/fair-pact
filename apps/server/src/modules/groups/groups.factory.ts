@@ -1,4 +1,12 @@
 import { drizzleService } from '@/infra/database/drizzle/drizzle.service'
+import { CreateGroupTransactionCommand } from './commands/create-group-transaction.command'
+import { CreateGroupCommand } from './commands/create-group.command'
+import { DeleteGroupTransactionCommand } from './commands/delete-group-transaction.command'
+import { DeleteGroupCommand } from './commands/delete-group.command'
+import { JoinGroupCommand } from './commands/join-group.command'
+import { RemoveGroupMemberCommand } from './commands/remove-group-member.command'
+import { UpdateGroupTransactionCommand } from './commands/update-group-transaction.command'
+import { UpdateGroupCommand } from './commands/update-group.command'
 import { GroupTransactionsController } from './controllers/group-transactions.controller'
 import { GroupsController } from './controllers/groups.controller'
 import { GroupTransactionsDao } from './daos/group-transactions.dao'
@@ -9,14 +17,6 @@ import { GetGroupTransactionsByGroupIdQuery } from './queries/get-group-transact
 import { GetGroupsQuery } from './queries/get-groups.query'
 import { GroupTransactionsRepository } from './repositories/group-transactions.repository'
 import { GroupsRepository } from './repositories/groups.repository'
-import { CreateGroupTransactionUseCase } from './use-cases/create-group-transaction.use-case'
-import { CreateGroupUseCase } from './use-cases/create-group.use-case'
-import { DeleteGroupTransactionUseCase } from './use-cases/delete-group-transaction.use-case'
-import { DeleteGroupUseCase } from './use-cases/delete-group.use-case'
-import { JoinGroupUseCase } from './use-cases/join-group.use-case'
-import { RemoveGroupMemberUseCase } from './use-cases/remove-group-member.use-case'
-import { UpdateGroupTransactionUseCase } from './use-cases/update-group-transaction.use-case'
-import { UpdateGroupUseCase } from './use-cases/update-group.use-case'
 
 type Output = {
   groupsController: GroupsController
@@ -31,44 +31,44 @@ export function groupsFactory(): Output {
 
   const getGroupByIdQuery = new GetGroupByIdQuery(groupsDao)
   const getGroupsQuery = new GetGroupsQuery(groupsDao)
-  const createGroupUseCase = new CreateGroupUseCase(groupsRepository)
-  const addGroupMemberUseCase = new JoinGroupUseCase(groupsRepository)
-  const removeGroupMemberUseCase = new RemoveGroupMemberUseCase(groupsRepository)
-  const updateGroupUseCase = new UpdateGroupUseCase(groupsRepository)
-  const deleteGroupUseCase = new DeleteGroupUseCase(groupsRepository)
+  const createGroupCommand = new CreateGroupCommand(groupsRepository)
+  const addGroupMemberCommand = new JoinGroupCommand(groupsRepository)
+  const removeGroupMemberCommand = new RemoveGroupMemberCommand(groupsRepository)
+  const updateGroupCommand = new UpdateGroupCommand(groupsRepository)
+  const deleteGroupCommand = new DeleteGroupCommand(groupsRepository)
 
   const getGroupTransactionByIdQuery = new GetGroupTransactionByIdQuery(groupTransactionsDao)
   const getGroupTransactionsByGroupIdQuery = new GetGroupTransactionsByGroupIdQuery(
     groupTransactionsDao
   )
-  const createGroupTransactionUseCase = new CreateGroupTransactionUseCase(
+  const createGroupTransactionCommand = new CreateGroupTransactionCommand(
     groupsRepository,
     groupTransactionsRepository
   )
-  const updateGroupTransactionUseCase = new UpdateGroupTransactionUseCase(
+  const updateGroupTransactionCommand = new UpdateGroupTransactionCommand(
     groupsRepository,
     groupTransactionsRepository
   )
-  const deleteGroupTransactionUseCase = new DeleteGroupTransactionUseCase(
+  const deleteGroupTransactionCommand = new DeleteGroupTransactionCommand(
     groupTransactionsRepository
   )
 
   const groupsController = new GroupsController(
     getGroupByIdQuery,
     getGroupsQuery,
-    createGroupUseCase,
-    addGroupMemberUseCase,
-    removeGroupMemberUseCase,
-    updateGroupUseCase,
-    deleteGroupUseCase
+    createGroupCommand,
+    addGroupMemberCommand,
+    removeGroupMemberCommand,
+    updateGroupCommand,
+    deleteGroupCommand
   )
 
   const groupTransactionsController = new GroupTransactionsController(
     getGroupTransactionByIdQuery,
     getGroupTransactionsByGroupIdQuery,
-    createGroupTransactionUseCase,
-    updateGroupTransactionUseCase,
-    deleteGroupTransactionUseCase
+    createGroupTransactionCommand,
+    updateGroupTransactionCommand,
+    deleteGroupTransactionCommand
   )
 
   return {

@@ -1,13 +1,13 @@
 import type { DeleteGroupDto } from '@fair-pact/contracts/groups/dtos/delete-group.dto'
 import { deleteGroupValidator } from '@fair-pact/contracts/groups/validators/delete-group.validator'
 
-import type { UseCase } from '@/shared/base/use-case'
+import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
 import type { GroupsRepository } from '../repositories/groups.repository'
 
-export class DeleteGroupUseCase implements UseCase<DeleteGroupDto, Promise<void>> {
+export class DeleteGroupCommand implements Command<DeleteGroupDto, Promise<void>> {
   constructor(private readonly groupsRepository: GroupsRepository) {}
 
   async execute(data: DeleteGroupDto): Promise<void> {

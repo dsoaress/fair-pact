@@ -3,34 +3,34 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import type { GroupsRepository } from '../repositories/groups.repository'
 import { groupFake } from '../utils/tests/fakes/group.fake'
 import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
-import { JoinGroupUseCase } from './join-group.use-case'
+import { JoinGroupCommand } from './join-group.command'
 
-describe('JoinGroupUseCase', () => {
-  let joinGroupUseCase: JoinGroupUseCase
+describe('JoinGroupCommand', () => {
+  let joinGroupCommand: JoinGroupCommand
   let groupsRepository: GroupsRepository
 
   beforeEach(() => {
     groupsRepository = new InMemoryGroupsRepository()
-    joinGroupUseCase = new JoinGroupUseCase(groupsRepository)
+    joinGroupCommand = new JoinGroupCommand(groupsRepository)
   })
 
   it('should join a group', async () => {
     const newMemberId = IdValueObject.create().value
     const group = groupFake()
     await groupsRepository.create(group)
-    await joinGroupUseCase.execute({ id: group.id.value, userId: newMemberId })
+    await joinGroupCommand.execute({ id: group.id.value, userId: newMemberId })
     const result = await groupsRepository.findById(group.id.value)
     expect(result?.members.map(m => m.value)).toContain(newMemberId)
   })
 
   it('should throw an error if invalid data is provided', async () => {
-    await expect(joinGroupUseCase.execute({} as never)).rejects.toThrow()
+    await expect(joinGroupCommand.execute({} as never)).rejects.toThrow()
   })
 
   it('should throw an error if group does not exist', async () => {
     const newMemberId = IdValueObject.create().value
     await expect(
-      joinGroupUseCase.execute({ id: IdValueObject.create().value, userId: newMemberId })
+      joinGroupCommand.execute({ id: IdValueObject.create().value, userId: newMemberId })
     ).rejects.toThrow('Group not found')
   })
 
@@ -39,7 +39,7 @@ describe('JoinGroupUseCase', () => {
     const group = groupFake({ members: [memberId] })
     await groupsRepository.create(group)
     await expect(
-      joinGroupUseCase.execute({ id: group.id.value, userId: memberId.value })
+      joinGroupCommand.execute({ id: group.id.value, userId: memberId.value })
     ).rejects.toThrow('Member already exists')
   })
 })

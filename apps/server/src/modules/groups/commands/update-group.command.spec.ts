@@ -4,20 +4,20 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import type { GroupsRepository } from '../repositories/groups.repository'
 import { groupFake } from '../utils/tests/fakes/group.fake'
 import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
-import { UpdateGroupUseCase } from './update-group.use-case'
+import { UpdateGroupCommand } from './update-group.command'
 
-describe('UpdateGroupUseCase', () => {
+describe('UpdateGroupCommand', () => {
   const id = IdValueObject.create()
-  let updateGroupUseCase: UpdateGroupUseCase
+  let updateGroupCommand: UpdateGroupCommand
   let groupsRepository: GroupsRepository
 
   beforeEach(() => {
     groupsRepository = new InMemoryGroupsRepository([groupFake({ id })])
-    updateGroupUseCase = new UpdateGroupUseCase(groupsRepository)
+    updateGroupCommand = new UpdateGroupCommand(groupsRepository)
   })
 
   it('should update a group', async () => {
-    await updateGroupUseCase.execute({
+    await updateGroupCommand.execute({
       id: id.value,
       name: 'New name',
       currency: 'EUR',
@@ -29,7 +29,7 @@ describe('UpdateGroupUseCase', () => {
   })
 
   it('should do nothing if data is empty', async () => {
-    await updateGroupUseCase.execute({
+    await updateGroupCommand.execute({
       id: id.value,
       updatedBy: IdValueObject.create().value
     })
@@ -39,7 +39,7 @@ describe('UpdateGroupUseCase', () => {
 
   it('should throw if data is invalid', async () => {
     await expect(
-      updateGroupUseCase.execute({
+      updateGroupCommand.execute({
         id: id.value,
         name: 'a',
         updatedBy: IdValueObject.create().value
@@ -49,7 +49,7 @@ describe('UpdateGroupUseCase', () => {
 
   it('should throw if group does not exist', async () => {
     await expect(
-      updateGroupUseCase.execute({
+      updateGroupCommand.execute({
         id: IdValueObject.create().value,
         name: 'New name',
         updatedBy: IdValueObject.create().value

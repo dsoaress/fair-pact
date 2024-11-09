@@ -4,31 +4,31 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import type { GroupsRepository } from '../repositories/groups.repository'
 import { groupFake } from '../utils/tests/fakes/group.fake'
 import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
-import { DeleteGroupUseCase } from './delete-group.use-case'
+import { DeleteGroupCommand } from './delete-group.command'
 
-describe('DeleteGroupUseCase', () => {
+describe('DeleteGroupCommand', () => {
   const id = IdValueObject.create()
   const createdBy = IdValueObject.create()
-  let deleteGroupUseCase: DeleteGroupUseCase
+  let deleteGroupCommand: DeleteGroupCommand
   let groupsRepository: GroupsRepository
 
   beforeEach(() => {
     groupsRepository = new InMemoryGroupsRepository([groupFake({ id, createdBy })])
-    deleteGroupUseCase = new DeleteGroupUseCase(groupsRepository)
+    deleteGroupCommand = new DeleteGroupCommand(groupsRepository)
   })
 
   it('should delete a group', async () => {
-    await deleteGroupUseCase.execute({ id: id.value })
+    await deleteGroupCommand.execute({ id: id.value })
     const deletedGroup = await groupsRepository.findById(id.value)
     expect(deletedGroup).toBeNull()
   })
 
   it('should throw an error if invalid data is provided', async () => {
-    await expect(deleteGroupUseCase.execute({} as never)).rejects.toThrow()
+    await expect(deleteGroupCommand.execute({} as never)).rejects.toThrow()
   })
 
   it('should throw an error if group does not exist', async () => {
-    await expect(deleteGroupUseCase.execute({ id: IdValueObject.create().value })).rejects.toThrow(
+    await expect(deleteGroupCommand.execute({ id: IdValueObject.create().value })).rejects.toThrow(
       'Group not found'
     )
   })

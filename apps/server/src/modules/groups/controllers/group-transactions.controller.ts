@@ -4,19 +4,19 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 
 import { httpStatusCode } from '@/shared/base/http-status-code'
 
+import type { CreateGroupTransactionCommand } from '../commands/create-group-transaction.command'
+import type { DeleteGroupTransactionCommand } from '../commands/delete-group-transaction.command'
+import type { UpdateGroupTransactionCommand } from '../commands/update-group-transaction.command'
 import type { GetGroupTransactionByIdQuery } from '../queries/get-group-transaction-by-id.query'
 import type { GetGroupTransactionsByGroupIdQuery } from '../queries/get-group-transactions-by-group-id.query'
-import type { CreateGroupTransactionUseCase } from '../use-cases/create-group-transaction.use-case'
-import type { DeleteGroupTransactionUseCase } from '../use-cases/delete-group-transaction.use-case'
-import type { UpdateGroupTransactionUseCase } from '../use-cases/update-group-transaction.use-case'
 
 export class GroupTransactionsController {
   constructor(
     private readonly GetGroupTransactionByIdQuery: GetGroupTransactionByIdQuery,
     private readonly GetGroupTransactionsByGroupIdQuery: GetGroupTransactionsByGroupIdQuery,
-    private readonly createGroupTransactionUseCase: CreateGroupTransactionUseCase,
-    private readonly updateGroupTransactionUseCase: UpdateGroupTransactionUseCase,
-    private readonly deleteGroupTransactionUseCase: DeleteGroupTransactionUseCase
+    private readonly createGroupTransactionCommand: CreateGroupTransactionCommand,
+    private readonly updateGroupTransactionCommand: UpdateGroupTransactionCommand,
+    private readonly deleteGroupTransactionCommand: DeleteGroupTransactionCommand
   ) {}
 
   async getGroupTransactionById(
@@ -59,7 +59,7 @@ export class GroupTransactionsController {
     const userId = request.headers['user-id']
     const { groupId } = request.params
     const data = request.body
-    await this.createGroupTransactionUseCase.execute({
+    await this.createGroupTransactionCommand.execute({
       ...data,
       groupId,
       createdBy: userId
@@ -76,7 +76,7 @@ export class GroupTransactionsController {
   ): Promise<void> {
     const { groupTransactionId: id, groupId } = request.params
     const data = request.body
-    await this.updateGroupTransactionUseCase.execute({ ...data, id, groupId })
+    await this.updateGroupTransactionCommand.execute({ ...data, id, groupId })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
@@ -85,7 +85,7 @@ export class GroupTransactionsController {
     reply: FastifyReply
   ): Promise<void> {
     const id = request.params.groupTransactionId
-    await this.deleteGroupTransactionUseCase.execute({ id })
+    await this.deleteGroupTransactionCommand.execute({ id })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 }

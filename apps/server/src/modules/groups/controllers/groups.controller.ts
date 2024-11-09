@@ -4,23 +4,23 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 
 import { httpStatusCode } from '@/shared/base/http-status-code'
 
+import type { CreateGroupCommand } from '../commands/create-group.command'
+import type { DeleteGroupCommand } from '../commands/delete-group.command'
+import type { JoinGroupCommand } from '../commands/join-group.command'
+import type { RemoveGroupMemberCommand } from '../commands/remove-group-member.command'
+import type { UpdateGroupCommand } from '../commands/update-group.command'
 import type { GetGroupByIdQuery } from '../queries/get-group-by-id.query'
 import type { GetGroupsQuery } from '../queries/get-groups.query'
-import type { CreateGroupUseCase } from '../use-cases/create-group.use-case'
-import type { DeleteGroupUseCase } from '../use-cases/delete-group.use-case'
-import type { JoinGroupUseCase } from '../use-cases/join-group.use-case'
-import type { RemoveGroupMemberUseCase } from '../use-cases/remove-group-member.use-case'
-import type { UpdateGroupUseCase } from '../use-cases/update-group.use-case'
 
 export class GroupsController {
   constructor(
     private readonly getGroupByIdQuery: GetGroupByIdQuery,
     private readonly getGroupsQuery: GetGroupsQuery,
-    private readonly createGroupUseCase: CreateGroupUseCase,
-    private readonly joinGroupUseCase: JoinGroupUseCase,
-    private readonly removeGroupMemberUseCase: RemoveGroupMemberUseCase,
-    private readonly updateGroupUseCase: UpdateGroupUseCase,
-    private readonly deleteGroupUseCase: DeleteGroupUseCase
+    private readonly createGroupCommand: CreateGroupCommand,
+    private readonly joinGroupCommand: JoinGroupCommand,
+    private readonly removeGroupMemberCommand: RemoveGroupMemberCommand,
+    private readonly updateGroupCommand: UpdateGroupCommand,
+    private readonly deleteGroupCommand: DeleteGroupCommand
   ) {}
 
   async getGroupById(
@@ -51,7 +51,7 @@ export class GroupsController {
   ): Promise<void> {
     const createdBy = request.headers['user-id']
     const data = request.body
-    await this.createGroupUseCase.execute({ ...data, createdBy })
+    await this.createGroupCommand.execute({ ...data, createdBy })
     reply.status(httpStatusCode.CREATED).send()
   }
 
@@ -64,7 +64,7 @@ export class GroupsController {
   ): Promise<void> {
     const userId = request.headers['user-id']
     const groupId = request.params.groupId
-    await this.joinGroupUseCase.execute({ id: groupId, userId })
+    await this.joinGroupCommand.execute({ id: groupId, userId })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
@@ -77,7 +77,7 @@ export class GroupsController {
   ): Promise<void> {
     const userId = request.headers['user-id']
     const groupId = request.params.groupId
-    await this.removeGroupMemberUseCase.execute({ id: groupId, userId })
+    await this.removeGroupMemberCommand.execute({ id: groupId, userId })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
@@ -90,7 +90,7 @@ export class GroupsController {
   ): Promise<void> {
     const { userId } = request.body
     const groupId = request.params.groupId
-    await this.removeGroupMemberUseCase.execute({ id: groupId, userId })
+    await this.removeGroupMemberCommand.execute({ id: groupId, userId })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
@@ -105,7 +105,7 @@ export class GroupsController {
     const updatedBy = request.headers['user-id']
     const data = request.body
     const id = request.params.groupId
-    await this.updateGroupUseCase.execute({ ...data, id, updatedBy })
+    await this.updateGroupCommand.execute({ ...data, id, updatedBy })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
@@ -114,7 +114,7 @@ export class GroupsController {
     reply: FastifyReply
   ): Promise<void> {
     const id = request.params.groupId
-    await this.deleteGroupUseCase.execute({ id })
+    await this.deleteGroupCommand.execute({ id })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 }

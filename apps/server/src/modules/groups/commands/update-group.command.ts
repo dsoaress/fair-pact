@@ -2,13 +2,13 @@ import type { UpdateGroupDto } from '@fair-pact/contracts/groups/dtos/update-gro
 import { updateGroupValidator } from '@fair-pact/contracts/groups/validators/update-group.validator'
 import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
 
-import type { UseCase } from '@/shared/base/use-case'
+import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
 import type { GroupsRepository } from '../repositories/groups.repository'
 
-export class UpdateGroupUseCase implements UseCase<UpdateGroupDto, Promise<void>> {
+export class UpdateGroupCommand implements Command<UpdateGroupDto, Promise<void>> {
   constructor(private readonly groupsRepository: GroupsRepository) {}
 
   async execute(data: UpdateGroupDto): Promise<void> {

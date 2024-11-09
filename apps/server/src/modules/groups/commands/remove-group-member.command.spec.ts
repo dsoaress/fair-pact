@@ -3,34 +3,34 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import type { GroupsRepository } from '../repositories/groups.repository'
 import { groupFake } from '../utils/tests/fakes/group.fake'
 import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'
-import { RemoveGroupMemberUseCase } from './remove-group-member.use-case'
+import { RemoveGroupMemberCommand } from './remove-group-member.command'
 
-describe('RemoveGroupMemberUseCase', () => {
-  let removeGroupMemberUseCase: RemoveGroupMemberUseCase
+describe('RemoveGroupMemberCommand', () => {
+  let removeGroupMemberCommand: RemoveGroupMemberCommand
   let groupsRepository: GroupsRepository
 
   beforeEach(() => {
     groupsRepository = new InMemoryGroupsRepository()
-    removeGroupMemberUseCase = new RemoveGroupMemberUseCase(groupsRepository)
+    removeGroupMemberCommand = new RemoveGroupMemberCommand(groupsRepository)
   })
 
   it('should remove a group member', async () => {
     const memberId = IdValueObject.create()
     const group = groupFake({ members: [memberId] })
     await groupsRepository.create(group)
-    await removeGroupMemberUseCase.execute({ id: group.id.value, userId: memberId.value })
+    await removeGroupMemberCommand.execute({ id: group.id.value, userId: memberId.value })
     const result = await groupsRepository.findById(group.id.value)
     expect(result?.members.map(m => m.value)).not.toContain(memberId.value)
   })
 
   it('should throw an error if invalid data is provided', async () => {
-    await expect(removeGroupMemberUseCase.execute({} as never)).rejects.toThrow()
+    await expect(removeGroupMemberCommand.execute({} as never)).rejects.toThrow()
   })
 
   it('should throw an error if group does not exist', async () => {
     const memberId = IdValueObject.create()
     await expect(
-      removeGroupMemberUseCase.execute({ id: IdValueObject.create().value, userId: memberId.value })
+      removeGroupMemberCommand.execute({ id: IdValueObject.create().value, userId: memberId.value })
     ).rejects.toThrow('Group not found')
   })
 
@@ -39,7 +39,7 @@ describe('RemoveGroupMemberUseCase', () => {
     const group = groupFake()
     await groupsRepository.create(group)
     await expect(
-      removeGroupMemberUseCase.execute({ id: group.id.value, userId: memberId.value })
+      removeGroupMemberCommand.execute({ id: group.id.value, userId: memberId.value })
     ).rejects.toThrow('Member not found')
   })
 })

@@ -2,13 +2,13 @@ import type { CreateGroupDto } from '@fair-pact/contracts/groups/dtos/create-gro
 import { createGroupValidator } from '@fair-pact/contracts/groups/validators/create-group.validator'
 import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
 
-import type { UseCase } from '@/shared/base/use-case'
+import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 
 import type { GroupModel } from '../models/group.model'
 import type { GroupsRepository } from '../repositories/groups.repository'
 
-export class CreateGroupUseCase implements UseCase<CreateGroupDto, Promise<void>> {
+export class CreateGroupCommand implements Command<CreateGroupDto, Promise<void>> {
   constructor(private readonly groupsRepository: GroupsRepository) {}
 
   async execute(data: CreateGroupDto): Promise<void> {

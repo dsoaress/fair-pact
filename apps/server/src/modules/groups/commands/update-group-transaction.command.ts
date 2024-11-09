@@ -2,7 +2,7 @@ import type { UpdateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos
 import { updateGroupTransactionValidator } from '@fair-pact/contracts/groups/validators/update-group-transaction.validator'
 import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
 
-import type { UseCase } from '@/shared/base/use-case'
+import type { Command } from '@/shared/base/command'
 
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
@@ -10,8 +10,8 @@ import type { GroupTransactionModel } from '../models/group-transaction.model'
 import type { GroupTransactionsRepository } from '../repositories/group-transactions.repository'
 import type { GroupsRepository } from '../repositories/groups.repository'
 
-export class UpdateGroupTransactionUseCase
-  implements UseCase<UpdateGroupTransactionDto, Promise<void>>
+export class UpdateGroupTransactionCommand
+  implements Command<UpdateGroupTransactionDto, Promise<void>>
 {
   constructor(
     private readonly groupsRepository: GroupsRepository,

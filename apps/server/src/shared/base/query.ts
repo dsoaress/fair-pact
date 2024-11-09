@@ -1,3 +1,3 @@
-import type { UseCase } from './use-case'
+import type { Command } from './command'
 
-export interface Query<I, O> extends UseCase<I, O> {}
+export interface Query<I, O> extends Command<I, O> {}
