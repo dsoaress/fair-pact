@@ -4,6 +4,7 @@ import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.valu
 
 import type { UseCase } from '@/shared/base/use-case'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
+
 import type { GroupModel } from '../models/group.model'
 import type { GroupsRepository } from '../repositories/groups.repository'
 
@@ -12,7 +13,7 @@ export class CreateGroupUseCase implements UseCase<CreateGroupDto, Promise<void>
 
   async execute(data: CreateGroupDto): Promise<void> {
     const parsedData = createGroupValidator.safeParse(data)
-    if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
+    if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const group: GroupModel = {
       id: IdValueObject.create(),
       name: parsedData.data.name,

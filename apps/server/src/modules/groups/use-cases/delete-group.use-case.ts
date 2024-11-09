@@ -12,7 +12,7 @@ export class DeleteGroupUseCase implements UseCase<DeleteGroupDto, Promise<void>
 
   async execute(data: DeleteGroupDto): Promise<void> {
     const parsedData = deleteGroupValidator.safeParse(data)
-    if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
+    if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const { id } = parsedData.data
     const group = await this.groupsRepository.findById(id)
     if (!group) throw new NotFoundException('Group')

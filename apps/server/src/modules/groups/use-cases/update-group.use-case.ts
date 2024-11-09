@@ -13,7 +13,7 @@ export class UpdateGroupUseCase implements UseCase<UpdateGroupDto, Promise<void>
 
   async execute(data: UpdateGroupDto): Promise<void> {
     const parsedData = updateGroupValidator.safeParse(data)
-    if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
+    if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const group = await this.groupsRepository.findById(data.id)
     if (!group) throw new NotFoundException('Group')
     group.name = parsedData.data.name ?? group.name

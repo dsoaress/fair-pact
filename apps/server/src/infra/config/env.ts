@@ -7,6 +7,7 @@ const envSchema = z.object({
 })
 
 const parsedEnv = envSchema.safeParse(process.env)
-if (!parsedEnv.success) throw new Error(parsedEnv.error.format()._errors.join('\n'))
+if (!parsedEnv.success)
+  throw new Error(JSON.stringify(parsedEnv.error.flatten().fieldErrors, null, 2))
 
 export const env = parsedEnv.data

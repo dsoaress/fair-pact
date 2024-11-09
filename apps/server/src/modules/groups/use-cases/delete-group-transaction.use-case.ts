@@ -14,7 +14,7 @@ export class DeleteGroupTransactionUseCase
 
   async execute(data: DeleteGroupTransactionDto): Promise<void> {
     const parsedData = deleteGroupTransactionValidator.safeParse(data)
-    if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
+    if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const { id } = parsedData.data
     const transaction = await this.groupTransactionsRepository.findById(id)
     if (!transaction) throw new NotFoundException('Transaction')

@@ -1,6 +1,8 @@
+import type { ZodError } from 'zod'
+
 export class BadRequestException extends Error {
-  constructor(message: string | string[]) {
-    super(Array.isArray(message) ? message.join(', ') : message)
+  constructor(error: string | ZodError) {
+    super(typeof error === 'string' ? error : JSON.stringify(error.flatten().fieldErrors))
     this.name = this.constructor.name
   }
 }

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
+import { z } from 'zod'
 import { BadRequestException } from './bad-request.exception'
 
 describe('BadRequestException', () => {
@@ -14,8 +15,14 @@ describe('BadRequestException', () => {
     expect(exception.message).toBe('Invalid id')
   })
 
-  it('should have a message with multiple errors', () => {
-    const exception = new BadRequestException(['Invalid id', 'Invalid name'])
-    expect(exception.message).toBe('Invalid id, Invalid name')
+  it('should be able to receive an ZodError', () => {
+    const schema = z.object({ id: z.string().uuid() })
+    const parsedData = schema.safeParse({ id: 'invalid' })
+    if (!parsedData.success) {
+      const exception = new BadRequestException(parsedData.error)
+      expect(exception.message).toBeDefined()
+    } else {
+      throw new Error('Test failed')
+    }
   })
 })

@@ -16,29 +16,29 @@ export async function errorHandlerMiddleware(
   if (error instanceof BadRequestException)
     return reply.code(httpStatusCode.BAD_REQUEST).send({
       statusCode: httpStatusCode.BAD_REQUEST,
-      message: error.message,
+      error: JSON.parse(error.message),
       ...baseError
     })
   if (error instanceof ConflictException)
     return reply
       .code(httpStatusCode.CONFLICT)
-      .send({ statusCode: httpStatusCode.CONFLICT, message: error.message, ...baseError })
+      .send({ statusCode: httpStatusCode.CONFLICT, error: error.message, ...baseError })
   if (error instanceof ForbiddenException)
     return reply.code(httpStatusCode.FORBIDDEN).send({
       statusCode: httpStatusCode.FORBIDDEN,
-      message: error.message,
+      error: error.message,
       ...baseError
     })
   if (error instanceof NotFoundException)
     return reply.code(httpStatusCode.NOT_FOUND).send({
       statusCode: httpStatusCode.NOT_FOUND,
-      message: error.message,
+      error: error.message,
       ...baseError
     })
   log.error(error)
   return reply.code(httpStatusCode.INTERNAL_SERVER_ERROR).send({
     statusCode: httpStatusCode.INTERNAL_SERVER_ERROR,
-    message: 'Internal server error',
+    error: 'Internal server error',
     ...baseError
   })
 }

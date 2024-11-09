@@ -21,7 +21,7 @@ export class CreateGroupTransactionUseCase
 
   async execute(data: CreateGroupTransactionDto): Promise<void> {
     const parsedData = createGroupTransactionValidator.safeParse(data)
-    if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
+    if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const { groupId, payerUserId, participants, createdBy } = parsedData.data
     const group = await this.groupsRepository.findById(groupId)
     if (!group) throw new NotFoundException('Group')

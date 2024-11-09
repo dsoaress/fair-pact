@@ -13,7 +13,7 @@ export class JoinGroupUseCase implements UseCase<JoinGroupDto, Promise<void>> {
 
   async execute(data: JoinGroupDto): Promise<void> {
     const parsedData = joinGroupValidator.safeParse(data)
-    if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
+    if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const { id, userId } = parsedData.data
     const group = await this.groupsRepository.findById(id)
     if (!group) throw new NotFoundException('Group')

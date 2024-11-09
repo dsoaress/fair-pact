@@ -20,7 +20,7 @@ export class UpdateGroupTransactionUseCase
 
   async execute(data: UpdateGroupTransactionDto): Promise<void> {
     const parsedData = updateGroupTransactionValidator.safeParse(data)
-    if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
+    if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const { id, groupId } = parsedData.data
     const [group, transaction] = await Promise.all([
       this.groupsRepository.findById(groupId),

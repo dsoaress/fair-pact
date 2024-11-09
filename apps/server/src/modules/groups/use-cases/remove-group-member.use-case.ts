@@ -12,7 +12,7 @@ export class RemoveGroupMemberUseCase implements UseCase<RemoveGroupMemberDto, P
 
   async execute(data: RemoveGroupMemberDto): Promise<void> {
     const parsedData = removeGroupMemberValidator.safeParse(data)
-    if (!parsedData.success) throw new BadRequestException(parsedData.error.format()._errors)
+    if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const { id, userId } = parsedData.data
     const group = await this.groupsRepository.findById(id)
     if (!group) throw new NotFoundException('Group')
