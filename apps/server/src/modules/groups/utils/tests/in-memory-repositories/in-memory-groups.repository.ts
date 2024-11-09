@@ -12,12 +12,6 @@ export class InMemoryGroupsRepository extends GroupsRepository {
     return this.groups.find(group => group.id.value === id) || null
   }
 
-  async findByNameAndCreatedBy(name: string, createdBy: string): Promise<GroupModel | null> {
-    return (
-      this.groups.find(group => group.name === name && group.createdBy.value === createdBy) || null
-    )
-  }
-
   async create(model: GroupModel): Promise<void> {
     this.groups.push(model)
   }

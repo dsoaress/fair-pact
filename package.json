@@ -15,17 +15,20 @@
     "start": "pnpm --parallel start",
     "start:client": "pnpm --filter client start",
     "start:server": "pnpm --filter server start",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:ui": "vitest --ui",
+    "test": "pnpm setenv:test vitest run",
+    "test:watch": "pnpm setenv:test vitest",
+    "test:ui": "pnpm setenv:test vitest --ui",
     "lint": "pnpm biome check --write .",
     "lint:ci": "pnpm biome ci src",
+    "setenv:test": "dotenv -e apps/server/.env.test --",
     "prepare": "lefthook install"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@testcontainers/postgresql": "10.14.0",
     "@vitest/coverage-v8": "2.1.4",
     "@vitest/ui": "2.1.4",
+    "dotenv-cli": "7.4.2",
     "lefthook": "1.8.2",
     "vite-tsconfig-paths": "5.1.0",
     "vitest": "2.1.4"

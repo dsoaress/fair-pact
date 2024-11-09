@@ -7,7 +7,7 @@ export default defineConfig({
     coverage: {
       enabled: true,
       include: ['apps/client/src', 'apps/server/src', 'packages/contracts/src'],
-      exclude: ['**/route-tree.gen.ts']
+      exclude: ['**/route-tree.gen.ts', '**/*.int.spec.ts', '**/*.e2e.spec.ts']
     }
   }
 })

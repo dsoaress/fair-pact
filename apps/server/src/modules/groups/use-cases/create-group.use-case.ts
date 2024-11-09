@@ -4,7 +4,6 @@ import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.valu
 
 import type { UseCase } from '@/shared/base/use-case'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
-import { ConflictException } from '@/shared/exceptions/conflict.exception'
 import type { GroupModel } from '../models/group.model'
 import type { GroupsRepository } from '../repositories/groups.repository'
 
@@ -22,11 +21,6 @@ export class CreateGroupUseCase implements UseCase<CreateGroupDto, Promise<void>
       createdBy: IdValueObject.create(data.createdBy),
       createdAt: new Date()
     }
-    const existingGroup = await this.groupsRepository.findByNameAndCreatedBy(
-      group.name,
-      group.createdBy.value
-    )
-    if (existingGroup) throw new ConflictException('Group')
     await this.groupsRepository.create(group)
   }
 }

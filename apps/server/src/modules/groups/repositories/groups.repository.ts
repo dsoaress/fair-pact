@@ -33,15 +33,6 @@ export class GroupsRepository implements Repository<GroupModel> {
     return this.mapToModel(result)
   }
 
-  async findByNameAndCreatedBy(name: string, createdBy: string): Promise<GroupModel | null> {
-    const result = await this.drizzleService.query.groups.findFirst({
-      where: and(eq(groups.name, name), eq(groups.createdBy, createdBy)),
-      with: { members: { columns: { userId: true } } }
-    })
-    if (!result) return null
-    return this.mapToModel(result)
-  }
-
   async create(model: GroupModel): Promise<void> {
     await this.drizzleService.transaction(async tx => {
       await this.drizzleService.insert(groups).values({

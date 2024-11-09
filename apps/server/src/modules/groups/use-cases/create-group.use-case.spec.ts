@@ -21,25 +21,11 @@ describe('CreateGroupUseCase', () => {
       createdBy: fakeData.createdBy.value
     }
     await createGroupUseCase.execute(input)
-    const result = await groupsRepository.findByNameAndCreatedBy(
-      fakeData.name,
-      fakeData.createdBy.value
-    )
+    const result = await groupsRepository.findById(fakeData.id.value)
     expect(result).toBeDefined()
   })
 
   it('should throw an error if invalid data is provided', async () => {
     await expect(createGroupUseCase.execute({} as never)).rejects.toThrow()
-  })
-
-  it('should throw an error if group already exists', async () => {
-    const fakeData = groupFake()
-    const input = {
-      name: fakeData.name,
-      currency: fakeData.currency,
-      createdBy: fakeData.createdBy.value
-    }
-    await createGroupUseCase.execute(input)
-    await expect(createGroupUseCase.execute(input)).rejects.toThrow()
   })
 })
