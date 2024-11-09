@@ -1,6 +1,0 @@
-{
-  "version": "1",
-  "name": "fair-pact",
-  "type": "collection",
-  "ignore": ["node_modules", ".git"]
-}

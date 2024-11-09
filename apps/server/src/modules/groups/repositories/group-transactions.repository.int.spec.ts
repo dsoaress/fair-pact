@@ -84,9 +84,10 @@ describe('GroupTransactionsRepository', () => {
   it('should update a group transaction', async () => {
     const groupTransaction = groupTransactionFake({
       groupId,
+      amount: 50,
       payerUserId: userId,
       createdBy: userId,
-      participants: [{ userId, amount: 100 }]
+      participants: [{ userId, amount: 50 }]
     })
     await groupTransactionsRepository.create(groupTransaction)
     const newUserId = IdValueObject.create()
@@ -100,6 +101,7 @@ describe('GroupTransactionsRepository', () => {
       ...groupTransaction,
       name: 'Updated Group Transaction',
       payerUserId: newUserId,
+      amount: 200,
       date: new Date(),
       updatedAt: new Date(),
       updatedBy: newUserId,
@@ -115,7 +117,14 @@ describe('GroupTransactionsRepository', () => {
     expect(String(result?.date)).toBe(String(updatedGroupTransaction.date))
     expect(result?.updatedAt).toBeDefined()
     expect(result?.updatedBy?.value).toBe(newUserId.value)
+    expect(result?.amount).toBe(updatedGroupTransaction.amount)
     expect(result?.participants).toHaveLength(2)
+    expect(result?.participants).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ amount: 100 }),
+        expect.objectContaining({ amount: 100 })
+      ])
+    )
   })
 
   it('should delete a group transaction', async () => {

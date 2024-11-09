@@ -1,0 +1,14 @@
+meta {
+  name: delete-group-transaction
+  type: http
+  seq: 13
+}
+
+delete {
+  url: {{BASE_URL}}/groups/{{FIRST_GROUP_ID}}/transactions/{{FIRST_GROUP_TRANSACTION_ID}}
+  auth: none
+}
+
+headers {
+  user-id: {{USER_ID}}
+}

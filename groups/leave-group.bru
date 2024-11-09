@@ -1,0 +1,15 @@
+meta {
+  name: leave-group
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{BASE_URL}}/groups/{{FIRST_GROUP_ID}}/leave-group
+  body: text
+  auth: none
+}
+
+headers {
+  user-id: {{USER_ID}}
+}

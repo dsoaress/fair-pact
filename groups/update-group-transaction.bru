@@ -1,0 +1,42 @@
+meta {
+  name: update-group-transaction
+  type: http
+  seq: 12
+}
+
+patch {
+  url: {{BASE_URL}}/groups/{{FIRST_GROUP_ID}}/transactions/{{FIRST_GROUP_TRANSACTION_ID}}
+  body: json
+  auth: none
+}
+
+headers {
+  user-id: {{USER_ID}}
+}
+
+body:json {
+  {
+    "name": "Test transaction",
+    "amount": 20,
+    "payerUserId": "93665c9d-96e4-43d2-9ecc-86c88dc3fbf0",
+    "participants": [
+      {
+        "userId": "93665c9d-96e4-43d2-9ecc-86c88dc3fbf0",
+        "amount": 20
+      }
+      // {
+      // "userId": "042b6155-d7f5-4143-b424-53a2f7068455",
+      // "amount": 10
+      // }
+      // {
+      // "userId": "45de0f9a-c8b8-4eae-a142-41f672035ff2",
+      // "amount": 10
+      // },
+      // {
+      // "userId": "a6571535-7b0d-4608-bf39-d7a0b9290078",
+      // "amount": 10
+      // }
+    ],
+    "date": "2024-01-01"
+  }
+}

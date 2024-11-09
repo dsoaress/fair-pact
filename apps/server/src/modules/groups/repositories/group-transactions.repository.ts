@@ -69,21 +69,30 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
           name: model.name,
           payerUserId: model.payerUserId.value,
           date: model.date,
+          amount: model.amount,
           updatedAt: model.updatedAt,
           updatedBy: model.updatedBy?.value
         })
         .where(eq(groupTransactions.id, model.id.value))
-      await tx
-        .delete(groupTransactionParticipants)
-        .where(eq(groupTransactionParticipants.groupTransactionId, model.id.value))
-      await tx.insert(groupTransactionParticipants).values(
-        model.participants.map(participant => ({
-          groupTransactionId: model.id.value,
-          userId: participant.userId.value,
-          amount: participant.amount,
-          payerUserId: model.payerUserId.value,
-          groupId: model.groupId.value
-        }))
+      await Promise.all(
+        model.participants.map(participant =>
+          tx
+            .insert(groupTransactionParticipants)
+            .values({
+              groupTransactionId: model.id.value,
+              userId: participant.userId.value,
+              amount: participant.amount,
+              payerUserId: model.payerUserId.value,
+              groupId: model.groupId.value
+            })
+            .onConflictDoUpdate({
+              target: [
+                groupTransactionParticipants.groupTransactionId,
+                groupTransactionParticipants.userId
+              ],
+              set: { amount: participant.amount, payerUserId: model.payerUserId.value }
+            })
+        )
       )
     })
   }

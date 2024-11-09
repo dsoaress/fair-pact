@@ -29,6 +29,7 @@ const {
 
 drizzle(connection)
   .transaction(async tx => {
+    await tx.delete(users)
     await tx.insert(users).values(usersData)
     await tx.insert(groups).values(groupsData)
     await tx.insert(groupMembers).values(groupMembersData)

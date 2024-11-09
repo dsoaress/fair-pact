@@ -6,6 +6,14 @@ import { ConflictException } from '@/shared/exceptions/conflict.exception'
 import { ForbiddenException } from '@/shared/exceptions/forbidden.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
+function safeParseErrorMessage(error: FastifyError): Record<string, unknown> | string {
+  try {
+    return JSON.parse(error.message)
+  } catch {
+    return error.message
+  }
+}
+
 export async function errorHandlerMiddleware(
   error: FastifyError,
   request: FastifyRequest,
@@ -16,7 +24,7 @@ export async function errorHandlerMiddleware(
   if (error instanceof BadRequestException)
     return reply.code(httpStatusCode.BAD_REQUEST).send({
       statusCode: httpStatusCode.BAD_REQUEST,
-      error: JSON.parse(error.message),
+      error: safeParseErrorMessage(error),
       ...baseError
     })
   if (error instanceof ConflictException)

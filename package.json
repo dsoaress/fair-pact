@@ -6,9 +6,9 @@
   "license": "ISC",
   "type": "module",
   "scripts": {
-    "dev": "pnpm --parallel dev",
-    "dev:client": "pnpm --filter client dev",
-    "dev:server": "pnpm --filter server dev",
+    "dev": "pnpm setenv pnpm --parallel dev",
+    "dev:client": "pnpm setenv pnpm --filter client dev",
+    "dev:server": "pnpm setenv pnpm --filter server dev",
     "build": "pnpm --parallel build",
     "build:client": "pnpm --filter client build",
     "build:server": "pnpm --filter server build",
@@ -20,7 +20,11 @@
     "test:ui": "pnpm setenv:test vitest --ui",
     "lint": "pnpm biome check --write .",
     "lint:ci": "pnpm biome ci src",
-    "setenv:test": "dotenv -e apps/server/.env.test --",
+    "db:generate": "pnpm setenv pnpm --filter server db:generate",
+    "db:migrate": "pnpm setenv pnpm --filter server db:migrate",
+    "db:seed": "pnpm setenv pnpm --filter server db:seed",
+    "setenv": "dotenv -e .env.local -e .env -o --",
+    "setenv:test": "dotenv -e .env.test --",
     "prepare": "lefthook install"
   },
   "devDependencies": {

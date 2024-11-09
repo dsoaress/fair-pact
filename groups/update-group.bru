@@ -1,0 +1,22 @@
+meta {
+  name: update-group
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{BASE_URL}}/groups/{{FIRST_GROUP_ID}}
+  body: none
+  auth: none
+}
+
+headers {
+  user-id: {{USER_ID}}
+}
+
+body:json {
+  {
+    "name": "Group test updated",
+    "currency": "USD"
+  }
+}

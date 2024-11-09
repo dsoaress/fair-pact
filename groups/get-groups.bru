@@ -1,0 +1,14 @@
+meta {
+  name: get-groups
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{BASE_URL}}/groups
+  auth: none
+}
+
+headers {
+  user-id: {{USER_ID}}
+}

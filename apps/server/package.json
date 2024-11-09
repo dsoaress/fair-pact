@@ -2,14 +2,13 @@
   "name": "server",
   "type": "module",
   "scripts": {
-    "dev": "pnpm setenv tsx watch src/main.ts",
+    "dev": "tsx watch src/main.ts",
     "build": "pnpm type:check && tsup",
     "start": "node dist/main.js",
     "type:check": "tsc --noEmit",
-    "db:generate": "pnpm setenv drizzle-kit generate",
-    "db:migrate": "pnpm setenv drizzle-kit migrate",
-    "db:seed": "pnpm setenv tsx src/infra/database/drizzle/seed",
-    "setenv": "dotenv -e .env.local -e .env -o --"
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:seed": "tsx src/infra/database/drizzle/seed"
   },
   "dependencies": {
     "@fair-pact/contracts": "workspace:*",
