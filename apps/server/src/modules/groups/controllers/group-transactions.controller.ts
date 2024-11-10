@@ -1,5 +1,4 @@
-import type { CreateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/create-group-transaction.dto'
-import type { UpdateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/update-group-transaction.dto'
+import type { CreateGroupTransactionDto, UpdateGroupTransactionDto } from 'contracts'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
 import { httpStatusCode } from '@/shared/base/http-status-code'

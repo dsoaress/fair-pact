@@ -1,5 +1,4 @@
-import type { CurrencyDto } from '@fair-pact/contracts/groups/dtos/currency.dto'
-import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
+import { type CurrencyDto, IdValueObject } from 'contracts'
 import { and, eq } from 'drizzle-orm'
 
 import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'

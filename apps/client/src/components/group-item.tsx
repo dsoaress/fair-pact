@@ -1,5 +1,5 @@
-import type { GetGroupsOutputDto } from '@fair-pact/contracts/groups/dtos/get-groups-output.dto'
 import { Link } from '@tanstack/react-router'
+import type { GetGroupsOutputDto } from 'contracts'
 
 import { cn } from '@/lib/utils'
 import { formatPrice } from '@/utils/format-price'

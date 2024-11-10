@@ -1,4 +1,4 @@
-import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
+import { IdValueObject } from 'contracts'
 
 import type { GroupModel } from '@/modules/groups/models/group.model'
 

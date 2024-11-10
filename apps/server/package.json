@@ -2,7 +2,7 @@
   "name": "server",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/main.ts",
+    "dev": "tsx watch --clear-screen=false src/main.ts",
     "build": "pnpm type:check && tsup",
     "start": "node dist/main.js",
     "type:check": "tsc --noEmit",
@@ -11,20 +11,19 @@
     "db:seed": "tsx src/infra/database/drizzle/seed"
   },
   "dependencies": {
-    "@fair-pact/contracts": "workspace:*",
+    "contracts": "workspace:*",
     "@fastify/cors": "10.0.1",
-    "drizzle-orm": "0.36.0",
+    "drizzle-orm": "0.36.1",
     "fastify": "5.1.0",
     "pg": "8.13.1",
-    "pino": "9.5.0",
     "zod": "3.23.8"
   },
   "devDependencies": {
     "@faker-js/faker": "9.2.0",
     "@types/node": "22.9.0",
     "@types/pg": "8.11.10",
-    "drizzle-kit": "0.27.1",
-    "pino-pretty": "11.3.0",
+    "drizzle-kit": "0.28.0",
+    "pino-pretty": "12.1.0",
     "tsup": "8.3.5",
     "tsx": "4.19.2",
     "typescript": "5.6.3"

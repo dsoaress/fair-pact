@@ -1,5 +1,4 @@
-import type { CurrencyDto } from '@fair-pact/contracts/groups/dtos/currency.dto'
-import type { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
+import type { CurrencyDto, IdValueObject } from 'contracts'
 
 import type { Model } from '@/shared/base/model'
 

@@ -15,8 +15,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"],
-      "@fair-pact/contracts/*": ["./node_modules/@fair-pact/contracts/src/*"]
+      "@/*": ["./src/*"]
     }
   }
 }

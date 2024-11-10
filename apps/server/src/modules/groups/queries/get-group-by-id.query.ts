@@ -1,6 +1,8 @@
-import type { GetGroupByIdInputDto } from '@fair-pact/contracts/groups/dtos/get-group-by-id-input.dto'
-import type { GetGroupByIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-by-id-output.dto'
-import { getGroupByIdInputValidator } from '@fair-pact/contracts/groups/validators/get-group-by-id-input.validator'
+import {
+  type GetGroupByIdInputDto,
+  type GetGroupByIdOutputDto,
+  getGroupByIdInputValidator
+} from 'contracts'
 
 import type { Query } from '@/shared/base/query'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'

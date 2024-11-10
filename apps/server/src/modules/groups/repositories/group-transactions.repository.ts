@@ -1,4 +1,4 @@
-import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
+import { IdValueObject } from 'contracts'
 import { eq } from 'drizzle-orm'
 
 import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'

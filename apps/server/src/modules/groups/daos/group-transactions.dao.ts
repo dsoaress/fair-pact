@@ -1,7 +1,10 @@
-import type { GetGroupTransactionByIdInputDto } from '@fair-pact/contracts/groups/dtos/get-group-transaction-by-id-input.dto'
-import type { GetGroupTransactionByIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-transaction-by-id-output.dto'
-import type { GetGroupTransactionsByGroupIdInputDto } from '@fair-pact/contracts/groups/dtos/get-group-transactions-by-group-id-input.dto'
-import type { GetGroupTransactionsByGroupIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-transactions-by-group-id-output.dto'
+import type {
+  GetGroupTransactionByIdInputDto,
+  GetGroupTransactionByIdOutputDto,
+  GetGroupTransactionsByGroupIdInputDto,
+  GetGroupTransactionsByGroupIdOutputDto
+} from 'contracts'
+
 import { sql } from 'drizzle-orm'
 
 import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'

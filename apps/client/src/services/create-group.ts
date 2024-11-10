@@ -1,4 +1,4 @@
-import type { CreateGroupDto } from '@fair-pact/contracts/groups/dtos/create-group.dto'
+import type { CreateGroupDto } from 'contracts'
 
 import { api } from '@/lib/api'
 

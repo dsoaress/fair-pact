@@ -1,5 +1,4 @@
-import type { RemoveGroupMemberDto } from '@fair-pact/contracts/groups/dtos/remove-group-member.dto'
-import { removeGroupMemberValidator } from '@fair-pact/contracts/groups/validators/remove-group-member.validator'
+import { type RemoveGroupMemberDto, removeGroupMemberValidator } from 'contracts'
 
 import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'

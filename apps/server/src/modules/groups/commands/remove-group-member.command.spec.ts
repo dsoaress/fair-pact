@@ -1,4 +1,4 @@
-import { IdValueObject } from '@fair-pact/contracts/src/shared/value-objects/id.value-object'
+import { IdValueObject } from 'contracts'
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'

@@ -7,12 +7,12 @@
     "start": "vite preview --port 3001"
   },
   "dependencies": {
-    "@fair-pact/contracts": "workspace:*",
-    "@tanstack/query-sync-storage-persister": "5.59.17",
-    "@tanstack/react-query": "5.59.19",
-    "@tanstack/react-query-devtools": "5.59.19",
-    "@tanstack/react-query-persist-client": "5.59.19",
-    "@tanstack/react-router": "1.79.0",
+    "contracts": "workspace:*",
+    "@tanstack/query-sync-storage-persister": "5.59.20",
+    "@tanstack/react-query": "5.59.20",
+    "@tanstack/react-query-devtools": "5.59.20",
+    "@tanstack/react-query-persist-client": "5.59.20",
+    "@tanstack/react-router": "1.81.0",
     "axios": "1.7.7",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.1",
@@ -22,7 +22,7 @@
     "zod": "3.23.8"
   },
   "devDependencies": {
-    "@tanstack/router-devtools": "1.79.0",
+    "@tanstack/router-devtools": "1.81.0",
     "@tanstack/router-plugin": "1.79.0",
     "@types/node": "22.9.0",
     "@types/react": "18.3.12",

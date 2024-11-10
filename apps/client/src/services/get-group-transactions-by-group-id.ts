@@ -1,4 +1,4 @@
-import type { GetGroupTransactionsByGroupIdOutputDto } from '@fair-pact/contracts/groups/dtos/get-group-transactions-by-group-id-output.dto'
+import type { GetGroupTransactionsByGroupIdOutputDto } from 'contracts'
 
 import { api } from '@/lib/api'
 

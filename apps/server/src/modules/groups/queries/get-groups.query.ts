@@ -1,6 +1,4 @@
-import type { GetGroupsInputDto } from '@fair-pact/contracts/groups/dtos/get-groups-input.dto'
-import type { GetGroupsOutputDto } from '@fair-pact/contracts/groups/dtos/get-groups-output.dto'
-import { getGroupsInputValidator } from '@fair-pact/contracts/groups/validators/get-groups-input.validator'
+import { type GetGroupsInputDto, type GetGroupsOutputDto, getGroupsInputValidator } from 'contracts'
 
 import type { Query } from '@/shared/base/query'
 

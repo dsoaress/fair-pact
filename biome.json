@@ -5,10 +5,8 @@
     "ignore": [
       "node_modules/**/*",
       "dist/**/*",
-      "build/**/*",
       "coverage/**/*",
       "public/**/*",
-      "out/**/*",
       "route-tree.gen.ts"
     ]
   },

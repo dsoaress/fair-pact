@@ -1,6 +1,8 @@
-import type { CreateGroupTransactionDto } from '@fair-pact/contracts/groups/dtos/create-group-transaction.dto'
-import { createGroupTransactionValidator } from '@fair-pact/contracts/groups/validators/create-group-transaction.validator'
-import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
+import {
+  type CreateGroupTransactionDto,
+  IdValueObject,
+  createGroupTransactionValidator
+} from 'contracts'
 
 import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'

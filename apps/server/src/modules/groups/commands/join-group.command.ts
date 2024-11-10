@@ -1,5 +1,4 @@
-import type { JoinGroupDto } from '@fair-pact/contracts/groups/dtos/join-group.dto'
-import { joinGroupValidator } from '@fair-pact/contracts/groups/validators/join-group.validator'
+import { type JoinGroupDto, joinGroupValidator } from 'contracts'
 
 import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'

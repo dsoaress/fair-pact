@@ -1,6 +1,5 @@
-import type { GetGroupsOutputDto } from '@fair-pact/contracts/groups/dtos/get-groups-output.dto'
-import type { GetGroupByIdOutputDto } from '@fair-pact/contracts/src/groups/dtos/get-group-by-id-output.dto'
 import { type UseQueryResult, useQuery, useQueryClient } from '@tanstack/react-query'
+import type { GetGroupByIdOutputDto, GetGroupsOutputDto } from 'contracts'
 
 import { queryKeys } from '@/constants/query-keys'
 import { getGroupById } from '@/services/get-group-by-id'

@@ -12,6 +12,7 @@
     "build": "pnpm --parallel build",
     "build:client": "pnpm --filter client build",
     "build:server": "pnpm --filter server build",
+    "build:contracts": "pnpm --filter contracts build",
     "start": "pnpm --parallel start",
     "start:client": "pnpm --filter client start",
     "start:server": "pnpm --filter server start",
@@ -34,7 +35,8 @@
     "@vitest/ui": "2.1.4",
     "dotenv-cli": "7.4.2",
     "lefthook": "1.8.2",
-    "vite-tsconfig-paths": "5.1.0",
+    "turbo": "2.2.3",
+    "vite-tsconfig-paths": "5.1.1",
     "vitest": "2.1.4"
   },
   "engines": {

@@ -1,6 +1,4 @@
-import type { UpdateGroupDto } from '@fair-pact/contracts/groups/dtos/update-group.dto'
-import { updateGroupValidator } from '@fair-pact/contracts/groups/validators/update-group.validator'
-import { IdValueObject } from '@fair-pact/contracts/shared/value-objects/id.value-object'
+import { IdValueObject, type UpdateGroupDto, updateGroupValidator } from 'contracts'
 
 import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
