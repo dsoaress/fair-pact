@@ -1,9 +1,9 @@
 import type { FastifyInstance } from 'fastify'
 
-import { groupsFactory } from './groups.factory'
+import { makeControllersFactory } from './factories/make-controllers.factories'
 
 export function groupsRoutes(app: FastifyInstance): void {
-  const { groupsController, groupTransactionsController } = groupsFactory()
+  const { groupsController, groupTransactionsController } = makeControllersFactory()
   const {
     createGroup,
     deleteGroup,
