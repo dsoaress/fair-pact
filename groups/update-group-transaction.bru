@@ -7,11 +7,11 @@ meta {
 patch {
   url: {{BASE_URL}}/groups/{{FIRST_GROUP_ID}}/transactions/{{FIRST_GROUP_TRANSACTION_ID}}
   body: json
-  auth: none
+  auth: bearer
 }
 
-headers {
-  user-id: {{USER_ID}}
+auth:bearer {
+  token: {{JWT_TOKEN}}
 }
 
 body:json {

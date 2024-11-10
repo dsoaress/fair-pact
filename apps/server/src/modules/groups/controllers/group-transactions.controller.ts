@@ -19,26 +19,20 @@ export class GroupTransactionsController {
   ) {}
 
   async getGroupTransactionById(
-    request: FastifyRequest<{
-      Headers: { 'user-id': string }
-      Params: { groupTransactionId: string }
-    }>,
+    request: FastifyRequest<{ Params: { groupTransactionId: string } }>,
     reply: FastifyReply
   ): Promise<void> {
-    const userId = request.headers['user-id']
+    const userId = request.user.sub
     const id = request.params.groupTransactionId
     const groupTransaction = await this.GetGroupTransactionByIdQuery.execute({ id, userId })
     reply.status(httpStatusCode.OK).send({ data: groupTransaction })
   }
 
   async getGroupTransactionsByGroupId(
-    request: FastifyRequest<{
-      Headers: { 'user-id': string }
-      Params: { groupId: string }
-    }>,
+    request: FastifyRequest<{ Params: { groupId: string } }>,
     reply: FastifyReply
   ): Promise<void> {
-    const userId = request.headers['user-id']
+    const userId = request.user.sub
     const { groupId } = request.params
     const groupTransaction = await this.GetGroupTransactionsByGroupIdQuery.execute({
       groupId,
@@ -49,13 +43,12 @@ export class GroupTransactionsController {
 
   async createGroupTransaction(
     request: FastifyRequest<{
-      Headers: { 'user-id': string }
       Params: { groupId: string }
       Body: Omit<CreateGroupTransactionDto, 'groupId' | 'createdBy'>
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    const userId = request.headers['user-id']
+    const userId = request.user.sub
     const { groupId } = request.params
     const data = request.body
     await this.createGroupTransactionCommand.execute({

@@ -7,21 +7,21 @@ meta {
 post {
   url: {{BASE_URL}}/groups/{{FIRST_GROUP_ID}}/transactions
   body: json
-  auth: none
+  auth: bearer
 }
 
-headers {
-  user-id: {{USER_ID}}
+auth:bearer {
+  token: {{JWT_TOKEN}}
 }
 
 body:json {
   {
     "name": "Test transaction",
     "amount": 10000,
-    "payerUserId": "{{USER_ID}}",
+    "payerUserId": "{{FIRST_USER_ID}}",
     "participants": [
       {
-        "userId": "{{USER_ID}}",
+        "userId": "{{FIRST_USER_ID}}",
         "amount": 2000
       },
       {

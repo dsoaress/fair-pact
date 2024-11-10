@@ -1,32 +1,26 @@
 import cors from '@fastify/cors'
-import { fastify } from 'fastify'
+import jwt from '@fastify/jwt'
+import { type FastifyInstance, fastify } from 'fastify'
 
 import { groupsRoutes } from '../modules/groups/groups.routes'
 import { env } from './config/env'
+import { logger } from './config/logger'
+import { authMiddleware } from './middleares/auth.middleware'
 import { errorHandlerMiddleware } from './middleares/error-handlers.middleware'
 
-const envToLogger = {
-  local: {
-    transport: {
-      target: 'pino-pretty',
-      options: {
-        translateTime: 'HH:MM:ss Z',
-        ignore: 'pid,hostname'
-      }
-    }
-  },
-  development: true,
-  production: true,
-  test: false
+export function app(): FastifyInstance {
+  const fastifyInstance = fastify({ logger })
+
+  fastifyInstance.register(cors)
+  fastifyInstance.register(jwt, { secret: env.JWT_SECRET })
+
+  // Public routes
+
+  // Private routes
+  fastifyInstance.addHook('onRequest', authMiddleware)
+  fastifyInstance.register(groupsRoutes, { prefix: '/groups' })
+
+  fastifyInstance.setErrorHandler(errorHandlerMiddleware)
+
+  return fastifyInstance
 }
-
-const app = fastify({
-  logger: envToLogger[env.NODE_ENV] ?? true
-})
-
-app.register(cors)
-app.register(groupsRoutes, { prefix: '/groups' })
-
-app.setErrorHandler(errorHandlerMiddleware)
-
-export { app }

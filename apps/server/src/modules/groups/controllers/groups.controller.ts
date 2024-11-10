@@ -23,32 +23,28 @@ export class GroupsController {
   ) {}
 
   async getGroupById(
-    request: FastifyRequest<{ Headers: { 'user-id': string }; Params: { groupId: string } }>,
+    request: FastifyRequest<{ Params: { groupId: string } }>,
     reply: FastifyReply
   ): Promise<void> {
-    const userId = request.headers['user-id']
+    const userId = request.user.sub
     const { groupId: id } = request.params
     const data = await this.getGroupByIdQuery.execute({ userId, id })
     reply.status(httpStatusCode.OK).send({ data })
   }
 
-  async getGroups(
-    request: FastifyRequest<{ Headers: { 'user-id': string } }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const userId = request.headers['user-id']
+  async getGroups(request: FastifyRequest, reply: FastifyReply): Promise<void> {
+    const userId = request.user.sub
     const data = await this.getGroupsQuery.execute({ userId })
     reply.status(httpStatusCode.OK).send({ data })
   }
 
   async createGroup(
     request: FastifyRequest<{
-      Headers: { 'user-id': string }
       Body: Pick<CreateGroupDto, 'name' | 'currency'>
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    const createdBy = request.headers['user-id']
+    const createdBy = request.user.sub
     const data = request.body
     await this.createGroupCommand.execute({ ...data, createdBy })
     reply.status(httpStatusCode.CREATED).send()
@@ -56,12 +52,11 @@ export class GroupsController {
 
   async joinGroup(
     request: FastifyRequest<{
-      Headers: { 'user-id': string }
       Params: { groupId: string }
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    const userId = request.headers['user-id']
+    const userId = request.user.sub
     const groupId = request.params.groupId
     await this.joinGroupCommand.execute({ id: groupId, userId })
     reply.status(httpStatusCode.NO_CONTENT).send()
@@ -69,12 +64,11 @@ export class GroupsController {
 
   async leaveGroup(
     request: FastifyRequest<{
-      Headers: { 'user-id': string }
       Params: { groupId: string }
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    const userId = request.headers['user-id']
+    const userId = request.user.sub
     const groupId = request.params.groupId
     await this.removeGroupMemberCommand.execute({ id: groupId, userId })
     reply.status(httpStatusCode.NO_CONTENT).send()
@@ -95,13 +89,12 @@ export class GroupsController {
 
   async updateGroup(
     request: FastifyRequest<{
-      Headers: { 'user-id': string }
       Body: Pick<UpdateGroupDto, 'name' | 'currency'>
       Params: { groupId: string }
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    const updatedBy = request.headers['user-id']
+    const updatedBy = request.user.sub
     const data = request.body
     const id = request.params.groupId
     await this.updateGroupCommand.execute({ ...data, id, updatedBy })
@@ -109,7 +102,7 @@ export class GroupsController {
   }
 
   async deleteGroup(
-    request: FastifyRequest<{ Headers: { 'user-id': string }; Params: { groupId: string } }>,
+    request: FastifyRequest<{ Params: { groupId: string } }>,
     reply: FastifyReply
   ): Promise<void> {
     const id = request.params.groupId

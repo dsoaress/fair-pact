@@ -7,9 +7,9 @@ meta {
 post {
   url: {{BASE_URL}}/groups/{{FIRST_GROUP_ID}}/join-group
   body: text
-  auth: none
+  auth: bearer
 }
 
-headers {
-  user-id: {{USER_ID}}
+auth:bearer {
+  token: {{JWT_TOKEN}}
 }

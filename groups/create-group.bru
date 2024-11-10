@@ -7,11 +7,11 @@ meta {
 post {
   url: {{BASE_URL}}/groups
   body: json
-  auth: none
+  auth: bearer
 }
 
-headers {
-  user-id: {{USER_ID}}
+auth:bearer {
+  token: {{JWT_TOKEN}}
 }
 
 body:json {
