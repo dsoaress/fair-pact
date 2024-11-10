@@ -1,4 +1,4 @@
-import { drizzleService } from '@/infra/database/drizzle/drizzle.service'
+import { drizzleService } from '@/shared/database/drizzle/drizzle.service'
 
 import { GroupTransactionsRepository } from '../repositories/group-transactions.repository'
 import { GroupsRepository } from '../repositories/groups.repository'

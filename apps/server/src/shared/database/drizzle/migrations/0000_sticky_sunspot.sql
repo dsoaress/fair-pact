@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS "group_transactions" (
 	"amount" integer NOT NULL,
 	"group_id" uuid NOT NULL,
 	"payer_user_id" uuid NOT NULL,
+	"date" timestamp (6) with time zone NOT NULL,
 	"created_by" uuid NOT NULL,
 	"created_at" timestamp (6) with time zone NOT NULL,
 	"updated_by" uuid,
@@ -39,8 +40,7 @@ CREATE TABLE IF NOT EXISTS "groups" (
 	"created_by" uuid NOT NULL,
 	"created_at" timestamp (6) with time zone NOT NULL,
 	"updated_by" uuid,
-	"updated_at" timestamp (6) with time zone,
-	CONSTRAINT "groups_name_created_by_unique" UNIQUE("name","created_by")
+	"updated_at" timestamp (6) with time zone
 );
 --> statement-breakpoint
 DO $$ BEGIN

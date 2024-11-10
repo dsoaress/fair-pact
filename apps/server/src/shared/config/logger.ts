@@ -13,5 +13,6 @@ export const logger =
     },
     development: true,
     production: true,
-    test: false
+    test: false,
+    ci: false
   }[env.NODE_ENV] ?? true

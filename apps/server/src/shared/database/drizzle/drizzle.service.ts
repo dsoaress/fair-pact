@@ -1,16 +1,12 @@
 import { drizzle } from 'drizzle-orm/node-postgres'
 
-import { env } from '@/infra/config/env'
+import { env } from '@/shared/config/env'
 
 import * as schema from './schemas'
 
-export const connection = {
-  connection: env.DATABASE_URL,
-  schema
-}
-
 export const drizzleService = drizzle({
-  ...connection,
+  connection: env.DATABASE_URL,
+  schema,
   logger: env.NODE_ENV === 'local'
 })
 

@@ -1,13 +1,6 @@
+import { env } from '@/shared/config/env'
 import { drizzle } from 'drizzle-orm/node-postgres'
-
-import { connection } from '../drizzle.service'
-import {
-  groupMembers,
-  groupTransactionParticipants,
-  groupTransactions,
-  groups,
-  users
-} from '../schemas'
+import * as schema from '../schemas'
 import { data } from './data'
 
 const USERS_COUNT = 5
@@ -27,14 +20,14 @@ const {
   transactionsPerUserPerGroup: TRANSACTIONS_PER_USER_PER_GROUP
 })
 
-drizzle(connection)
+drizzle({ connection: env.DATABASE_URL, schema })
   .transaction(async tx => {
-    await tx.delete(users)
-    await tx.insert(users).values(usersData)
-    await tx.insert(groups).values(groupsData)
-    await tx.insert(groupMembers).values(groupMembersData)
-    await tx.insert(groupTransactions).values(groupTransactionsData)
-    await tx.insert(groupTransactionParticipants).values(groupTransactionParticipantsData)
+    await tx.delete(schema.users)
+    await tx.insert(schema.users).values(usersData)
+    await tx.insert(schema.groups).values(groupsData)
+    await tx.insert(schema.groupMembers).values(groupMembersData)
+    await tx.insert(schema.groupTransactions).values(groupTransactionsData)
+    await tx.insert(schema.groupTransactionParticipants).values(groupTransactionParticipantsData)
   })
   .then(() => {
     console.log(

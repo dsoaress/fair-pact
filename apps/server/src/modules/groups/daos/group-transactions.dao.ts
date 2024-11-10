@@ -7,14 +7,14 @@ import type {
 
 import { sql } from 'drizzle-orm'
 
-import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
+import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
 import {
   groupMembers,
   groupTransactionParticipants,
   groupTransactions,
   groups,
   users
-} from '@/infra/database/drizzle/schemas'
+} from '@/shared/database/drizzle/schemas'
 
 export class GroupTransactionsDao {
   constructor(private readonly drizzleService: DrizzleService) {}

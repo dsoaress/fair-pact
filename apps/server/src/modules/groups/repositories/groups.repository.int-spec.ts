@@ -1,19 +1,16 @@
 import { IdValueObject } from 'contracts'
 import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 
-import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
-import { users } from '@/infra/database/drizzle/schemas'
-import { createDatabaseContainer } from '@/shared/utils/tests/database-container'
+import { drizzleService } from '@/shared/database/drizzle/drizzle.service'
+import { users } from '@/shared/database/drizzle/schemas'
 
 import { groupFake } from '../utils/tests/fakes/group.fake'
 import { GroupsRepository } from './groups.repository'
 
 describe('GroupsRepository', () => {
   let groupsRepository: GroupsRepository
-  let drizzleService: DrizzleService
 
   beforeAll(async () => {
-    drizzleService = await createDatabaseContainer()
     groupsRepository = new GroupsRepository(drizzleService)
   })
 

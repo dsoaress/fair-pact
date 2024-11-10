@@ -1,9 +1,8 @@
 import { IdValueObject } from 'contracts'
 import { beforeAll, beforeEach, describe, expect, it } from 'vitest'
 
-import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
-import { groupMembers, groupTransactions, groups, users } from '@/infra/database/drizzle/schemas'
-import { createDatabaseContainer } from '@/shared/utils/tests/database-container'
+import { drizzleService } from '@/shared/database/drizzle/drizzle.service'
+import { groupMembers, groupTransactions, groups, users } from '@/shared/database/drizzle/schemas'
 import { groupTransactionFake } from '../utils/tests/fakes/group-transaction.fake'
 import { GroupTransactionsRepository } from './group-transactions.repository'
 
@@ -11,10 +10,8 @@ describe('GroupTransactionsRepository', () => {
   const userId = IdValueObject.create()
   const groupId = IdValueObject.create()
   let groupTransactionsRepository: GroupTransactionsRepository
-  let drizzleService: DrizzleService
 
   beforeAll(async () => {
-    drizzleService = await createDatabaseContainer()
     groupTransactionsRepository = new GroupTransactionsRepository(drizzleService)
 
     await drizzleService.transaction(async tx => {

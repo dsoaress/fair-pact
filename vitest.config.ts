@@ -7,6 +7,7 @@ export default defineConfig({
       include: ['apps/client/src', 'apps/server/src', 'packages/contracts/src'],
       exclude: [
         '**/route-tree.gen.ts',
+        '**/*.d.ts',
         '**/?(*.){spec,int-spec,e2e-spec}.?(c|m)[jt]s?(x)',
         'packages/contracts/src/index.ts'
       ]

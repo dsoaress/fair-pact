@@ -1,9 +1,9 @@
 import { type CurrencyDto, IdValueObject } from 'contracts'
 import { and, eq } from 'drizzle-orm'
 
-import type { DrizzleService } from '@/infra/database/drizzle/drizzle.service'
-import { groupMembers, groups } from '@/infra/database/drizzle/schemas'
 import type { Repository } from '@/shared/base/repository'
+import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
+import { groupMembers, groups } from '@/shared/database/drizzle/schemas'
 
 import type { GroupModel } from '../models/group.model'
 

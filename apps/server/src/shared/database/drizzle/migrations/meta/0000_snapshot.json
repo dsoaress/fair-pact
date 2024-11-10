@@ -1,6 +1,6 @@
 {
-  "id": "2dab8f5b-0ac2-47c7-9367-1c2e4ff6e9dd",
-  "prevId": "32c7c511-a8c3-4ac1-8240-80fdf8be65a9",
+  "id": "82fe4999-6bbd-4687-bb68-1f77106955c4",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -213,8 +213,7 @@
           "name": "date",
           "type": "timestamp (6) with time zone",
           "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
+          "notNull": true
         },
         "created_by": {
           "name": "created_by",
@@ -371,13 +370,7 @@
         }
       },
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {
-        "groups_name_created_by_unique": {
-          "name": "groups_name_created_by_unique",
-          "nullsNotDistinct": false,
-          "columns": ["name", "created_by"]
-        }
-      },
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

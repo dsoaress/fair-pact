@@ -1,4 +1,4 @@
-import { drizzleService } from '@/infra/database/drizzle/drizzle.service'
+import { drizzleService } from '@/shared/database/drizzle/drizzle.service'
 
 import { GroupTransactionsDao } from '../daos/group-transactions.dao'
 import { GroupsDao } from '../daos/groups.dao'

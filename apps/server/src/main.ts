@@ -1,3 +1,4 @@
-import { server } from './infra/server'
+import { app } from './shared/app'
+import { env } from './shared/config/env'
 
-server()
+app.listen({ port: env.PORT, host: '0.0.0.0' }).catch(app.log.error)
