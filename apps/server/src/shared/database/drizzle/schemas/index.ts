@@ -1,2 +1,2 @@
-export * from './auth.schema'
+export * from './users.schema'
 export * from './groups.schema'

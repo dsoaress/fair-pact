@@ -1,7 +1,7 @@
 import { relations } from 'drizzle-orm'
 import { index, integer, pgTable, primaryKey, timestamp, uuid, varchar } from 'drizzle-orm/pg-core'
 
-import { users } from './auth.schema'
+import { users } from './users.schema'
 
 export const groups = pgTable('groups', {
   id: uuid().notNull().primaryKey(),

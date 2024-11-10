@@ -20,9 +20,13 @@ describe('GroupsRepository', () => {
 
   it('should find a group by id', async () => {
     const group = groupFake()
-    await drizzleService
-      .insert(users)
-      .values({ id: group.createdBy.value, firstName: 'John', lastName: 'Doe' })
+    await drizzleService.insert(users).values({
+      id: group.createdBy.value,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@test.com',
+      createdAt: new Date()
+    })
     await groupsRepository.create(group)
     const result = await groupsRepository.findById(group.id.value)
     if (result) {
@@ -42,9 +46,13 @@ describe('GroupsRepository', () => {
 
   it('should create a group with a member', async () => {
     const group = groupFake()
-    await drizzleService
-      .insert(users)
-      .values({ id: group.createdBy.value, firstName: 'John', lastName: 'Doe' })
+    await drizzleService.insert(users).values({
+      id: group.createdBy.value,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@test.com',
+      createdAt: new Date()
+    })
     await groupsRepository.create(group)
     const result = await groupsRepository.findById(group.id.value)
     expect(result).toBeDefined()
@@ -54,14 +62,22 @@ describe('GroupsRepository', () => {
 
   it('should to add group members', async () => {
     const group = groupFake()
-    await drizzleService
-      .insert(users)
-      .values({ id: group.createdBy.value, firstName: 'John', lastName: 'Doe' })
+    await drizzleService.insert(users).values({
+      id: group.createdBy.value,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@test.com',
+      createdAt: new Date()
+    })
     await groupsRepository.create(group)
     const newMemberId = IdValueObject.create().value
-    await drizzleService
-      .insert(users)
-      .values({ id: newMemberId, firstName: 'Jane', lastName: 'Doe' })
+    await drizzleService.insert(users).values({
+      id: newMemberId,
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'jane.doe@test.com',
+      createdAt: new Date()
+    })
     await groupsRepository.addGroupMember(group.id.value, newMemberId)
     const result = await groupsRepository.findById(group.id.value)
     expect(result?.members.map(m => m.value)).toContain(newMemberId)
@@ -69,14 +85,22 @@ describe('GroupsRepository', () => {
 
   it('should to remove group members', async () => {
     const group = groupFake()
-    await drizzleService
-      .insert(users)
-      .values({ id: group.createdBy.value, firstName: 'John', lastName: 'Doe' })
+    await drizzleService.insert(users).values({
+      id: group.createdBy.value,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@test.com',
+      createdAt: new Date()
+    })
     await groupsRepository.create(group)
     const newMemberId = IdValueObject.create().value
-    await drizzleService
-      .insert(users)
-      .values({ id: newMemberId, firstName: 'Jane', lastName: 'Doe' })
+    await drizzleService.insert(users).values({
+      id: newMemberId,
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'jane.doe@test.com',
+      createdAt: new Date()
+    })
     await groupsRepository.addGroupMember(group.id.value, newMemberId)
     await groupsRepository.removeGroupMember(group.id.value, newMemberId)
     const result = await groupsRepository.findById(group.id.value)
@@ -85,9 +109,13 @@ describe('GroupsRepository', () => {
 
   it('should update a group', async () => {
     const group = groupFake()
-    await drizzleService
-      .insert(users)
-      .values({ id: group.createdBy.value, firstName: 'John', lastName: 'Doe' })
+    await drizzleService.insert(users).values({
+      id: group.createdBy.value,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@test.com',
+      createdAt: new Date()
+    })
     await groupsRepository.create(group)
     const updatedGroup = {
       ...group,
@@ -106,9 +134,13 @@ describe('GroupsRepository', () => {
 
   it('should delete a group', async () => {
     const group = groupFake()
-    await drizzleService
-      .insert(users)
-      .values({ id: group.createdBy.value, firstName: 'John', lastName: 'Doe' })
+    await drizzleService.insert(users).values({
+      id: group.createdBy.value,
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@test.com',
+      createdAt: new Date()
+    })
     await groupsRepository.create(group)
     await groupsRepository.delete(group.id.value)
     const result = await groupsRepository.findById(group.id.value)

@@ -15,7 +15,13 @@ describe('GroupTransactionsRepository', () => {
     groupTransactionsRepository = new GroupTransactionsRepository(drizzleService)
 
     await drizzleService.transaction(async tx => {
-      await tx.insert(users).values({ id: userId.value, firstName: 'John', lastName: 'Doe' })
+      await tx.insert(users).values({
+        id: userId.value,
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@test.com',
+        createdAt: new Date()
+      })
       await tx.insert(groups).values({
         id: groupId.value,
         name: 'Group 1',
@@ -88,9 +94,13 @@ describe('GroupTransactionsRepository', () => {
     })
     await groupTransactionsRepository.create(groupTransaction)
     const newUserId = IdValueObject.create()
-    await drizzleService
-      .insert(users)
-      .values({ id: newUserId.value, firstName: 'Jane', lastName: 'Doe' })
+    await drizzleService.insert(users).values({
+      id: newUserId.value,
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'jane.doe@test.com',
+      createdAt: new Date()
+    })
     await drizzleService
       .insert(groupMembers)
       .values({ userId: newUserId.value, groupId: groupId.value, createdAt: new Date() })

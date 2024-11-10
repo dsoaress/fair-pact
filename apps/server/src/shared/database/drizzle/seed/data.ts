@@ -12,6 +12,9 @@ type Output = {
     id: string
     firstName: string
     lastName: string
+    email: string
+    avatar: string
+    createdAt: Date
   }[]
   groupsData: {
     id: string
@@ -58,7 +61,10 @@ export function data({ usersCount, groupsCount, transactionsPerUserPerGroup }: I
   const usersData = Array.from({ length: usersCount }, (_, i) => ({
     id: USER_IDS[i] ?? randomUUID(),
     firstName: faker.person.firstName(),
-    lastName: faker.person.lastName()
+    lastName: faker.person.lastName(),
+    email: faker.internet.email().toLowerCase(),
+    avatar: faker.image.avatar(),
+    createdAt: faker.date.recent()
   }))
 
   enum currencies {

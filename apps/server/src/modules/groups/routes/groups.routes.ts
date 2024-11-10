@@ -1,6 +1,8 @@
 import type { FastifyInstance } from 'fastify'
 
-import { makeControllersFactory } from './factories/make-controllers.factories'
+import { authMiddleware } from '@/shared/middleares/auth.middleware'
+
+import { makeControllersFactory } from '../factories/make-controllers.factories'
 
 export function groupsRoutes(app: FastifyInstance): void {
   const { groupsController, groupTransactionsController } = makeControllersFactory()
@@ -22,6 +24,7 @@ export function groupsRoutes(app: FastifyInstance): void {
     getGroupTransactionsByGroupId
   } = groupTransactionsController
 
+  app.addHook('onRequest', authMiddleware)
   app.get('/', getGroups.bind(groupsController))
   app.get('/:groupId', getGroupById.bind(groupsController))
   app.post('/', createGroup.bind(groupsController))
