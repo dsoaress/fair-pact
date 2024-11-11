@@ -36,7 +36,7 @@ export * from './users/dtos/create-or-updates-user-output.dto'
 export * from './users/dtos/get-user-profile-input.dto'
 export * from './users/dtos/get-user-profile-output.dto'
 
-export * from './users/validators/create-or-updates-user.validator'
+export * from './users/validators/create-or-update-user.validator'
 
 export * from './shared/validators/id.validator'
 

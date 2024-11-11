@@ -5,7 +5,7 @@ type Participant = {
   lastName: string
 }
 
-export type GetGroupTransactionByIdOutputDto = {
+export type GetGroupTransactionByIdOutputDTO = {
   id: string
   name: string
   currency: string

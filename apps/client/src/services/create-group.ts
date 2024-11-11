@@ -1,8 +1,8 @@
-import type { CreateGroupDto } from 'contracts'
+import type { CreateGroupDTO } from 'contracts'
 
 import { api } from '@/lib/api'
 
-export type CreateGroupProps = Omit<CreateGroupDto, 'createdBy'>
+export type CreateGroupProps = Omit<CreateGroupDTO, 'createdBy'>
 
 export async function createGroup(data: CreateGroupProps): Promise<void> {
   await api.post('/groups', data)

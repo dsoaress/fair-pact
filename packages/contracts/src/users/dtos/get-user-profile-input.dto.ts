@@ -1,3 +1,3 @@
-export type GetUserProfileInputDto = {
+export type GetUserProfileInputDTO = {
   id: string
 }

@@ -1,4 +1,4 @@
-export type GetGroupTransactionsByGroupIdOutputDto = {
+export type GetGroupTransactionsByGroupIdOutputDTO = {
   id: string
   name: string
   currency: string

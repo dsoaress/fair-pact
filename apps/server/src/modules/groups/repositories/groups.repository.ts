@@ -1,4 +1,4 @@
-import { type CurrencyDto, IdValueObject } from 'contracts'
+import { type CurrencyDTO, IdValueObject } from 'contracts'
 import { and, eq } from 'drizzle-orm'
 
 import type { Repository } from '@/shared/base/repository'
@@ -84,7 +84,7 @@ export class GroupsRepository implements Repository<GroupModel> {
     return {
       id: IdValueObject.create(result.id),
       name: result.name,
-      currency: result.currency as CurrencyDto,
+      currency: result.currency as CurrencyDTO,
       members: result.members.map(member => IdValueObject.create(member.userId)),
       createdBy: IdValueObject.create(result.createdBy),
       createdAt: result.createdAt,

@@ -6,22 +6,22 @@ export class InMemoryGroupTransactionsRepository extends GroupTransactionsReposi
     super({} as never)
   }
 
-  async findById(id: string): Promise<GroupTransactionModel | null> {
+  override async findById(id: string): Promise<GroupTransactionModel | null> {
     return this.groupTransactions.find(groupTransaction => groupTransaction.id.value === id) || null
   }
 
-  async create(model: GroupTransactionModel): Promise<void> {
+  override async create(model: GroupTransactionModel): Promise<void> {
     this.groupTransactions.push(model)
   }
 
-  async update(model: GroupTransactionModel): Promise<void> {
+  override async update(model: GroupTransactionModel): Promise<void> {
     const index = this.groupTransactions.findIndex(
       groupTransaction => groupTransaction.id.value === model.id.value
     )
     this.groupTransactions[index] = model
   }
 
-  async delete(id: string): Promise<void> {
+  override async delete(id: string): Promise<void> {
     const index = this.groupTransactions.findIndex(
       groupTransaction => groupTransaction.id.value === id
     )

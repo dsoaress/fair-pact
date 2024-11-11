@@ -1,4 +1,4 @@
-import { type JoinGroupDto, joinGroupValidator } from 'contracts'
+import { type JoinGroupDTO, joinGroupValidator } from 'contracts'
 
 import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
@@ -7,10 +7,10 @@ import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
 import type { GroupsRepository } from '../repositories/groups.repository'
 
-export class JoinGroupCommand implements Command<JoinGroupDto, Promise<void>> {
+export class JoinGroupCommand implements Command<JoinGroupDTO, Promise<void>> {
   constructor(private readonly groupsRepository: GroupsRepository) {}
 
-  async execute(data: JoinGroupDto): Promise<void> {
+  async execute(data: JoinGroupDTO): Promise<void> {
     const parsedData = joinGroupValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const { id, userId } = parsedData.data

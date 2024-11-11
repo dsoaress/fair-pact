@@ -1,19 +1,19 @@
 import { drizzleService } from '@/shared/database/drizzle/drizzle.service'
 
-import { GroupTransactionsDao } from '../daos/group-transactions.dao'
-import { GroupsDao } from '../daos/groups.dao'
+import { GroupTransactionsDAO } from '../daos/group-transactions.dao'
+import { GroupsDAO } from '../daos/groups.dao'
 
 type Output = {
-  groupsDao: GroupsDao
-  groupTransactionsDao: GroupTransactionsDao
+  groupsDAO: GroupsDAO
+  groupTransactionsDAO: GroupTransactionsDAO
 }
 
-export function makeDaosFactory(): Output {
-  const groupsDao = new GroupsDao(drizzleService)
-  const groupTransactionsDao = new GroupTransactionsDao(drizzleService)
+export function makeDAOsFactory(): Output {
+  const groupsDAO = new GroupsDAO(drizzleService)
+  const groupTransactionsDAO = new GroupTransactionsDAO(drizzleService)
 
   return {
-    groupsDao,
-    groupTransactionsDao
+    groupsDAO,
+    groupTransactionsDAO
   }
 }

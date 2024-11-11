@@ -1,17 +1,17 @@
-import type { GetUserProfileInputDto, GetUserProfileOutputDto } from 'contracts'
+import type { GetUserProfileInputDTO, GetUserProfileOutputDTO } from 'contracts'
 
 import type { Query } from '@/shared/base/query'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
-import type { UsersDao } from '../daos/users.dao'
+import type { UsersDAO } from '../daos/users.dao'
 
 export class GetUserProfileQuery
-  implements Query<GetUserProfileInputDto, Promise<GetUserProfileOutputDto>>
+  implements Query<GetUserProfileInputDTO, Promise<GetUserProfileOutputDTO>>
 {
-  constructor(private readonly usersDao: UsersDao) {}
+  constructor(private readonly usersDAO: UsersDAO) {}
 
-  async execute(data: GetUserProfileInputDto): Promise<GetUserProfileOutputDto> {
-    const user = await this.usersDao.getUserById(data.id)
+  async execute(data: GetUserProfileInputDTO): Promise<GetUserProfileOutputDTO> {
+    const user = await this.usersDAO.getUserById(data.id)
     if (!user) throw new NotFoundException('User')
     return user
   }

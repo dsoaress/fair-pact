@@ -1,4 +1,4 @@
-export type GetUserProfileOutputDto = {
+export type GetUserProfileOutputDTO = {
   id: string
   firstName: string
   lastName: string

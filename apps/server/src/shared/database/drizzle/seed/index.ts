@@ -30,7 +30,7 @@ drizzle({ connection: env.DATABASE_URL, schema })
     await tx.insert(schema.groupTransactionParticipants).values(groupTransactionParticipantsData)
   })
   .then(() => {
-    console.log(
+    console.info(
       `Seed completed, created ${USERS_COUNT} users, ${GROUPS_COUNT} groups and ${
         GROUPS_COUNT * TRANSACTIONS_PER_USER_PER_GROUP
       } transactions`

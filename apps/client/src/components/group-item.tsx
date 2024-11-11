@@ -1,10 +1,10 @@
 import { Link } from '@tanstack/react-router'
-import type { GetGroupsOutputDto } from 'contracts'
+import type { GetGroupsOutputDTO } from 'contracts'
 
 import { cn } from '@/lib/utils'
 import { formatPrice } from '@/utils/format-price'
 
-export function GroupItem({ id, name, currency, balance }: GetGroupsOutputDto[0]): JSX.Element {
+export function GroupItem({ id, name, currency, balance }: GetGroupsOutputDTO[0]): JSX.Element {
   const { formattedPrice, type } = formatPrice({ price: balance, currency })
 
   return (

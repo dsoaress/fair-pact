@@ -1,5 +1,5 @@
 import {
-  type CreateGroupTransactionDto,
+  type CreateGroupTransactionDTO,
   IdValueObject,
   createGroupTransactionValidator
 } from 'contracts'
@@ -14,14 +14,14 @@ import type { GroupTransactionsRepository } from '../repositories/group-transact
 import type { GroupsRepository } from '../repositories/groups.repository'
 
 export class CreateGroupTransactionCommand
-  implements Command<CreateGroupTransactionDto, Promise<void>>
+  implements Command<CreateGroupTransactionDTO, Promise<void>>
 {
   constructor(
     private readonly groupsRepository: GroupsRepository,
     private readonly groupTransactionsRepository: GroupTransactionsRepository
   ) {}
 
-  async execute(data: CreateGroupTransactionDto): Promise<void> {
+  async execute(data: CreateGroupTransactionDTO): Promise<void> {
     const parsedData = createGroupTransactionValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const { groupId, payerUserId, participants, createdBy } = parsedData.data
@@ -35,7 +35,7 @@ export class CreateGroupTransactionCommand
     group: GroupModel,
     payerUserId: string,
     createdBy: string,
-    participants: CreateGroupTransactionDto['participants']
+    participants: CreateGroupTransactionDTO['participants']
   ): void {
     const userIds = group.members.map(member => member.value)
     const isValidUserId =
@@ -45,7 +45,7 @@ export class CreateGroupTransactionCommand
     if (!isValidUserId) throw new BadRequestException('Invalid member id')
   }
 
-  private createGroupTransaction(data: CreateGroupTransactionDto): GroupTransactionModel {
+  private createGroupTransaction(data: CreateGroupTransactionDTO): GroupTransactionModel {
     return {
       id: IdValueObject.create(),
       name: data.name,

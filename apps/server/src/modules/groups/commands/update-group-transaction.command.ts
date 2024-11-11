@@ -1,6 +1,6 @@
 import {
   IdValueObject,
-  type UpdateGroupTransactionDto,
+  type UpdateGroupTransactionDTO,
   updateGroupTransactionValidator
 } from 'contracts'
 
@@ -13,14 +13,14 @@ import type { GroupTransactionsRepository } from '../repositories/group-transact
 import type { GroupsRepository } from '../repositories/groups.repository'
 
 export class UpdateGroupTransactionCommand
-  implements Command<UpdateGroupTransactionDto, Promise<void>>
+  implements Command<UpdateGroupTransactionDTO, Promise<void>>
 {
   constructor(
     private readonly groupsRepository: GroupsRepository,
     private readonly groupTransactionsRepository: GroupTransactionsRepository
   ) {}
 
-  async execute(data: UpdateGroupTransactionDto): Promise<void> {
+  async execute(data: UpdateGroupTransactionDTO): Promise<void> {
     const parsedData = updateGroupTransactionValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const { id, groupId } = parsedData.data
@@ -36,7 +36,7 @@ export class UpdateGroupTransactionCommand
 
   private updateGroupTransaction(
     originalTransaction: GroupTransactionModel,
-    data: UpdateGroupTransactionDto
+    data: UpdateGroupTransactionDTO
   ): void {
     originalTransaction.name = data.name ?? originalTransaction.name
     originalTransaction.amount = data.amount ?? originalTransaction.amount

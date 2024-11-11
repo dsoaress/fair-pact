@@ -1,5 +1,5 @@
 import type { z } from 'zod'
 
-import type { createOrUpdateUserValidator } from '../validators/create-or-updates-user.validator'
+import type { createOrUpdateUserValidator } from '../validators/create-or-update-user.validator'
 
-export type CreateOrUpdateUserInputDto = z.infer<typeof createOrUpdateUserValidator>
+export type CreateOrUpdateUserInputDTO = z.infer<typeof createOrUpdateUserValidator>

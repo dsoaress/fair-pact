@@ -1,3 +1,3 @@
-export type CreateOrUpdateUserOutputDto = {
+export type CreateOrUpdateUserOutputDTO = {
   id: string
 }

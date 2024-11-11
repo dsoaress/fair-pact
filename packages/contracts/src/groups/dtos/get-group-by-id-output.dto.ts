@@ -1,4 +1,4 @@
-export type GetGroupByIdOutputDto = {
+export type GetGroupByIdOutputDTO = {
   id: string
   name: string
   currency: string

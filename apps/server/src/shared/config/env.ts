@@ -20,7 +20,7 @@ const envSchema = z
     if (isCIEnv) return true
     if (isProductionOrDevelopmentEnv && !hasGoogleOAuth) return false
     if (isLocalEnv && !hasGoogleOAuth) {
-      console.log(
+      console.info(
         'Google OAuth 2.0 is not configured, please set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET to enable Google OAuth'
       )
       return true

@@ -1,4 +1,4 @@
-import type { CreateGroupTransactionDto, UpdateGroupTransactionDto } from 'contracts'
+import type { CreateGroupTransactionDTO, UpdateGroupTransactionDTO } from 'contracts'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
 import { httpStatusCode } from '@/shared/base/http-status-code'
@@ -44,7 +44,7 @@ export class GroupTransactionsController {
   async createGroupTransaction(
     request: FastifyRequest<{
       Params: { groupId: string }
-      Body: Omit<CreateGroupTransactionDto, 'groupId' | 'createdBy'>
+      Body: Omit<CreateGroupTransactionDTO, 'groupId' | 'createdBy'>
     }>,
     reply: FastifyReply
   ): Promise<void> {
@@ -62,7 +62,7 @@ export class GroupTransactionsController {
   async updateGroupTransaction(
     request: FastifyRequest<{
       Params: { groupTransactionId: string; groupId: string }
-      Body: Omit<UpdateGroupTransactionDto, 'id' | 'groupId'>
+      Body: Omit<UpdateGroupTransactionDTO, 'id' | 'groupId'>
     }>,
     reply: FastifyReply
   ): Promise<void> {

@@ -1,8 +1,8 @@
 import type {
-  GetGroupTransactionByIdInputDto,
-  GetGroupTransactionByIdOutputDto,
-  GetGroupTransactionsByGroupIdInputDto,
-  GetGroupTransactionsByGroupIdOutputDto
+  GetGroupTransactionByIdInputDTO,
+  GetGroupTransactionByIdOutputDTO,
+  GetGroupTransactionsByGroupIdInputDTO,
+  GetGroupTransactionsByGroupIdOutputDTO
 } from 'contracts'
 
 import { sql } from 'drizzle-orm'
@@ -16,13 +16,13 @@ import {
   users
 } from '@/shared/database/drizzle/schemas'
 
-export class GroupTransactionsDao {
+export class GroupTransactionsDAO {
   constructor(private readonly drizzleService: DrizzleService) {}
 
   async getGroupTransactionById({
     id,
     userId
-  }: GetGroupTransactionByIdInputDto): Promise<GetGroupTransactionByIdOutputDto | null> {
+  }: GetGroupTransactionByIdInputDTO): Promise<GetGroupTransactionByIdOutputDTO | null> {
     const query = sql`
       SELECT ${groupTransactions.id}, ${groupTransactions.name}, ${groups.currency}, ${groupTransactions.amount},
         jsonb_build_object(
@@ -56,13 +56,13 @@ export class GroupTransactionsDao {
     `
     const { rows } = await this.drizzleService.execute(query)
     if (rows.length === 0) return null
-    return rows[0] as GetGroupTransactionByIdOutputDto
+    return rows[0] as GetGroupTransactionByIdOutputDTO
   }
 
   async getGroupTransactionsByGroupId({
     groupId,
     userId
-  }: GetGroupTransactionsByGroupIdInputDto): Promise<GetGroupTransactionsByGroupIdOutputDto> {
+  }: GetGroupTransactionsByGroupIdInputDTO): Promise<GetGroupTransactionsByGroupIdOutputDTO> {
     const query = sql`
       SELECT 
         ${groupTransactions.id}, 
@@ -102,6 +102,6 @@ export class GroupTransactionsDao {
       ORDER BY ${groupTransactions.date} DESC;
     `
     const { rows } = await this.drizzleService.execute(query)
-    return rows as GetGroupTransactionsByGroupIdOutputDto
+    return rows as GetGroupTransactionsByGroupIdOutputDTO
   }
 }

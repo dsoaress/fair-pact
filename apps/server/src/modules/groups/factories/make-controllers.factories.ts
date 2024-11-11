@@ -1,7 +1,7 @@
 import { GroupTransactionsController } from '../controllers/group-transactions.controller'
 import { GroupsController } from '../controllers/groups.controller'
 import { makeCommandsFactory } from './make-commands.factory'
-import { makeDaosFactory } from './make-daos.factory'
+import { makeDAOsFactory } from './make-daos.factory'
 import { makeQueriesFactory } from './make-queries.factory'
 import { makeRepositoriesFactory } from './make-repositories.factory'
 
@@ -11,14 +11,14 @@ type Output = {
 }
 
 export function makeControllersFactory(): Output {
-  const { groupsDao, groupTransactionsDao } = makeDaosFactory()
+  const { groupsDAO, groupTransactionsDAO } = makeDAOsFactory()
   const { groupsRepository, groupTransactionsRepository } = makeRepositoriesFactory()
   const {
     getGroupByIdQuery,
     getGroupTransactionByIdQuery,
     getGroupTransactionsByGroupIdQuery,
     getGroupsQuery
-  } = makeQueriesFactory({ groupsDao, groupTransactionsDao })
+  } = makeQueriesFactory({ groupsDAO, groupTransactionsDAO })
   const {
     addGroupMemberCommand,
     createGroupCommand,

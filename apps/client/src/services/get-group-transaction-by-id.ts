@@ -1,14 +1,14 @@
-import type { GetGroupTransactionByIdOutputDto } from 'contracts'
+import type { GetGroupTransactionByIdOutputDTO } from 'contracts'
 
 import { api } from '@/lib/api'
 
 export async function getGroupTransactionById(
   groupId: string,
   transactionId: string
-): Promise<GetGroupTransactionByIdOutputDto> {
+): Promise<GetGroupTransactionByIdOutputDTO> {
   return api
     .get<{
-      data: GetGroupTransactionByIdOutputDto
+      data: GetGroupTransactionByIdOutputDTO
     }>(`/groups/${groupId}/transactions/${transactionId}`)
     .then(res => res.data.data)
 }

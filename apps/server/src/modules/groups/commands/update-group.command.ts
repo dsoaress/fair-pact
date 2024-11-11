@@ -1,4 +1,4 @@
-import { IdValueObject, type UpdateGroupDto, updateGroupValidator } from 'contracts'
+import { IdValueObject, type UpdateGroupDTO, updateGroupValidator } from 'contracts'
 
 import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
@@ -6,10 +6,10 @@ import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
 import type { GroupsRepository } from '../repositories/groups.repository'
 
-export class UpdateGroupCommand implements Command<UpdateGroupDto, Promise<void>> {
+export class UpdateGroupCommand implements Command<UpdateGroupDTO, Promise<void>> {
   constructor(private readonly groupsRepository: GroupsRepository) {}
 
-  async execute(data: UpdateGroupDto): Promise<void> {
+  async execute(data: UpdateGroupDTO): Promise<void> {
     const parsedData = updateGroupValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const group = await this.groupsRepository.findById(data.id)

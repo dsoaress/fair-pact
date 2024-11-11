@@ -1,8 +1,8 @@
 import type {
-  GetGroupByIdInputDto,
-  GetGroupByIdOutputDto,
-  GetGroupsInputDto,
-  GetGroupsOutputDto
+  GetGroupByIdInputDTO,
+  GetGroupByIdOutputDTO,
+  GetGroupsInputDTO,
+  GetGroupsOutputDTO
 } from 'contracts'
 
 import { and, eq, sql } from 'drizzle-orm'
@@ -16,10 +16,10 @@ import {
   users
 } from '@/shared/database/drizzle/schemas'
 
-export class GroupsDao {
+export class GroupsDAO {
   constructor(private readonly drizzleService: DrizzleService) {}
 
-  async getGroupById({ id, userId }: GetGroupByIdInputDto): Promise<GetGroupByIdOutputDto | null> {
+  async getGroupById({ id, userId }: GetGroupByIdInputDTO): Promise<GetGroupByIdOutputDTO | null> {
     const query = sql`
       SELECT 
         ${groups.id}, 
@@ -82,10 +82,10 @@ export class GroupsDao {
       if (!result) return null
       return result[0]
     }
-    return rows[0] as GetGroupByIdOutputDto
+    return rows[0] as GetGroupByIdOutputDTO
   }
 
-  async getGroups({ userId }: GetGroupsInputDto): Promise<GetGroupsOutputDto> {
+  async getGroups({ userId }: GetGroupsInputDTO): Promise<GetGroupsOutputDTO> {
     const query = sql`
       SELECT
         ${groups.id}, 
@@ -116,6 +116,6 @@ export class GroupsDao {
       ORDER BY ${groups.createdAt} DESC;
     `
     const { rows } = await this.drizzleService.execute(query)
-    return rows as GetGroupsOutputDto
+    return rows as GetGroupsOutputDTO
   }
 }

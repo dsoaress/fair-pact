@@ -1,7 +1,10 @@
+import type { CurrencyDTO } from 'contracts'
 import type { SyntheticEvent } from 'react'
 
 import { useCreateGroup } from '@/hooks/use-create-group'
-import type { CreateGroupProps } from '@/services/create-group'
+
+import { Button } from './ui/button'
+import { Input } from './ui/input'
 
 export function CreateGroup(): JSX.Element {
   const { mutate } = useCreateGroup()
@@ -11,21 +14,18 @@ export function CreateGroup(): JSX.Element {
     const form = event.currentTarget
     const formElements = form.elements as typeof form.elements & {
       name: { value: string }
-      currency: { value: CreateGroupProps['currency'] }
+      currency: { value: CurrencyDTO }
     }
     const name = formElements.name.value
     const currency = formElements.currency.value
-
     mutate({ name, currency })
   }
 
   return (
-    <div>
-      <form onSubmit={handleCreate}>
-        <input className="border" type="text" name="name" placeholder="Nome" />
-        <input className="border" type="text" name="currency" placeholder="Moeda" />
-        <button type="submit">Criar</button>
-      </form>
-    </div>
+    <form className="flex flex-col gap-4" onSubmit={handleCreate}>
+      <Input className="border" type="text" name="name" placeholder="Nome" />
+      <Input className="border" type="text" name="currency" placeholder="Moeda" />
+      <Button type="submit">Criar</Button>
+    </form>
   )
 }

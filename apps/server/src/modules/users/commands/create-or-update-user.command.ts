@@ -1,6 +1,6 @@
 import {
-  type CreateOrUpdateUserInputDto,
-  type CreateOrUpdateUserOutputDto,
+  type CreateOrUpdateUserInputDTO,
+  type CreateOrUpdateUserOutputDTO,
   IdValueObject,
   createGroupTransactionValidator
 } from 'contracts'
@@ -10,11 +10,11 @@ import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import type { UsersRepository } from '../repositories/users.repository'
 
 export class CreateOrUpdateUserCommand
-  implements Command<CreateOrUpdateUserInputDto, Promise<CreateOrUpdateUserOutputDto>>
+  implements Command<CreateOrUpdateUserInputDTO, Promise<CreateOrUpdateUserOutputDTO>>
 {
   constructor(private readonly usersRepository: UsersRepository) {}
 
-  async execute(data: CreateOrUpdateUserInputDto): Promise<CreateOrUpdateUserOutputDto> {
+  async execute(data: CreateOrUpdateUserInputDTO): Promise<CreateOrUpdateUserOutputDTO> {
     const parsedData = createGroupTransactionValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error)
     return this.usersRepository.createOrUpdate({
