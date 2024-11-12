@@ -4,20 +4,20 @@ import type { ReactNode } from 'react'
 
 type HeaderProps = {
   title: string
-  prevView?: string
+  hasBackButton?: boolean
   children?: ReactNode
 }
 
-export function Header({ children, title, prevView }: HeaderProps): JSX.Element {
+export function Header({ children, title, hasBackButton }: HeaderProps): JSX.Element {
   const navigate = useNavigate()
   return (
     <div className="flex items-center justify-between fixed top-0 left-0 right-0 z-10 bg-primary border-b p-4 h-14 shadow">
       <div className="flex items-center gap-2">
-        {prevView && (
+        {hasBackButton && (
           <button
             type="button"
             className="text-white"
-            onClick={(): Promise<void> => navigate({ to: prevView })}
+            onClick={(): Promise<void> => navigate({ to: '..' })}
           >
             <ChevronLeft />
             <span className="sr-only">voltar</span>

@@ -15,7 +15,7 @@ export function CreateGroup(): JSX.Element {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button size="icon" variant="link" aria-label="Criar novo grupo" className="text-white">
+        <Button size="icon" variant="link" aria-label="criar novo grupo" className="text-white">
           <PlusCircle />
         </Button>
       </DrawerTrigger>

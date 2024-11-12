@@ -12,8 +12,8 @@ const pwaOptions: Partial<VitePWAOptions> = {
   includeAssets: ['favicon.svg'],
 
   manifest: {
-    name: 'PWA Router',
-    short_name: 'PWA Router',
+    name: 'Fair Pact',
+    short_name: 'Fair Pact',
     theme_color: '#16A34A',
     display: 'standalone'
   },

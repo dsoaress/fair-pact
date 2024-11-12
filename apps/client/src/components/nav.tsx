@@ -16,7 +16,7 @@ const LINKS = [
   {
     icon: <CircleFadingPlus size={48} />,
     label: '',
-    url: '/app'
+    url: '/app/transaction'
   },
   {
     icon: <BellDot />,
@@ -40,7 +40,7 @@ export function Nav(): JSX.Element {
             <Link
               to={url}
               className={cn('flex flex-col gap-1 items-center justify-center p-4', {
-                'text-primary': pathname === url && label !== ''
+                'text-primary': pathname === url
               })}
             >
               {icon}

@@ -17,7 +17,7 @@ function Group(): JSX.Element {
 
   return (
     <>
-      <Header title={data.name} prevView="/app" />
+      <Header title={data.name} hasBackButton />
       <div>
         <pre>{JSON.stringify(data, null, 2)}</pre>
 
