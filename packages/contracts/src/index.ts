@@ -1,5 +1,6 @@
 export * from './groups/dtos/create-group-transaction.dto'
-export * from './groups/dtos/create-group.dto'
+export * from './groups/dtos/create-group-input.dto'
+export * from './groups/dtos/create-group-output.dto'
 export * from './groups/dtos/currency.dto'
 export * from './groups/dtos/delete-group-transaction.dto'
 export * from './groups/dtos/delete-group.dto'

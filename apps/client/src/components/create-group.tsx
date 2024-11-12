@@ -1,31 +1,35 @@
-import type { CurrencyDTO } from 'contracts'
-import type { SyntheticEvent } from 'react'
+import { PlusCircle } from 'lucide-react'
 
-import { useCreateGroup } from '@/hooks/use-create-group'
-
+import { CreateGroupForm } from './create-group-form'
 import { Button } from './ui/button'
-import { Input } from './ui/input'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger
+} from './ui/drawer'
 
 export function CreateGroup(): JSX.Element {
-  const { mutate } = useCreateGroup()
-
-  function handleCreate(event: SyntheticEvent<HTMLFormElement>): void {
-    event.preventDefault()
-    const form = event.currentTarget
-    const formElements = form.elements as typeof form.elements & {
-      name: { value: string }
-      currency: { value: CurrencyDTO }
-    }
-    const name = formElements.name.value
-    const currency = formElements.currency.value
-    mutate({ name, currency })
-  }
-
   return (
-    <form className="flex flex-col gap-4" onSubmit={handleCreate}>
-      <Input className="border" type="text" name="name" placeholder="Nome" />
-      <Input className="border" type="text" name="currency" placeholder="Moeda" />
-      <Button type="submit">Criar</Button>
-    </form>
+    <Drawer>
+      <DrawerTrigger asChild>
+        <Button size="icon" variant="link" aria-label="Criar novo grupo" className="text-white">
+          <PlusCircle />
+        </Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Criar um grupo</DrawerTitle>
+          <DrawerDescription>
+            Adicione um novo grupo para organizar as finanças do seu grupo de amigos.
+          </DrawerDescription>
+        </DrawerHeader>
+        <div className="p-4">
+          <CreateGroupForm />
+        </div>
+      </DrawerContent>
+    </Drawer>
   )
 }

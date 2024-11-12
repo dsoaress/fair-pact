@@ -2,7 +2,7 @@ import {
   type CreateOrUpdateUserInputDTO,
   type CreateOrUpdateUserOutputDTO,
   IdValueObject,
-  createGroupTransactionValidator
+  createOrUpdateUserValidator
 } from 'contracts'
 
 import type { Command } from '@/shared/base/command'
@@ -15,7 +15,7 @@ export class CreateOrUpdateUserCommand
   constructor(private readonly usersRepository: UsersRepository) {}
 
   async execute(data: CreateOrUpdateUserInputDTO): Promise<CreateOrUpdateUserOutputDTO> {
-    const parsedData = createGroupTransactionValidator.safeParse(data)
+    const parsedData = createOrUpdateUserValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error)
     return this.usersRepository.createOrUpdate({
       id: IdValueObject.create(),

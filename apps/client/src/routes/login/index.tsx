@@ -1,3 +1,4 @@
+import { api } from '@/lib/api'
 import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
@@ -24,6 +25,7 @@ function Login(): null {
     if (error) navigate({ to: '/' })
     if (token) {
       localStorage.setItem('token', token)
+      api.defaults.headers.Authorization = `Bearer ${token}`
       navigate({ to: '/app' })
     }
   }, [token, error, navigate])

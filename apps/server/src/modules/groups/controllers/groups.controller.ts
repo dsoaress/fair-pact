@@ -1,4 +1,4 @@
-import type { CreateGroupDTO, UpdateGroupDTO } from 'contracts'
+import type { CreateGroupInputDTO, UpdateGroupDTO } from 'contracts'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
 import { httpStatusCode } from '@/shared/base/http-status-code'
@@ -40,14 +40,14 @@ export class GroupsController {
 
   async createGroup(
     request: FastifyRequest<{
-      Body: Pick<CreateGroupDTO, 'name' | 'currency'>
+      Body: Pick<CreateGroupInputDTO, 'name' | 'currency'>
     }>,
     reply: FastifyReply
   ): Promise<void> {
     const createdBy = request.user.sub
     const data = request.body
-    await this.createGroupCommand.execute({ ...data, createdBy })
-    reply.status(httpStatusCode.CREATED).send()
+    const result = await this.createGroupCommand.execute({ ...data, createdBy })
+    reply.status(httpStatusCode.CREATED).send(result)
   }
 
   async joinGroup(

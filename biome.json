@@ -5,9 +5,11 @@
     "ignore": [
       "node_modules/**/*",
       "dist/**/*",
+      "dev-dist/**/*",
       "coverage/**/*",
       "public/**/*",
-      "route-tree.gen.ts"
+      "route-tree.gen.ts",
+      "vite-env.d.ts"
     ]
   },
   "formatter": {
@@ -52,7 +54,6 @@
         "noDocumentImportInPage": "error",
         "noHeadElement": "error",
         "noHeadImportInDocument": "error",
-        "noImgElement": "error",
         "noDocumentCookie": "error",
         "useCollapsedIf": "error",
         "useExplicitType": "error"

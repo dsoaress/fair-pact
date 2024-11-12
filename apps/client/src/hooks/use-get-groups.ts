@@ -1,17 +1,22 @@
-import { type UseQueryResult, useQuery, useQueryClient } from '@tanstack/react-query'
+import { type DefinedUseQueryResult, useQuery, useQueryClient } from '@tanstack/react-query'
 import type { GetGroupByIdOutputDTO, GetGroupsOutputDTO } from 'contracts'
 
 import { queryKeys } from '@/constants/query-keys'
 import { getGroupById } from '@/services/get-group-by-id'
 import { getGroups } from '@/services/get-groups'
 
-export function useGetGroups(): UseQueryResult<GetGroupsOutputDTO> {
+type UseGetGroupsOutput = {
+  groups: GetGroupsOutputDTO
+  userBalance: [string, number][]
+}
+
+export function useGetGroups(): DefinedUseQueryResult<UseGetGroupsOutput, Error> {
   const queryClient = useQueryClient()
   return useQuery({
     queryKey: [queryKeys.GROUPS],
     queryFn: getGroups,
     initialData: [],
-    select(data): GetGroupsOutputDTO {
+    select(data): UseGetGroupsOutput {
       const groupIds = data.map(group => group.id)
       for (const groupId of groupIds) {
         queryClient.prefetchQuery({
@@ -20,7 +25,17 @@ export function useGetGroups(): UseQueryResult<GetGroupsOutputDTO> {
         })
       }
 
-      return data
+      const userBalance = data.reduce<Record<string, number>>((acc, group) => {
+        const currency = group.currency
+        if (!acc[currency]) acc[currency] = 0
+        acc[currency] += group.balance
+        return acc
+      }, {})
+
+      return {
+        groups: data,
+        userBalance: Object.entries(userBalance)
+      }
     }
   })
 }

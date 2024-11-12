@@ -3,6 +3,10 @@ import type { JSX } from 'react'
 
 import { CreateGroup } from '@/components/create-group'
 import { GroupItem } from '@/components/group-item'
+// import { cn } from '@/lib/utils'
+// import { formatPrice } from '@/utils/format-price'
+import { Header } from '@/components/haeder'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { useGetGroups } from '@/hooks/use-get-groups'
 
 export const Route = createFileRoute('/app/')({
@@ -15,13 +19,31 @@ function Index(): JSX.Element {
   if (!data) return <div>Loading...</div>
 
   return (
-    <div className="p-4 flex flex-col gap-4 max-w-screen-lg mx-auto">
-      <button type="button">Criar novo grupo</button>
-      {data.map(g => (
-        <GroupItem key={g.id} {...g} />
-      ))}
-
-      <CreateGroup />
-    </div>
+    <>
+      <Header title="Grupos">
+        {/* {data.userBalance.map(([currency, balance]) => {
+          const { formattedPrice, type } = formatPrice({ price: balance, currency })
+          return (
+            <span
+              key={currency}
+              className={cn({
+                'text-green-500': type === 'POSITIVE',
+                'text-red-500': type === 'NEGATIVE'
+              })}
+            >
+              {formattedPrice}
+            </span>
+          )
+        })} */}
+        <CreateGroup />
+      </Header>
+      <ScrollArea>
+        <div className="flex flex-col gap-4 mx-auto mt-16">
+          {data.groups.map(g => (
+            <GroupItem key={g.id} {...g} />
+          ))}
+        </div>
+      </ScrollArea>
+    </>
   )
 }

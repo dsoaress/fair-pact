@@ -12,8 +12,9 @@ export class InMemoryGroupsRepository extends GroupsRepository {
     return this.groups.find(group => group.id.value === id) || null
   }
 
-  override async create(model: GroupModel): Promise<void> {
+  override async create(model: GroupModel): Promise<{ id: string }> {
     this.groups.push(model)
+    return { id: model.id.value }
   }
 
   override async addGroupMember(groupId: string, userId: string): Promise<void> {

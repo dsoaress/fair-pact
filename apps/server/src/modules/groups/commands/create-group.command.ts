@@ -1,4 +1,9 @@
-import { type CreateGroupDTO, IdValueObject, createGroupValidator } from 'contracts'
+import {
+  type CreateGroupInputDTO,
+  type CreateGroupOutputDTO,
+  IdValueObject,
+  createGroupValidator
+} from 'contracts'
 
 import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
@@ -6,10 +11,12 @@ import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import type { GroupModel } from '../models/group.model'
 import type { GroupsRepository } from '../repositories/groups.repository'
 
-export class CreateGroupCommand implements Command<CreateGroupDTO, Promise<void>> {
+export class CreateGroupCommand
+  implements Command<CreateGroupInputDTO, Promise<CreateGroupOutputDTO>>
+{
   constructor(private readonly groupsRepository: GroupsRepository) {}
 
-  async execute(data: CreateGroupDTO): Promise<void> {
+  async execute(data: CreateGroupInputDTO): Promise<CreateGroupOutputDTO> {
     const parsedData = createGroupValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error)
     const group: GroupModel = {
@@ -20,6 +27,6 @@ export class CreateGroupCommand implements Command<CreateGroupDTO, Promise<void>
       createdBy: IdValueObject.create(data.createdBy),
       createdAt: new Date()
     }
-    await this.groupsRepository.create(group)
+    return this.groupsRepository.create(group)
   }
 }

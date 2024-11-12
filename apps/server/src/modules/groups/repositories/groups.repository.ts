@@ -20,7 +20,7 @@ type GroupResult = {
   }[]
 }
 
-export class GroupsRepository implements Repository<GroupModel> {
+export class GroupsRepository implements Omit<Repository<GroupModel>, 'create'> {
   constructor(private readonly drizzleService: DrizzleService) {}
 
   async findById(id: string): Promise<GroupModel | null> {
@@ -32,21 +32,26 @@ export class GroupsRepository implements Repository<GroupModel> {
     return this.mapToModel(result)
   }
 
-  async create(model: GroupModel): Promise<void> {
-    await this.drizzleService.transaction(async tx => {
-      await tx.insert(groups).values({
-        id: model.id.value,
-        name: model.name,
-        currency: model.currency,
-        createdAt: model.createdAt,
-        createdBy: model.createdBy.value
-      })
+  async create(model: GroupModel): Promise<{ id: string }> {
+    return this.drizzleService.transaction(async tx => {
+      const result = await tx
+        .insert(groups)
+        .values({
+          id: model.id.value,
+          name: model.name,
+          currency: model.currency,
+          createdAt: model.createdAt,
+          createdBy: model.createdBy.value
+        })
+        .returning({ id: groups.id })
 
       await tx.insert(groupMembers).values({
         userId: model.createdBy.value,
         groupId: model.id.value,
         createdAt: model.createdAt
       })
+
+      return { id: result[0].id }
     })
   }
 

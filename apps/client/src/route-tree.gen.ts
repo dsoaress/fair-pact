@@ -14,6 +14,9 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as IndexImport } from './routes/index'
 import { Route as LoginIndexImport } from './routes/login/index'
 import { Route as AppIndexImport } from './routes/app/index'
+import { Route as AppFriendsIndexImport } from './routes/app/friends/index'
+import { Route as AppActivitiesIndexImport } from './routes/app/activities/index'
+import { Route as AppAccountIndexImport } from './routes/app/account/index'
 import { Route as AppGroupIdIndexImport } from './routes/app/$group-id/index'
 import { Route as AppGroupIdTransactionIdImport } from './routes/app/$group-id/$transaction-id'
 
@@ -34,6 +37,24 @@ const LoginIndexRoute = LoginIndexImport.update({
 const AppIndexRoute = AppIndexImport.update({
   id: '/app/',
   path: '/app/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AppFriendsIndexRoute = AppFriendsIndexImport.update({
+  id: '/app/friends/',
+  path: '/app/friends/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AppActivitiesIndexRoute = AppActivitiesIndexImport.update({
+  id: '/app/activities/',
+  path: '/app/activities/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AppAccountIndexRoute = AppAccountIndexImport.update({
+  id: '/app/account/',
+  path: '/app/account/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -88,6 +109,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppGroupIdIndexImport
       parentRoute: typeof rootRoute
     }
+    '/app/account/': {
+      id: '/app/account/'
+      path: '/app/account'
+      fullPath: '/app/account'
+      preLoaderRoute: typeof AppAccountIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/app/activities/': {
+      id: '/app/activities/'
+      path: '/app/activities'
+      fullPath: '/app/activities'
+      preLoaderRoute: typeof AppActivitiesIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/app/friends/': {
+      id: '/app/friends/'
+      path: '/app/friends'
+      fullPath: '/app/friends'
+      preLoaderRoute: typeof AppFriendsIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -99,6 +141,9 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginIndexRoute
   '/app/$group-id/$transaction-id': typeof AppGroupIdTransactionIdRoute
   '/app/$group-id': typeof AppGroupIdIndexRoute
+  '/app/account': typeof AppAccountIndexRoute
+  '/app/activities': typeof AppActivitiesIndexRoute
+  '/app/friends': typeof AppFriendsIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -107,6 +152,9 @@ export interface FileRoutesByTo {
   '/login': typeof LoginIndexRoute
   '/app/$group-id/$transaction-id': typeof AppGroupIdTransactionIdRoute
   '/app/$group-id': typeof AppGroupIdIndexRoute
+  '/app/account': typeof AppAccountIndexRoute
+  '/app/activities': typeof AppActivitiesIndexRoute
+  '/app/friends': typeof AppFriendsIndexRoute
 }
 
 export interface FileRoutesById {
@@ -116,6 +164,9 @@ export interface FileRoutesById {
   '/login/': typeof LoginIndexRoute
   '/app/$group-id/$transaction-id': typeof AppGroupIdTransactionIdRoute
   '/app/$group-id/': typeof AppGroupIdIndexRoute
+  '/app/account/': typeof AppAccountIndexRoute
+  '/app/activities/': typeof AppActivitiesIndexRoute
+  '/app/friends/': typeof AppFriendsIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -126,6 +177,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/app/$group-id/$transaction-id'
     | '/app/$group-id'
+    | '/app/account'
+    | '/app/activities'
+    | '/app/friends'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +187,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/app/$group-id/$transaction-id'
     | '/app/$group-id'
+    | '/app/account'
+    | '/app/activities'
+    | '/app/friends'
   id:
     | '__root__'
     | '/'
@@ -140,6 +197,9 @@ export interface FileRouteTypes {
     | '/login/'
     | '/app/$group-id/$transaction-id'
     | '/app/$group-id/'
+    | '/app/account/'
+    | '/app/activities/'
+    | '/app/friends/'
   fileRoutesById: FileRoutesById
 }
 
@@ -149,6 +209,9 @@ export interface RootRouteChildren {
   LoginIndexRoute: typeof LoginIndexRoute
   AppGroupIdTransactionIdRoute: typeof AppGroupIdTransactionIdRoute
   AppGroupIdIndexRoute: typeof AppGroupIdIndexRoute
+  AppAccountIndexRoute: typeof AppAccountIndexRoute
+  AppActivitiesIndexRoute: typeof AppActivitiesIndexRoute
+  AppFriendsIndexRoute: typeof AppFriendsIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -157,6 +220,9 @@ const rootRouteChildren: RootRouteChildren = {
   LoginIndexRoute: LoginIndexRoute,
   AppGroupIdTransactionIdRoute: AppGroupIdTransactionIdRoute,
   AppGroupIdIndexRoute: AppGroupIdIndexRoute,
+  AppAccountIndexRoute: AppAccountIndexRoute,
+  AppActivitiesIndexRoute: AppActivitiesIndexRoute,
+  AppFriendsIndexRoute: AppFriendsIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -173,7 +239,10 @@ export const routeTree = rootRoute
         "/app/",
         "/login/",
         "/app/$group-id/$transaction-id",
-        "/app/$group-id/"
+        "/app/$group-id/",
+        "/app/account/",
+        "/app/activities/",
+        "/app/friends/"
       ]
     },
     "/": {
@@ -190,6 +259,15 @@ export const routeTree = rootRoute
     },
     "/app/$group-id/": {
       "filePath": "app/$group-id/index.tsx"
+    },
+    "/app/account/": {
+      "filePath": "app/account/index.tsx"
+    },
+    "/app/activities/": {
+      "filePath": "app/activities/index.tsx"
+    },
+    "/app/friends/": {
+      "filePath": "app/friends/index.tsx"
     }
   }
 }

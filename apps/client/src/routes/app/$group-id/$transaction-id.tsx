@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 
+import { Header } from '@/components/haeder'
 import { useGetGroupTransactionById } from '@/hooks/use-get-group-transaction-by-id'
 
 export const Route = createFileRoute('/app/$group-id/$transaction-id')({
@@ -12,11 +13,12 @@ function RouteComponent(): JSX.Element {
   if (!data) return <div>Loading...</div>
 
   return (
-    <div>
+    <>
+      <Header title={data.name} />
       <pre>{JSON.stringify(data, null, 2)}</pre>{' '}
       {new Date(data.date).toLocaleDateString('pt-BR', {
         dateStyle: 'full'
       })}
-    </div>
+    </>
   )
 }

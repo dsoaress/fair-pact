@@ -19,6 +19,7 @@ node_modules/
 out
 dist
 dist-ssr
+dev-dist
 
 # OS files
 .DS_Store
