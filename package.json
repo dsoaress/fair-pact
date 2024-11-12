@@ -25,8 +25,7 @@
     "db:migrate": "pnpm setenv pnpm --filter server db:migrate",
     "db:seed": "pnpm setenv pnpm --filter server db:seed",
     "setenv": "dotenv -e .env.local -e .env -o --",
-    "setenv:test": "dotenv -e .env.test --",
-    "prepare": "lefthook install"
+    "setenv:test": "dotenv -e .env.test --"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
