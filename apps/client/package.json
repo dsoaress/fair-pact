@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host --port 3001",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && cp serve.json dist/",
     "start": "serve dist -p 3001"
   },
   "dependencies": {
