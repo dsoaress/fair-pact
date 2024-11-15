@@ -1,0 +1,44 @@
+name: On pull request
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  tests:
+    name: Setup project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Lint code
+        run: pnpm lint
+
+      - name: Build contracts
+        run: pnpm build:contracts
+
+      - name: Build app
+        run: pnpm build
+
+      - name: Setup database
+        run: docker compose up -d && sleep 2
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Stop containers
+        if: always()
+        run: docker compose down
