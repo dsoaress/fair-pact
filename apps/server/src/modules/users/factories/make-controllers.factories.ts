@@ -12,15 +12,24 @@ type Output = {
 }
 
 export function makeControllersFactory(): Output {
-  const { usersRepository } = makeRepositoriesFactory()
+  const { usersRepository, sessionsRepository } = makeRepositoriesFactory()
   const { usersDAO } = makeDAOsFactory()
 
-  const { createOrUpdateUserCommand } = makeCommandsFactory({ usersRepository })
+  const { createOrUpdateUserCommand, createSessionCommand, refreshSessionCommand } =
+    makeCommandsFactory({
+      usersRepository,
+      sessionsRepository
+    })
   const { getUserProfileQuery } = makeQueriesFactory({ usersDAO })
 
   const googleOAuthService = new GoogleOAuthService()
 
-  const sessionsController = new SessionsController(createOrUpdateUserCommand, googleOAuthService)
+  const sessionsController = new SessionsController(
+    createOrUpdateUserCommand,
+    createSessionCommand,
+    refreshSessionCommand,
+    googleOAuthService
+  )
   const usersController = new UsersControllers(getUserProfileQuery)
 
   return {

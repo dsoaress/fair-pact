@@ -1,9 +1,10 @@
-import { api } from '@/lib/api'
-import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router'
+import { useSignIn, useSignOut } from '@/hooks/use-auth'
+import { createFileRoute, useSearch } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
 type Params = {
   token?: string
+  'refresh-token'?: string
   error?: string
 }
 
@@ -12,23 +13,21 @@ export const Route = createFileRoute('/login/')({
   validateSearch: (params: Params): Params => {
     return {
       token: params.token,
+      'refresh-token': params['refresh-token'],
       error: params.error
     }
   }
 })
 
 function Login(): null {
-  const navigate = useNavigate()
-  const { error, token } = useSearch({ from: '/login/' })
+  const { token, 'refresh-token': refreshToken } = useSearch({ from: '/login/' })
+  const signIn = useSignIn()
+  const signOut = useSignOut()
 
   useEffect(() => {
-    if (error) navigate({ to: '/' })
-    if (token) {
-      localStorage.setItem('token', token)
-      api.defaults.headers.Authorization = `Bearer ${token}`
-      navigate({ to: '/app' })
-    }
-  }, [token, error, navigate])
+    if (token && refreshToken) signIn(token, refreshToken)
+    else signOut()
+  }, [token, refreshToken, signIn, signOut])
 
   return null
 }

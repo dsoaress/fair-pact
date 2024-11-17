@@ -9,7 +9,7 @@ export class UsersControllers {
 
   async getUserProfile(request: FastifyRequest, reply: FastifyReply): Promise<void> {
     const id = request.user.sub
-    const user = await this.getUserProfileQuery.execute({ id })
-    reply.status(httpStatusCode.OK).send(user)
+    const data = await this.getUserProfileQuery.execute({ id })
+    reply.status(httpStatusCode.OK).send({ data })
   }
 }
