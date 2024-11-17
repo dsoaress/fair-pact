@@ -25,7 +25,7 @@ export class GroupsRepository implements Omit<Repository<GroupModel>, 'create'> 
 
   async findById(id: string): Promise<GroupModel | null> {
     const result = await this.drizzleService.query.groups.findFirst({
-      where: and(eq(groups.id, id)),
+      where: eq(groups.id, id),
       with: { members: { columns: { userId: true } } }
     })
     if (!result) return null

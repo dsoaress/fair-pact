@@ -28,3 +28,10 @@ export const usersRelations = relations(users, ({ many }) => ({
     relationName: 'payer_user'
   })
 }))
+
+export const sessions = pgTable('sessions', {
+  id: uuid().primaryKey().notNull(),
+  userId: uuid('user_id').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true, precision: 6 }).notNull(),
+  expiresAt: timestamp('expires_at', { withTimezone: true, precision: 6 }).notNull()
+})

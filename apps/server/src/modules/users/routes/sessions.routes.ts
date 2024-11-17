@@ -3,7 +3,8 @@ import { makeControllersFactory } from '../factories/make-controllers.factories'
 
 export function sessionsRoutes(app: FastifyInstance): void {
   const { sessionsController } = makeControllersFactory()
-  const { createGoogleSession } = sessionsController
+  const { createGoogleSession, refreshSession } = sessionsController
 
   app.get('/oauth/google', createGoogleSession.bind(sessionsController))
+  app.post('/refresh', refreshSession.bind(sessionsController))
 }

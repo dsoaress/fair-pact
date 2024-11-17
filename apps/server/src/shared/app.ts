@@ -12,7 +12,7 @@ import { errorHandlerMiddleware } from './middleares/error-handlers.middleware'
 
 const app = fastify({ logger })
 
-app.register(jwt, { secret: env.JWT_SECRET, sign: { expiresIn: '30d' } })
+app.register(jwt, { secret: env.JWT_SECRET, sign: { expiresIn: '15m' } })
 app.register(cors)
 
 app.register(groupsRoutes, { prefix: '/groups' })
