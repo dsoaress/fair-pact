@@ -1,4 +1,4 @@
-export function googleOathLogin(): string {
+export function googleOathSignIn(): string {
   const rootUrl = 'https://accounts.google.com/o/oauth2/v2/auth'
   const options = {
     redirect_uri: `${import.meta.env.VITE_SERVER_URL}/sessions/oauth/google`,

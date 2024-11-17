@@ -11,8 +11,9 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as AppLayoutImport } from './routes/app/_layout'
 import { Route as IndexImport } from './routes/index'
-import { Route as LoginIndexImport } from './routes/login/index'
+import { Route as SignInIndexImport } from './routes/sign-in/index'
 import { Route as AppIndexImport } from './routes/app/index'
 import { Route as AppTransactionIndexImport } from './routes/app/transaction/index'
 import { Route as AppFriendsIndexImport } from './routes/app/friends/index'
@@ -24,66 +25,72 @@ import { Route as AppGroupIdTransactionIdEditImport } from './routes/app/$group-
 
 // Create/Update Routes
 
+const AppLayoutRoute = AppLayoutImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
 } as any)
 
-const LoginIndexRoute = LoginIndexImport.update({
-  id: '/login/',
-  path: '/login/',
+const SignInIndexRoute = SignInIndexImport.update({
+  id: '/sign-in/',
+  path: '/sign-in/',
   getParentRoute: () => rootRoute,
 } as any)
 
 const AppIndexRoute = AppIndexImport.update({
-  id: '/app/',
-  path: '/app/',
-  getParentRoute: () => rootRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 
 const AppTransactionIndexRoute = AppTransactionIndexImport.update({
-  id: '/app/transaction/',
-  path: '/app/transaction/',
-  getParentRoute: () => rootRoute,
+  id: '/transaction/',
+  path: '/transaction/',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 
 const AppFriendsIndexRoute = AppFriendsIndexImport.update({
-  id: '/app/friends/',
-  path: '/app/friends/',
-  getParentRoute: () => rootRoute,
+  id: '/friends/',
+  path: '/friends/',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 
 const AppActivitiesIndexRoute = AppActivitiesIndexImport.update({
-  id: '/app/activities/',
-  path: '/app/activities/',
-  getParentRoute: () => rootRoute,
+  id: '/activities/',
+  path: '/activities/',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 
 const AppAccountIndexRoute = AppAccountIndexImport.update({
-  id: '/app/account/',
-  path: '/app/account/',
-  getParentRoute: () => rootRoute,
+  id: '/account/',
+  path: '/account/',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 
 const AppGroupIdIndexRoute = AppGroupIdIndexImport.update({
-  id: '/app/$group-id/',
-  path: '/app/$group-id/',
-  getParentRoute: () => rootRoute,
+  id: '/$group-id/',
+  path: '/$group-id/',
+  getParentRoute: () => AppLayoutRoute,
 } as any)
 
 const AppGroupIdTransactionIdIndexRoute =
   AppGroupIdTransactionIdIndexImport.update({
-    id: '/app/$group-id/$transaction-id/',
-    path: '/app/$group-id/$transaction-id/',
-    getParentRoute: () => rootRoute,
+    id: '/$group-id/$transaction-id/',
+    path: '/$group-id/$transaction-id/',
+    getParentRoute: () => AppLayoutRoute,
   } as any)
 
 const AppGroupIdTransactionIdEditRoute =
   AppGroupIdTransactionIdEditImport.update({
-    id: '/app/$group-id/$transaction-id/edit',
-    path: '/app/$group-id/$transaction-id/edit',
-    getParentRoute: () => rootRoute,
+    id: '/$group-id/$transaction-id/edit',
+    path: '/$group-id/$transaction-id/edit',
+    getParentRoute: () => AppLayoutRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -97,78 +104,112 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/app/': {
-      id: '/app/'
+    '/app': {
+      id: '/app'
       path: '/app'
       fullPath: '/app'
-      preLoaderRoute: typeof AppIndexImport
+      preLoaderRoute: typeof AppLayoutImport
       parentRoute: typeof rootRoute
     }
-    '/login/': {
-      id: '/login/'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginIndexImport
+    '/app/': {
+      id: '/app/'
+      path: '/'
+      fullPath: '/app/'
+      preLoaderRoute: typeof AppIndexImport
+      parentRoute: typeof AppLayoutImport
+    }
+    '/sign-in/': {
+      id: '/sign-in/'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInIndexImport
       parentRoute: typeof rootRoute
     }
     '/app/$group-id/': {
       id: '/app/$group-id/'
-      path: '/app/$group-id'
+      path: '/$group-id'
       fullPath: '/app/$group-id'
       preLoaderRoute: typeof AppGroupIdIndexImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AppLayoutImport
     }
     '/app/account/': {
       id: '/app/account/'
-      path: '/app/account'
+      path: '/account'
       fullPath: '/app/account'
       preLoaderRoute: typeof AppAccountIndexImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AppLayoutImport
     }
     '/app/activities/': {
       id: '/app/activities/'
-      path: '/app/activities'
+      path: '/activities'
       fullPath: '/app/activities'
       preLoaderRoute: typeof AppActivitiesIndexImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AppLayoutImport
     }
     '/app/friends/': {
       id: '/app/friends/'
-      path: '/app/friends'
+      path: '/friends'
       fullPath: '/app/friends'
       preLoaderRoute: typeof AppFriendsIndexImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AppLayoutImport
     }
     '/app/transaction/': {
       id: '/app/transaction/'
-      path: '/app/transaction'
+      path: '/transaction'
       fullPath: '/app/transaction'
       preLoaderRoute: typeof AppTransactionIndexImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AppLayoutImport
     }
     '/app/$group-id/$transaction-id/edit': {
       id: '/app/$group-id/$transaction-id/edit'
-      path: '/app/$group-id/$transaction-id/edit'
+      path: '/$group-id/$transaction-id/edit'
       fullPath: '/app/$group-id/$transaction-id/edit'
       preLoaderRoute: typeof AppGroupIdTransactionIdEditImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AppLayoutImport
     }
     '/app/$group-id/$transaction-id/': {
       id: '/app/$group-id/$transaction-id/'
-      path: '/app/$group-id/$transaction-id'
+      path: '/$group-id/$transaction-id'
       fullPath: '/app/$group-id/$transaction-id'
       preLoaderRoute: typeof AppGroupIdTransactionIdIndexImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AppLayoutImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AppLayoutRouteChildren {
+  AppIndexRoute: typeof AppIndexRoute
+  AppGroupIdIndexRoute: typeof AppGroupIdIndexRoute
+  AppAccountIndexRoute: typeof AppAccountIndexRoute
+  AppActivitiesIndexRoute: typeof AppActivitiesIndexRoute
+  AppFriendsIndexRoute: typeof AppFriendsIndexRoute
+  AppTransactionIndexRoute: typeof AppTransactionIndexRoute
+  AppGroupIdTransactionIdEditRoute: typeof AppGroupIdTransactionIdEditRoute
+  AppGroupIdTransactionIdIndexRoute: typeof AppGroupIdTransactionIdIndexRoute
+}
+
+const AppLayoutRouteChildren: AppLayoutRouteChildren = {
+  AppIndexRoute: AppIndexRoute,
+  AppGroupIdIndexRoute: AppGroupIdIndexRoute,
+  AppAccountIndexRoute: AppAccountIndexRoute,
+  AppActivitiesIndexRoute: AppActivitiesIndexRoute,
+  AppFriendsIndexRoute: AppFriendsIndexRoute,
+  AppTransactionIndexRoute: AppTransactionIndexRoute,
+  AppGroupIdTransactionIdEditRoute: AppGroupIdTransactionIdEditRoute,
+  AppGroupIdTransactionIdIndexRoute: AppGroupIdTransactionIdIndexRoute,
+}
+
+const AppLayoutRouteWithChildren = AppLayoutRoute._addFileChildren(
+  AppLayoutRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/app': typeof AppIndexRoute
-  '/login': typeof LoginIndexRoute
+  '/app': typeof AppLayoutRouteWithChildren
+  '/app/': typeof AppIndexRoute
+  '/sign-in': typeof SignInIndexRoute
   '/app/$group-id': typeof AppGroupIdIndexRoute
   '/app/account': typeof AppAccountIndexRoute
   '/app/activities': typeof AppActivitiesIndexRoute
@@ -181,7 +222,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app': typeof AppIndexRoute
-  '/login': typeof LoginIndexRoute
+  '/sign-in': typeof SignInIndexRoute
   '/app/$group-id': typeof AppGroupIdIndexRoute
   '/app/account': typeof AppAccountIndexRoute
   '/app/activities': typeof AppActivitiesIndexRoute
@@ -194,8 +235,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/app': typeof AppLayoutRouteWithChildren
   '/app/': typeof AppIndexRoute
-  '/login/': typeof LoginIndexRoute
+  '/sign-in/': typeof SignInIndexRoute
   '/app/$group-id/': typeof AppGroupIdIndexRoute
   '/app/account/': typeof AppAccountIndexRoute
   '/app/activities/': typeof AppActivitiesIndexRoute
@@ -210,7 +252,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app'
-    | '/login'
+    | '/app/'
+    | '/sign-in'
     | '/app/$group-id'
     | '/app/account'
     | '/app/activities'
@@ -222,7 +265,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/app'
-    | '/login'
+    | '/sign-in'
     | '/app/$group-id'
     | '/app/account'
     | '/app/activities'
@@ -233,8 +276,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/app'
     | '/app/'
-    | '/login/'
+    | '/sign-in/'
     | '/app/$group-id/'
     | '/app/account/'
     | '/app/activities/'
@@ -247,28 +291,14 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AppIndexRoute: typeof AppIndexRoute
-  LoginIndexRoute: typeof LoginIndexRoute
-  AppGroupIdIndexRoute: typeof AppGroupIdIndexRoute
-  AppAccountIndexRoute: typeof AppAccountIndexRoute
-  AppActivitiesIndexRoute: typeof AppActivitiesIndexRoute
-  AppFriendsIndexRoute: typeof AppFriendsIndexRoute
-  AppTransactionIndexRoute: typeof AppTransactionIndexRoute
-  AppGroupIdTransactionIdEditRoute: typeof AppGroupIdTransactionIdEditRoute
-  AppGroupIdTransactionIdIndexRoute: typeof AppGroupIdTransactionIdIndexRoute
+  AppLayoutRoute: typeof AppLayoutRouteWithChildren
+  SignInIndexRoute: typeof SignInIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AppIndexRoute: AppIndexRoute,
-  LoginIndexRoute: LoginIndexRoute,
-  AppGroupIdIndexRoute: AppGroupIdIndexRoute,
-  AppAccountIndexRoute: AppAccountIndexRoute,
-  AppActivitiesIndexRoute: AppActivitiesIndexRoute,
-  AppFriendsIndexRoute: AppFriendsIndexRoute,
-  AppTransactionIndexRoute: AppTransactionIndexRoute,
-  AppGroupIdTransactionIdEditRoute: AppGroupIdTransactionIdEditRoute,
-  AppGroupIdTransactionIdIndexRoute: AppGroupIdTransactionIdIndexRoute,
+  AppLayoutRoute: AppLayoutRouteWithChildren,
+  SignInIndexRoute: SignInIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -282,8 +312,17 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/app",
+        "/sign-in/"
+      ]
+    },
+    "/": {
+      "filePath": "index.tsx"
+    },
+    "/app": {
+      "filePath": "app/_layout.tsx",
+      "children": [
         "/app/",
-        "/login/",
         "/app/$group-id/",
         "/app/account/",
         "/app/activities/",
@@ -293,35 +332,40 @@ export const routeTree = rootRoute
         "/app/$group-id/$transaction-id/"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
-    },
     "/app/": {
-      "filePath": "app/index.tsx"
+      "filePath": "app/index.tsx",
+      "parent": "/app"
     },
-    "/login/": {
-      "filePath": "login/index.tsx"
+    "/sign-in/": {
+      "filePath": "sign-in/index.tsx"
     },
     "/app/$group-id/": {
-      "filePath": "app/$group-id/index.tsx"
+      "filePath": "app/$group-id/index.tsx",
+      "parent": "/app"
     },
     "/app/account/": {
-      "filePath": "app/account/index.tsx"
+      "filePath": "app/account/index.tsx",
+      "parent": "/app"
     },
     "/app/activities/": {
-      "filePath": "app/activities/index.tsx"
+      "filePath": "app/activities/index.tsx",
+      "parent": "/app"
     },
     "/app/friends/": {
-      "filePath": "app/friends/index.tsx"
+      "filePath": "app/friends/index.tsx",
+      "parent": "/app"
     },
     "/app/transaction/": {
-      "filePath": "app/transaction/index.tsx"
+      "filePath": "app/transaction/index.tsx",
+      "parent": "/app"
     },
     "/app/$group-id/$transaction-id/edit": {
-      "filePath": "app/$group-id/$transaction-id/edit.tsx"
+      "filePath": "app/$group-id/$transaction-id/edit.tsx",
+      "parent": "/app"
     },
     "/app/$group-id/$transaction-id/": {
-      "filePath": "app/$group-id/$transaction-id/index.tsx"
+      "filePath": "app/$group-id/$transaction-id/index.tsx",
+      "parent": "/app"
     }
   }
 }

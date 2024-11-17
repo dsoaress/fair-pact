@@ -28,10 +28,10 @@ export class SessionsController {
       const { id: sessionId } = await this.createSessionCommand.execute(id)
       reply
         .status(httpStatusCode.REDIRECT)
-        .redirect(`${env.CLIENT_URL}/login?token=${token}&refresh-token=${sessionId}`)
+        .redirect(`${env.CLIENT_URL}/sign-in?token=${token}&refresh-token=${sessionId}`)
     } catch (error) {
       request.log.error(error)
-      reply.status(httpStatusCode.REDIRECT).redirect(`${env.CLIENT_URL}/login?error=google`)
+      reply.status(httpStatusCode.REDIRECT).redirect(`${env.CLIENT_URL}/sign-in?error=google`)
     }
   }
 

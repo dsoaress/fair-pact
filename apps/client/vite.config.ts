@@ -7,7 +7,11 @@ const isTest = process.env.NODE_ENV === 'test'
 
 export default defineConfig({
   plugins: [
-    !isTest && TanStackRouterVite({ generatedRouteTree: './src/route-tree.gen.ts' }),
+    !isTest &&
+      TanStackRouterVite({
+        generatedRouteTree: './src/route-tree.gen.ts',
+        routeToken: '_layout'
+      }),
     react()
   ],
   resolve: {

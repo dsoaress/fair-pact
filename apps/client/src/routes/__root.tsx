@@ -1,6 +1,6 @@
-import { ProtectedLayout } from '@/components/protected-layout'
+import { PublicLayout } from '@/components/public-layout'
 import { createRootRoute } from '@tanstack/react-router'
 
 export const Route = createRootRoute({
-  component: ProtectedLayout
+  component: PublicLayout
 })

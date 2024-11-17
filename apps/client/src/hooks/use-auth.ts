@@ -35,10 +35,15 @@ export function useIsAuthenticated(): boolean {
   return useAuth(s => s.isAuthenticated)
 }
 
-export function useSignIn(): (token: string, refreshToken: string) => void {
+export function useSignIn(): (token?: string, refreshToken?: string) => void {
   const navigate = useNavigate()
   const signIn = useAuth(s => s.signIn)
+  const signOut = useSignOut()
   return (token, refreshToken): void => {
+    if (!token || !refreshToken) {
+      signOut()
+      return
+    }
     signIn(token, refreshToken)
     navigate({ to: '/app' })
   }

@@ -1,4 +1,4 @@
-import { useSignIn, useSignOut } from '@/hooks/use-auth'
+import { useSignIn } from '@/hooks/use-auth'
 import { createFileRoute, useSearch } from '@tanstack/react-router'
 import { useEffect } from 'react'
 
@@ -8,8 +8,8 @@ type Params = {
   error?: string
 }
 
-export const Route = createFileRoute('/login/')({
-  component: Login,
+export const Route = createFileRoute('/sign-in/')({
+  component: SignIn,
   validateSearch: (params: Params): Params => {
     return {
       token: params.token,
@@ -19,15 +19,15 @@ export const Route = createFileRoute('/login/')({
   }
 })
 
-function Login(): null {
-  const { token, 'refresh-token': refreshToken } = useSearch({ from: '/login/' })
+function SignIn(): null {
+  const { token, 'refresh-token': refreshToken } = useSearch({
+    from: '/sign-in/'
+  })
   const signIn = useSignIn()
-  const signOut = useSignOut()
 
   useEffect(() => {
-    if (token && refreshToken) signIn(token, refreshToken)
-    else signOut()
-  }, [token, refreshToken, signIn, signOut])
+    signIn(token, refreshToken)
+  }, [token, refreshToken, signIn])
 
   return null
 }

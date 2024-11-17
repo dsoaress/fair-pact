@@ -1,15 +1,17 @@
-import { googleOathLogin } from '@/services/google-oauth-login'
 import { createFileRoute } from '@tanstack/react-router'
 
+import { Button } from '@/components/ui/button'
+import { googleOathSignIn } from '@/services/google-oauth-sign-in'
+
 export const Route = createFileRoute('/')({
-  component: Login
+  component: SignIn
 })
 
-function Login(): JSX.Element {
+function SignIn(): JSX.Element {
   return (
     <div className="flex w-screen h-screen items-center justify-center">
-      <a href={googleOathLogin()}>
-        <button type="button">Login with Google</button>
+      <a href={googleOathSignIn()}>
+        <Button>Sign in with Google</Button>
       </a>
     </div>
   )
