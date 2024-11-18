@@ -1,5 +1,8 @@
 name: Create PR Domain
 
+# This workflow is a workaround for the lack of support for the `pull_request` event in Railway.
+# It creates a domain for the server and client apps of the PR environment.
+
 on:
   pull_request:
     branches: [main]
