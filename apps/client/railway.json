@@ -4,13 +4,17 @@
     "builder": "NIXPACKS",
     "buildEnvironment": "V2",
     "buildCommand": "pnpm build:contracts && pnpm build:client",
-    "watchPatterns": ["app/client/**", "packages/contracts/**"]
+    "watchPatterns": ["app/client/**", "packages/contracts/**"],
+    "nixpacksPlan": {
+      "providers": ["node"]
+    }
   },
   "deploy": {
     "startCommand": "pnpm start:client",
     "healthcheckPath": "/",
     "healthcheckTimeout": 100,
     "numReplicas": 2,
+    "runtime": "V2",
     "restartPolicyMaxRetries": 5,
     "restartPolicyType": "ON_FAILURE",
     "sleepApplication": false
