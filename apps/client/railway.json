@@ -3,12 +3,12 @@
   "build": {
     "builder": "NIXPACKS",
     "buildEnvironment": "V2",
-    "buildCommand": "pnpm build:contracts && pnpm build:server",
-    "watchPatterns": ["app/server/**", "packages/contracts/**"]
+    "buildCommand": "pnpm build:contracts && pnpm build:client",
+    "watchPatterns": ["app/client/**", "packages/contracts/**"]
   },
   "deploy": {
-    "startCommand": "pnpm db:migrate && pnpm start:server",
-    "healthcheckPath": "/health",
+    "startCommand": "pnpm start:client",
+    "healthcheckPath": "/",
     "healthcheckTimeout": 100,
     "numReplicas": 2,
     "restartPolicyMaxRetries": 5,
@@ -24,7 +24,6 @@
     },
     "pr": {
       "deploy": {
-        "startCommand": "pnpm db:migrate && pnpm db:seed && pnpm start:server",
         "numReplicas": 1,
         "sleepApplication": true
       }
