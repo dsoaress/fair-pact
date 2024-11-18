@@ -12,7 +12,7 @@
   "deploy": {
     "startCommand": "pnpm start:client",
     "healthcheckPath": "/",
-    "healthcheckTimeout": 100,
+    "healthcheckTimeout": 300,
     "numReplicas": 2,
     "runtime": "V2",
     "restartPolicyMaxRetries": 5,
