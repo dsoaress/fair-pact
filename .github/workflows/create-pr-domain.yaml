@@ -25,7 +25,7 @@ jobs:
         run: |
           railway link -p fair-pact -s server -e fair-pact-pr-${{ steps.pr_number.outputs.number }} &&
           railway variables --set "CLIENT_URL=https://server-fair-pact-pr-${{ steps.pr_number.outputs.number }}.up.railway.app" \
-                            --set "GOOGLE_OAUTH_REDIRECT_URL=https://server-fair-pact-pr-${{ steps.pr_number.outputs.number }}.up.railway.app/sessions/oauth/google" &&
+                            --set "GOOGLE_OAUTH_REDIRECT_URL=https://server-fair-pact-pr-${{ steps.pr_number.outputs.number }}.up.railway.app/sessions/oauth/google" \
                             --set "PORT=3000" &&
           railway domain
         env:
@@ -34,7 +34,7 @@ jobs:
       - name: Create domain for client app
         run: |
           railway link -p fair-pact -s client -e fair-pact-pr-${{ steps.pr_number.outputs.number }} &&
-          railway variables --set "VITE_SERVER_URL=https://server-fair-pact-pr-${{ steps.pr_number.outputs.number }}.up.railway.app" &&
+          railway variables --set "VITE_SERVER_URL=https://server-fair-pact-pr-${{ steps.pr_number.outputs.number }}.up.railway.app" \
                             --set "PORT=3001" &&
           railway domain
         env:
