@@ -1,12 +1,13 @@
-name: On pull request
+name: Tests
 
 on:
+  push:
+    branches: [main]
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main]
 
 jobs:
   tests:
-    name: Setup project
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

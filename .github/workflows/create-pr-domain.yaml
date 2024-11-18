@@ -1,0 +1,44 @@
+name: Create PR Domain
+
+# This workflow is a workaround for the lack of support for the `pull_request` event in Railway.
+# It creates a domain for the server and client apps of the PR environment.
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Railway
+        run: npm i -g @railway/cli
+
+      - name: Extract PR Number
+        id: pr_number
+        run: echo "::set-output name=number::$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')"
+
+      - name: Create domain for server app
+        run: |
+          railway link -p fair-pact -s server -e fair-pact-pr-${{ steps.pr_number.outputs.number }} &&
+          railway variables --set "CLIENT_URL=https://server-fair-pact-pr-${{ steps.pr_number.outputs.number }}.up.railway.app" \
+                            --set "GOOGLE_OAUTH_REDIRECT_URL=https://server-fair-pact-pr-${{ steps.pr_number.outputs.number }}.up.railway.app/sessions/oauth/google" \
+                            --set "PORT=3000" &&
+          railway domain
+        env:
+          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
+
+      - name: Create domain for client app
+        run: |
+          railway link -p fair-pact -s client -e fair-pact-pr-${{ steps.pr_number.outputs.number }} &&
+          railway variables --set "VITE_SERVER_URL=https://server-fair-pact-pr-${{ steps.pr_number.outputs.number }}.up.railway.app" \
+                            --set "PORT=3001" &&
+          railway domain
+        env:
+          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
