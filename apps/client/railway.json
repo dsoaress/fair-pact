@@ -10,24 +10,18 @@
     }
   },
   "deploy": {
-    "startCommand": "pnpm start:client",
-    "numReplicas": 2,
+    "startCommand": "npx serve apps/client/dist -p 80",
+    "numReplicas": 1,
     "runtime": "V2",
     "restartPolicyMaxRetries": 5,
     "restartPolicyType": "ON_FAILURE",
-    "sleepApplication": false
+    "sleepApplication": true
   },
   "environments": {
-    "staging": {
+    "production": {
       "deploy": {
-        "numReplicas": 1,
-        "sleepApplication": true
-      }
-    },
-    "pr": {
-      "deploy": {
-        "numReplicas": 1,
-        "sleepApplication": true
+        "numReplicas": 2,
+        "sleepApplication": false
       }
     }
   }
