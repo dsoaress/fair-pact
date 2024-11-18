@@ -10,7 +10,7 @@
     }
   },
   "deploy": {
-    "startCommand": "npx serve apps/client/dist -p 80",
+    "startCommand": "pnpm start:client",
     "numReplicas": 1,
     "runtime": "V2",
     "restartPolicyMaxRetries": 5,
