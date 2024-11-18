@@ -11,8 +11,6 @@
   },
   "deploy": {
     "startCommand": "pnpm db:migrate && pnpm start:server",
-    "healthcheckPath": "/health",
-    "healthcheckTimeout": 300,
     "numReplicas": 2,
     "runtime": "V2",
     "restartPolicyMaxRetries": 5,
