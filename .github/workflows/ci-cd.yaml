@@ -48,7 +48,12 @@ jobs:
       - name: Install Railway
         run: npm i -g @railway/cli
 
-      - name: Create domain
-        run: railway domain
+      - name: Create domain for server app
+        run: railway service server && railway environment fair-pact-pr-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }') && railway domain
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+
+      - name: Create domain for client app
+        run: railway service client && railway environment fair-pact-pr-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }') && railway domain
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
