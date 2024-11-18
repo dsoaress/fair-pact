@@ -18,12 +18,12 @@ jobs:
         run: npm i -g @railway/cli
 
       - name: Deploy server app
-        run: railway link -p fair-pact -s server -e fair-pact-pr-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }') && RAILWAY_API_TOKEN=${{ secrets.RAILWAY_API_TOKEN }} railway up -c -s server -e fair-pact-pr-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+        run: railway link -p fair-pact -s server -e fair-pact-pr-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }') && railway up -c -s server -e fair-pact-pr-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
         env:
           RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
 
       - name: Deploy client app
-        run: railway link -p fair-pact -s client -e fair-pact-pr-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }') && RAILWAY_API_TOKEN=${{ secrets.RAILWAY_API_TOKEN }} railway up -c -s client -e fair-pact-pr-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+        run: railway link -p fair-pact -s client -e fair-pact-pr-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }') && railway up -c -s client -e fair-pact-pr-$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
         env:
           RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
 
