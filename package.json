@@ -23,7 +23,9 @@
     "lint:ci": "pnpm biome ci src",
     "db:generate": "pnpm setenv pnpm --filter server db:generate",
     "db:migrate": "pnpm setenv pnpm --filter server db:migrate",
+    "db:migrate:ci": "pnpm --filter server db:migrate",
     "db:seed": "pnpm setenv pnpm --filter server db:seed",
+    "db:seed:ci": "pnpm --filter server db:seed",
     "setenv": "dotenv -e .env.local -e .env -o --",
     "setenv:test": "dotenv -e .env.test --",
     "prepare": "lefthook install || true"

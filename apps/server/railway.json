@@ -10,7 +10,7 @@
     }
   },
   "deploy": {
-    "startCommand": "pnpm db:migrate && pnpm start:server",
+    "startCommand": "pnpm db:migrate:ci && pnpm start:server",
     "numReplicas": 2,
     "runtime": "V2",
     "restartPolicyMaxRetries": 5,
@@ -26,7 +26,7 @@
     },
     "pr": {
       "deploy": {
-        "startCommand": "pnpm db:migrate && pnpm db:seed && pnpm start:server",
+        "startCommand": "pnpm db:migrate:ci && pnpm db:seed:ci && pnpm start:server",
         "numReplicas": 1,
         "sleepApplication": true
       }
