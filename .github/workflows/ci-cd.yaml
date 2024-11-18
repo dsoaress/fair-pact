@@ -1,12 +1,14 @@
-name: On pull request
+name: CI/CD
 
 on:
+  push:
+    branches: [main]
   pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [main]
 
 jobs:
   tests:
-    name: Setup project
+    name: CI/CD
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -42,3 +44,11 @@ jobs:
       - name: Stop containers
         if: always()
         run: docker compose down
+
+      - name: Install Railway
+        run: npm i -g @railway/cli
+
+      - name: Create domain
+        run: railway domain
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
