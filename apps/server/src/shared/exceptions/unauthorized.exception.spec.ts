@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest'
-
 import { UnauthorizedException } from './unauthorized.exception'
 
 describe('Unauthorized', () => {

@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest'
-
 import { IdValueObject } from '../../shared/value-objects/id.value-object'
 
 import { joinGroupValidator } from './join-group.validator'

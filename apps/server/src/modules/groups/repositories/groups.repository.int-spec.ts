@@ -1,5 +1,4 @@
 import { IdValueObject } from 'contracts'
-import { afterEach, beforeAll, describe, expect, it } from 'vitest'
 
 import { drizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { users } from '@/shared/database/drizzle/schemas'

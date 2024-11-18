@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest'
-
 import { currencyValidator } from './currency.validator'
 
 describe('currencyValidator', () => {

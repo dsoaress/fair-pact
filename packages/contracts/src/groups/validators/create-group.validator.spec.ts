@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest'
-
 import { createGroupValidator } from './create-group.validator'
 
 describe('createGroupValidator', () => {

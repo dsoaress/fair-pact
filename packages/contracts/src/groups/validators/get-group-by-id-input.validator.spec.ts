@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest'
-
 import { IdValueObject } from '../../shared/value-objects/id.value-object'
 
 import { getGroupByIdInputValidator } from './get-group-by-id-input.validator'
