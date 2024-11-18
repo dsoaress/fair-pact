@@ -15,6 +15,7 @@ const app = fastify({ logger })
 app.register(jwt, { secret: env.JWT_SECRET, sign: { expiresIn: '15m' } })
 app.register(cors)
 
+app.get('/health', async (_request, reply) => reply.send({ status: 'ok' }))
 app.register(groupsRoutes, { prefix: '/groups' })
 app.register(sessionsRoutes, { prefix: '/sessions' })
 app.register(usersRoutes, { prefix: '/users' })
