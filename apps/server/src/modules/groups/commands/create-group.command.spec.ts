@@ -1,5 +1,3 @@
-import { beforeEach, describe, expect, it } from 'vitest'
-
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 
 import type { GroupsRepository } from '../repositories/groups.repository'

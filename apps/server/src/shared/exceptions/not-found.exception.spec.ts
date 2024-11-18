@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest'
-
 import { NotFoundException } from './not-found.exception'
 
 describe('NotFoundException', () => {

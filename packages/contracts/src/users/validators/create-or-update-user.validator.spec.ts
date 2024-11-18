@@ -1,5 +1,3 @@
-import { describe, expect, it } from 'vitest'
-
 import { createOrUpdateUserValidator } from './create-or-update-user.validator'
 
 describe('createOrUpdateUserValidator', () => {

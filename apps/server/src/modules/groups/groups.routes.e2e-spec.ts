@@ -1,6 +1,5 @@
 import { app } from '@/shared/app'
 import request from 'supertest'
-import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 describe('[E2E]: Groups', () => {
   beforeAll(async () => {
