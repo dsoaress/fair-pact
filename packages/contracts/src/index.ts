@@ -32,8 +32,8 @@ export * from './groups/validators/remove-group-member.validator'
 export * from './groups/validators/update-group-transaction.validator'
 export * from './groups/validators/update-group.validator'
 
-export * from './users/dtos/create-or-updates-user-input.dto'
-export * from './users/dtos/create-or-updates-user-output.dto'
+export * from './users/dtos/create-or-update-user-input.dto'
+export * from './users/dtos/create-or-update-user-output.dto'
 export * from './users/dtos/get-user-profile-input.dto'
 export * from './users/dtos/get-user-profile-output.dto'
 
