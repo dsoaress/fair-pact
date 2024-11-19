@@ -13,11 +13,11 @@ export class JoinGroupCommand implements Command<JoinGroupDTO, Promise<void>> {
   async execute(data: JoinGroupDTO): Promise<void> {
     const parsedData = joinGroupValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error)
-    const { id, userId } = parsedData.data
+    const { id, memberId } = parsedData.data
     const group = await this.groupsRepository.findById(id)
     if (!group) throw new NotFoundException('Group')
-    const member = group.members.find(member => member.value === userId)
+    const member = group.members.find(member => member.value === memberId)
     if (member) throw new ConflictException('Member')
-    await this.groupsRepository.addGroupMember(id, userId)
+    await this.groupsRepository.addGroupMember(id, memberId)
   }
 }

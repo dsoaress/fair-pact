@@ -12,6 +12,6 @@ export const updateGroupTransactionValidator = baseCreateGroupTransactionValidat
   .extend({
     id: idValidator,
     groupId: idValidator,
-    userId: idValidator
+    memberId: idValidator
   })
   .refine(amountValidator, amountValidatorErrorMessage)

@@ -22,7 +22,7 @@ describe('JoinGroupCommand', () => {
     const newMemberId = IdValueObject.create().value
     const group = groupFake()
     await groupsRepository.create(group)
-    await joinGroupCommand.execute({ id: group.id.value, userId: newMemberId })
+    await joinGroupCommand.execute({ id: group.id.value, memberId: newMemberId })
     const result = await groupsRepository.findById(group.id.value)
     expect(result?.members.map(m => m.value)).toContain(newMemberId)
   })
@@ -34,7 +34,7 @@ describe('JoinGroupCommand', () => {
   it('should throw an error if group does not exist', async () => {
     const newMemberId = IdValueObject.create().value
     await expect(
-      joinGroupCommand.execute({ id: IdValueObject.create().value, userId: newMemberId })
+      joinGroupCommand.execute({ id: IdValueObject.create().value, memberId: newMemberId })
     ).rejects.toBeInstanceOf(NotFoundException)
   })
 
@@ -43,7 +43,7 @@ describe('JoinGroupCommand', () => {
     const group = groupFake({ members: [memberId] })
     await groupsRepository.create(group)
     await expect(
-      joinGroupCommand.execute({ id: group.id.value, userId: memberId.value })
+      joinGroupCommand.execute({ id: group.id.value, memberId: memberId.value })
     ).rejects.toBeInstanceOf(ConflictException)
   })
 })

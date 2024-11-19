@@ -16,9 +16,9 @@ type GroupTransactionResult = {
   updatedAt: Date | null
   groupId: string
   amount: number
-  payerUserId: string
+  payerMemberId: string
   participants: {
-    userId: string
+    memberId: string
     amount: number
   }[]
   date: Date
@@ -30,7 +30,7 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
   async findById(id: string): Promise<GroupTransactionModel | null> {
     const result = await this.drizzleService.query.groupTransactions.findFirst({
       where: eq(groupTransactions.id, id),
-      with: { participants: { columns: { userId: true, amount: true } } }
+      with: { participants: { columns: { memberId: true, amount: true } } }
     })
     if (!result) return null
     return this.mapToModel(result)
@@ -42,7 +42,7 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
         id: model.id.value,
         name: model.name,
         groupId: model.groupId.value,
-        payerUserId: model.payerUserId.value,
+        payerMemberId: model.payerMemberId.value,
         amount: model.amount,
         date: model.date,
         createdBy: model.createdBy.value,
@@ -52,9 +52,9 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
       await tx.insert(groupTransactionParticipants).values(
         model.participants.map(participant => ({
           groupTransactionId: model.id.value,
-          userId: participant.userId.value,
+          memberId: participant.memberId.value,
           amount: participant.amount,
-          payerUserId: model.payerUserId.value,
+          payerMemberId: model.payerMemberId.value,
           groupId: model.groupId.value
         }))
       )
@@ -67,7 +67,7 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
         .update(groupTransactions)
         .set({
           name: model.name,
-          payerUserId: model.payerUserId.value,
+          payerMemberId: model.payerMemberId.value,
           date: model.date,
           amount: model.amount,
           updatedAt: model.updatedAt,
@@ -80,17 +80,17 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
             .insert(groupTransactionParticipants)
             .values({
               groupTransactionId: model.id.value,
-              userId: participant.userId.value,
+              memberId: participant.memberId.value,
               amount: participant.amount,
-              payerUserId: model.payerUserId.value,
+              payerMemberId: model.payerMemberId.value,
               groupId: model.groupId.value
             })
             .onConflictDoUpdate({
               target: [
                 groupTransactionParticipants.groupTransactionId,
-                groupTransactionParticipants.userId
+                groupTransactionParticipants.memberId
               ],
-              set: { amount: participant.amount, payerUserId: model.payerUserId.value }
+              set: { amount: participant.amount, payerMemberId: model.payerMemberId.value }
             })
         )
       )
@@ -110,9 +110,9 @@ export class GroupTransactionsRepository implements Repository<GroupTransactionM
       name: result.name,
       groupId: IdValueObject.create(result.groupId),
       amount: result.amount,
-      payerUserId: IdValueObject.create(result.payerUserId),
+      payerMemberId: IdValueObject.create(result.payerMemberId),
       participants: result.participants.map(participant => ({
-        userId: IdValueObject.create(participant.userId),
+        memberId: IdValueObject.create(participant.memberId),
         amount: participant.amount
       })),
       date: result.date,

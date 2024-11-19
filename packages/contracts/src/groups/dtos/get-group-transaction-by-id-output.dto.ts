@@ -1,5 +1,5 @@
 type Participant = {
-  userId: string
+  memberId: string
   amount: number
   firstName: string
   lastName: string

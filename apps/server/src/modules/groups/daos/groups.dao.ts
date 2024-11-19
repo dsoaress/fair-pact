@@ -19,7 +19,10 @@ import {
 export class GroupsDAO {
   constructor(private readonly drizzleService: DrizzleService) {}
 
-  async getGroupById({ id, userId }: GetGroupByIdInputDTO): Promise<GetGroupByIdOutputDTO | null> {
+  async getGroupById({
+    id,
+    memberId
+  }: GetGroupByIdInputDTO): Promise<GetGroupByIdOutputDTO | null> {
     const query = sql`
       SELECT 
         ${groups.id}, 
@@ -27,7 +30,7 @@ export class GroupsDAO {
         ${groups.currency},
         jsonb_agg(
           jsonb_build_object(
-            'userId', final_balances.other_user_id, 'firstName', ${users.firstName}, 'lastName', ${users.lastName},
+            'memberId', final_balances.other_user_id, 'firstName', ${users.firstName}, 'lastName', ${users.lastName},
             'amount', 
             CASE 
               WHEN final_balances.total_amount > 0 THEN final_balances.total_amount
@@ -42,26 +45,26 @@ export class GroupsDAO {
         FROM (
           SELECT 
             CASE 
-              WHEN ${groupTransactionParticipants.payerUserId} = ${userId} THEN ${groupTransactionParticipants.userId}
-              ELSE ${groupTransactionParticipants.payerUserId}
+              WHEN ${groupTransactionParticipants.payerMemberId} = ${memberId} THEN ${groupTransactionParticipants.memberId}
+              ELSE ${groupTransactionParticipants.payerMemberId}
             END AS other_user_id,
             CASE 
-              WHEN ${groupTransactionParticipants.payerUserId} = ${userId} THEN ${groupTransactionParticipants.amount} 
+              WHEN ${groupTransactionParticipants.payerMemberId} = ${memberId} THEN ${groupTransactionParticipants.amount} 
               ELSE - ${groupTransactionParticipants.amount}
             END AS amount
           FROM ${groupTransactionParticipants}
           JOIN ${groupTransactions} ON ${groupTransactionParticipants.groupTransactionId} = ${groupTransactions.id}
           WHERE 
             ${groupTransactionParticipants.groupId} = ${groups.id}
-            AND (${groupTransactionParticipants.payerUserId} = ${userId} OR ${groupTransactionParticipants.userId} = ${userId})
+            AND (${groupTransactionParticipants.payerMemberId} = ${memberId} OR ${groupTransactionParticipants.memberId} = ${memberId})
             AND EXTRACT(YEAR FROM ${groupTransactions.date}) = EXTRACT(YEAR FROM NOW())
             AND EXTRACT(MONTH FROM ${groupTransactions.date}) = EXTRACT(MONTH FROM NOW())
         ) AS user_balances
-        WHERE other_user_id != ${userId}
+        WHERE other_user_id != ${memberId}
         GROUP BY other_user_id
       ) AS final_balances ON TRUE
       JOIN ${users} ON ${users.id} = final_balances.other_user_id
-      WHERE ${groups.id} = ${id} AND ${groupMembers.userId} = ${userId}
+      WHERE ${groups.id} = ${id} AND ${groupMembers.memberId} = ${memberId}
       GROUP BY ${groups.id}, ${groups.name}, ${groups.currency};
     `
     const { rows } = await this.drizzleService.execute(query)
@@ -77,7 +80,7 @@ export class GroupsDAO {
           balance: sql<[]>`jsonb_build_array()`
         })
         .from(groups)
-        .where(and(eq(groups.id, id), eq(groupMembers.userId, userId)))
+        .where(and(eq(groups.id, id), eq(groupMembers.memberId, memberId)))
         .leftJoin(groupMembers, eq(groupMembers.groupId, groups.id))
       if (!result) return null
       return result[0]
@@ -85,7 +88,7 @@ export class GroupsDAO {
     return rows[0] as GetGroupByIdOutputDTO
   }
 
-  async getGroups({ userId }: GetGroupsInputDTO): Promise<GetGroupsOutputDTO> {
+  async getGroups({ memberId }: GetGroupsInputDTO): Promise<GetGroupsOutputDTO> {
     const query = sql`
       SELECT
         ${groups.id}, 
@@ -96,7 +99,7 @@ export class GroupsDAO {
           FROM ${groupTransactionParticipants}
           JOIN ${groupTransactions} ON ${groupTransactionParticipants.groupTransactionId} = ${groupTransactions.id}
           WHERE ${groupTransactionParticipants.groupId} = ${groups.id} 
-            AND ${groupTransactionParticipants.payerUserId} = ${userId}
+            AND ${groupTransactionParticipants.payerMemberId} = ${memberId}
             AND EXTRACT(YEAR FROM ${groupTransactions.date}) = EXTRACT(YEAR FROM NOW())
             AND EXTRACT(MONTH FROM ${groupTransactions.date}) = EXTRACT(MONTH FROM NOW())
           )
@@ -105,14 +108,14 @@ export class GroupsDAO {
           FROM ${groupTransactionParticipants}
           JOIN ${groupTransactions} ON ${groupTransactionParticipants.groupTransactionId} = ${groupTransactions.id}
           WHERE ${groupTransactionParticipants.groupId} = ${groups.id} 
-            AND ${groupTransactionParticipants.userId} = ${userId}
+            AND ${groupTransactionParticipants.memberId} = ${memberId}
             AND EXTRACT(YEAR FROM ${groupTransactions.date}) = EXTRACT(YEAR FROM NOW())
             AND EXTRACT(MONTH FROM ${groupTransactions.date}) = EXTRACT(MONTH FROM NOW())
           )
         ), 0) AS integer) AS balance
       FROM ${groups}
       LEFT JOIN ${groupMembers} ON ${groups.id} = ${groupMembers.groupId}
-      WHERE ${groupMembers.userId} = ${userId}
+      WHERE ${groupMembers.memberId} = ${memberId}
       ORDER BY ${groups.createdAt} DESC;
     `
     const { rows } = await this.drizzleService.execute(query)

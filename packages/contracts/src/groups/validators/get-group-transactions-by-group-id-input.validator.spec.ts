@@ -4,8 +4,8 @@ import { getGroupTransactionsByGroupIdInputValidator } from './get-group-transac
 
 describe('getGroupTransactionsByGroupIdInputValidator', () => {
   it.each([
-    [{ groupId: IdValueObject.create().value, userId: IdValueObject.create().value }, true],
-    [{ userId: 'id' }, false],
+    [{ groupId: IdValueObject.create().value, memberId: IdValueObject.create().value }, true],
+    [{ memberId: 'id' }, false],
     [{}, false]
   ])('should validate the schema: %o (valid: %j)', (data, expected) => {
     const result = getGroupTransactionsByGroupIdInputValidator.safeParse(data)

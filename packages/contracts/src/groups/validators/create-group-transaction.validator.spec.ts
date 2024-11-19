@@ -8,10 +8,10 @@ describe('createGroupTransactionValidator', () => {
         name: 'Transaction',
         amount: -100,
         groupId: IdValueObject.create().value,
-        payerUserId: IdValueObject.create().value,
+        payerMemberId: IdValueObject.create().value,
         participants: [
-          { userId: IdValueObject.create().value, amount: -50 },
-          { userId: IdValueObject.create().value, amount: -50 }
+          { memberId: IdValueObject.create().value, amount: -50 },
+          { memberId: IdValueObject.create().value, amount: -50 }
         ],
         date: new Date(),
         createdBy: IdValueObject.create().value
@@ -23,7 +23,7 @@ describe('createGroupTransactionValidator', () => {
         name: 'Transaction',
         amount: 100,
         groupId: IdValueObject.create().value,
-        payerUserId: IdValueObject.create().value,
+        payerMemberId: IdValueObject.create().value,
         createdBy: IdValueObject.create().value
       },
       false
@@ -33,8 +33,8 @@ describe('createGroupTransactionValidator', () => {
         name: 'Transaction',
         amount: -100,
         groupId: IdValueObject.create().value,
-        payerUserId: IdValueObject.create().value,
-        participants: [{ userId: IdValueObject.create().value }],
+        payerMemberId: IdValueObject.create().value,
+        participants: [{ memberId: IdValueObject.create().value }],
         createdBy: IdValueObject.create().value
       },
       false
@@ -44,7 +44,7 @@ describe('createGroupTransactionValidator', () => {
         name: 'Transaction',
         amount: -100,
         groupId: IdValueObject.create().value,
-        payerUserId: IdValueObject.create().value,
+        payerMemberId: IdValueObject.create().value,
         participants: [{}],
         createdBy: IdValueObject.create().value
       },
@@ -55,7 +55,7 @@ describe('createGroupTransactionValidator', () => {
         name: 'Transaction',
         amount: 100,
         groupId: IdValueObject.create().value,
-        payerUserId: IdValueObject.create().value
+        payerMemberId: IdValueObject.create().value
       },
       false
     ],

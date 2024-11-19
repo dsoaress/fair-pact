@@ -21,7 +21,7 @@ describe('RemoveGroupMemberCommand', () => {
     const memberId = IdValueObject.create()
     const group = groupFake({ members: [memberId] })
     await groupsRepository.create(group)
-    await removeGroupMemberCommand.execute({ id: group.id.value, userId: memberId.value })
+    await removeGroupMemberCommand.execute({ id: group.id.value, memberId: memberId.value })
     const result = await groupsRepository.findById(group.id.value)
     expect(result?.members.map(m => m.value)).not.toContain(memberId.value)
   })
@@ -35,7 +35,10 @@ describe('RemoveGroupMemberCommand', () => {
   it('should throw an error if group does not exist', async () => {
     const memberId = IdValueObject.create()
     await expect(
-      removeGroupMemberCommand.execute({ id: IdValueObject.create().value, userId: memberId.value })
+      removeGroupMemberCommand.execute({
+        id: IdValueObject.create().value,
+        memberId: memberId.value
+      })
     ).rejects.toBeInstanceOf(NotFoundException)
   })
 
@@ -44,7 +47,7 @@ describe('RemoveGroupMemberCommand', () => {
     const group = groupFake()
     await groupsRepository.create(group)
     await expect(
-      removeGroupMemberCommand.execute({ id: group.id.value, userId: memberId.value })
+      removeGroupMemberCommand.execute({ id: group.id.value, memberId: memberId.value })
     ).rejects.toBeInstanceOf(NotFoundException)
   })
 })

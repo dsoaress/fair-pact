@@ -3,7 +3,7 @@ export type GetGroupByIdOutputDTO = {
   name: string
   currency: string
   balance: {
-    userId: string
+    memberId: string
     firstName: string
     lastName: string
     amount: number

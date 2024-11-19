@@ -17,16 +17,16 @@ export class InMemoryGroupsRepository extends GroupsRepository {
     return { id: model.id.value }
   }
 
-  override async addGroupMember(groupId: string, userId: string): Promise<void> {
+  override async addGroupMember(groupId: string, memberId: string): Promise<void> {
     const group = this.groups.find(group => group.id.value === groupId)
     if (!group) return
-    group.members.push(IdValueObject.create(userId))
+    group.members.push(IdValueObject.create(memberId))
   }
 
-  override async removeGroupMember(groupId: string, userId: string): Promise<void> {
+  override async removeGroupMember(groupId: string, memberId: string): Promise<void> {
     const group = this.groups.find(group => group.id.value === groupId)
     if (!group) return
-    const index = group.members.findIndex(member => member.value === userId)
+    const index = group.members.findIndex(member => member.value === memberId)
     group.members.splice(index, 1)
   }
 

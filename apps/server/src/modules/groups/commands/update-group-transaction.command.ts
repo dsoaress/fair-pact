@@ -40,16 +40,16 @@ export class UpdateGroupTransactionCommand
   ): void {
     originalTransaction.name = data.name ?? originalTransaction.name
     originalTransaction.amount = data.amount ?? originalTransaction.amount
-    originalTransaction.payerUserId =
-      IdValueObject.create(data.payerUserId) || originalTransaction.payerUserId
+    originalTransaction.payerMemberId =
+      IdValueObject.create(data.payerMemberId) || originalTransaction.payerMemberId
     originalTransaction.groupId = IdValueObject.create(data.groupId) || originalTransaction.groupId
     originalTransaction.participants = data.participants
       ? data.participants.map(p => ({
-          userId: IdValueObject.create(p.userId),
+          memberId: IdValueObject.create(p.memberId),
           amount: p.amount
         }))
       : originalTransaction.participants
-    originalTransaction.updatedBy = IdValueObject.create(data.userId)
+    originalTransaction.updatedBy = IdValueObject.create(data.memberId)
     originalTransaction.updatedAt = new Date()
   }
 }
