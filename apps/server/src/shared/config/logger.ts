@@ -11,7 +11,7 @@ export const logger =
         }
       }
     },
-    staging: true,
+    development: true,
     production: true,
     test: false,
     ci: false

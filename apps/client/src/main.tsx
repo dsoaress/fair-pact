@@ -1,4 +1,5 @@
 import './styles/globals.css'
+import './utils/login'
 
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'

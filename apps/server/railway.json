@@ -10,18 +10,23 @@
     }
   },
   "deploy": {
-    "startCommand": "pnpm db:migrate:ci && pnpm start:server",
-    "numReplicas": 1,
     "runtime": "V2",
     "restartPolicyMaxRetries": 5,
-    "restartPolicyType": "ON_FAILURE",
-    "sleepApplication": true
+    "restartPolicyType": "ON_FAILURE"
   },
   "environments": {
     "production": {
       "deploy": {
-        "numReplicas": 2,
-        "sleepApplication": false
+        "startCommand": "pnpm db:migrate:ci && pnpm start:server",
+        "numReplicas": 1,
+        "sleepApplication": true
+      }
+    },
+    "pr": {
+      "deploy": {
+        "startCommand": "pnpm db:migrate:ci && pnpm db:seed:ci && pnpm start:server",
+        "numReplicas": 1,
+        "sleepApplication": true
       }
     }
   }
