@@ -1,9 +1,8 @@
 ---
-import Layout from '../layouts/layout.astro';
+import { Hello } from '@/components/hello'
+import Layout from '@/layouts/layout.astro'
 ---
 
 <Layout title="Fair Pact">
-	<main>
-		<h1 class="text-3xl">Fair Pact</h1>
-	</main>
+	<Hello client:load />
 </Layout>
