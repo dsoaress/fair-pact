@@ -4,7 +4,6 @@
     "builder": "NIXPACKS",
     "buildEnvironment": "V2",
     "buildCommand": "pnpm build:www",
-    "watchPatterns": ["app/www/**"],
     "nixpacksPlan": {
       "providers": ["node"]
     }
