@@ -4,7 +4,7 @@ import { useSignOut } from '@/hooks/use-auth'
 import { useGetUserProfile } from '@/hooks/use-get-user-profile'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/app/account/')({
+export const Route = createFileRoute('/account/')({
   component: RouteComponent
 })
 

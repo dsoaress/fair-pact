@@ -8,7 +8,8 @@ export function ProtectedLayout(): JSX.Element {
   const navigate = useNavigate()
 
   useLayoutEffect(() => {
-    if (!isAuthenticated) navigate({ to: '/' })
+    if (isAuthenticated) navigate({ to: '/' })
+    else navigate({ to: '/sign-in' })
   }, [isAuthenticated, navigate])
 
   return (

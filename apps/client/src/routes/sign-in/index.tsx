@@ -1,6 +1,9 @@
-import { useSignIn } from '@/hooks/use-auth'
 import { createFileRoute, useSearch } from '@tanstack/react-router'
 import { useEffect } from 'react'
+
+import { Button } from '@/components/ui/button'
+import { useSignIn } from '@/hooks/use-auth'
+import { googleOathSignIn } from '@/services/google-oauth-sign-in'
 
 type Params = {
   token?: string
@@ -19,7 +22,7 @@ export const Route = createFileRoute('/sign-in/')({
   }
 })
 
-function SignIn(): null {
+function SignIn(): JSX.Element {
   const { token, 'refresh-token': refreshToken } = useSearch({
     from: '/sign-in/'
   })
@@ -29,5 +32,11 @@ function SignIn(): null {
     signIn(token, refreshToken)
   }, [token, refreshToken, signIn])
 
-  return null
+  return (
+    <div className="flex w-screen h-screen items-center justify-center">
+      <a href={googleOathSignIn()}>
+        <Button>Sign in with Google</Button>
+      </a>
+    </div>
+  )
 }

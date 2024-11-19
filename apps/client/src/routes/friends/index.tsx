@@ -1,15 +1,15 @@
 import { Header } from '@/components/haeder'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/app/activities/')({
+export const Route = createFileRoute('/friends/')({
   component: RouteComponent
 })
 
 function RouteComponent(): JSX.Element {
   return (
     <>
-      <Header title="Atividades" />
-      'Hello /app/activities/!'
+      <Header title="Amigos" />
+      'Hello /friends/!'
     </>
   )
 }

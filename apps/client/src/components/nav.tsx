@@ -6,27 +6,27 @@ const LINKS = [
   {
     icon: <Users />,
     label: 'Amigos',
-    url: '/app/friends'
+    url: '/friends'
   },
   {
     icon: <HandCoins />,
     label: 'Grupos',
-    url: '/app'
+    url: '/'
   },
   {
     icon: <CircleFadingPlus size={48} />,
     label: '',
-    url: '/app/transaction'
+    url: '/transaction'
   },
   {
     icon: <BellDot />,
     label: 'Atividade',
-    url: '/app/activities'
+    url: '/activities'
   },
   {
     icon: <User />,
     label: 'Conta',
-    url: '/app/account'
+    url: '/account'
   }
 ]
 
