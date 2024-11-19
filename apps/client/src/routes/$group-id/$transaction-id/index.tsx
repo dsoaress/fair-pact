@@ -5,7 +5,7 @@ import { Header } from '@/components/haeder'
 import { Button } from '@/components/ui/button'
 import { useGetGroupTransactionById } from '@/hooks/use-get-group-transaction-by-id'
 
-export const Route = createFileRoute('/app/$group-id/$transaction-id/')({
+export const Route = createFileRoute('/$group-id/$transaction-id/')({
   component: RouteComponent
 })
 
@@ -25,8 +25,8 @@ function RouteComponent(): JSX.Element {
           className="text-white"
           onClick={(): Promise<void> =>
             navigate({
-              from: '/app/$group-id/$transaction-id',
-              to: '/app/$group-id/$transaction-id/edit'
+              from: '/$group-id/$transaction-id',
+              to: '/$group-id/$transaction-id/edit'
             })
           }
         >

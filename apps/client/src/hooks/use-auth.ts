@@ -38,14 +38,10 @@ export function useIsAuthenticated(): boolean {
 export function useSignIn(): (token?: string, refreshToken?: string) => void {
   const navigate = useNavigate()
   const signIn = useAuth(s => s.signIn)
-  const signOut = useSignOut()
   return (token, refreshToken): void => {
-    if (!token || !refreshToken) {
-      signOut()
-      return
-    }
+    if (!token || !refreshToken) return
     signIn(token, refreshToken)
-    navigate({ to: '/app' })
+    navigate({ to: '/' })
   }
 }
 
@@ -56,6 +52,6 @@ export function useSignOut(): () => void {
   return (): void => {
     signOut()
     queryClient.clear()
-    navigate({ to: '/' })
+    navigate({ to: '/sign-in' })
   }
 }

@@ -8,7 +8,7 @@ export function GroupItem({ id, name, currency, balance }: GetGroupsOutputDTO[0]
   const { formattedPrice, type } = formatPrice({ price: balance, currency })
 
   return (
-    <Link to="/app/$group-id" params={{ 'group-id': id }} aria-label={name}>
+    <Link to="/$group-id" params={{ 'group-id': id }} aria-label={name}>
       <div className="rounded-xl border bg-card text-card-foreground shadow">
         <div className="flex flex-col space-y-1.5 p-6">
           <div className="font-semibold leading-none tracking-tight">{name}</div>

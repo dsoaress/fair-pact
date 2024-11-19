@@ -1,7 +1,7 @@
 import { Header } from '@/components/haeder'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/app/transaction/')({
+export const Route = createFileRoute('/transaction/')({
   component: RouteComponent
 })
 

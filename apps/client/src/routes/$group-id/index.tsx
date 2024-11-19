@@ -5,7 +5,7 @@ import { Header } from '@/components/haeder'
 import { useGetGroupById } from '@/hooks/use-get-group-by-id'
 import { useGetGroupTransactionsByGroupId } from '@/hooks/use-get-group-transactions-by-group-id'
 
-export const Route = createFileRoute('/app/$group-id/')({
+export const Route = createFileRoute('/$group-id/')({
   component: Group
 })
 
@@ -24,7 +24,7 @@ function Group(): JSX.Element {
         {transactions.map(transaction => (
           <div key={transaction.id}>
             <Link
-              to="/app/$group-id/$transaction-id"
+              to="/$group-id/$transaction-id"
               params={{ 'group-id': data.id, 'transaction-id': transaction.id }}
             >
               {transaction.name}
@@ -33,7 +33,7 @@ function Group(): JSX.Element {
         ))}
 
         <Link
-          to="/app/$group-id/$transaction-id"
+          to="/$group-id/$transaction-id"
           params={{ 'group-id': data.id, 'transaction-id': '123' }}
         >
           Go to transaction

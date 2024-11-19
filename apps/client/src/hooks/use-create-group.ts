@@ -14,7 +14,7 @@ export function useCreateGroup(): UseMutationResult<CreateGroupOutputDTO, Error,
     onSuccess: async (data): Promise<void> => {
       await queryClient.invalidateQueries({ queryKey: [queryKeys.GROUPS] })
       navigate({
-        to: '/app/$group-id',
+        to: '/$group-id',
         params: { 'group-id': data.id }
       })
     },
