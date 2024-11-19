@@ -10,7 +10,8 @@ export default defineConfig({
         '**/*.d.ts',
         '**/?(*.){spec,int-spec,e2e-spec}.?(c|m)[jt]s?(x)',
         'packages/contracts/src/index.ts'
-      ]
+      ],
+      reporter: ['text', 'html', 'lcov']
     }
   }
 })
