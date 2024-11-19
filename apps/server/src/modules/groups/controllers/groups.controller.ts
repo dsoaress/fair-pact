@@ -26,15 +26,15 @@ export class GroupsController {
     request: FastifyRequest<{ Params: { groupId: string } }>,
     reply: FastifyReply
   ): Promise<void> {
-    const userId = request.user.sub
+    const memberId = request.user.sub
     const { groupId: id } = request.params
-    const data = await this.getGroupByIdQuery.execute({ userId, id })
+    const data = await this.getGroupByIdQuery.execute({ memberId, id })
     reply.status(httpStatusCode.OK).send({ data })
   }
 
   async getGroups(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const userId = request.user.sub
-    const data = await this.getGroupsQuery.execute({ userId })
+    const memberId = request.user.sub
+    const data = await this.getGroupsQuery.execute({ memberId })
     reply.status(httpStatusCode.OK).send({ data })
   }
 
@@ -56,9 +56,9 @@ export class GroupsController {
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    const userId = request.user.sub
+    const memberId = request.user.sub
     const groupId = request.params.groupId
-    await this.joinGroupCommand.execute({ id: groupId, userId })
+    await this.joinGroupCommand.execute({ id: groupId, memberId })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
@@ -68,22 +68,22 @@ export class GroupsController {
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    const userId = request.user.sub
+    const memberId = request.user.sub
     const groupId = request.params.groupId
-    await this.removeGroupMemberCommand.execute({ id: groupId, userId })
+    await this.removeGroupMemberCommand.execute({ id: groupId, memberId })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 
   async removeGroupMember(
     request: FastifyRequest<{
       Params: { groupId: string }
-      Body: { userId: string }
+      Body: { memberId: string }
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    const { userId } = request.body
+    const { memberId } = request.body
     const groupId = request.params.groupId
-    await this.removeGroupMemberCommand.execute({ id: groupId, userId })
+    await this.removeGroupMemberCommand.execute({ id: groupId, memberId })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 

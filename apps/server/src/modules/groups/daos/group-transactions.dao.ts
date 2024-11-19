@@ -21,34 +21,34 @@ export class GroupTransactionsDAO {
 
   async getGroupTransactionById({
     id,
-    userId
+    memberId
   }: GetGroupTransactionByIdInputDTO): Promise<GetGroupTransactionByIdOutputDTO | null> {
     const query = sql`
       SELECT ${groupTransactions.id}, ${groupTransactions.name}, ${groups.currency}, ${groupTransactions.amount},
         jsonb_build_object(
-          'userId', payer.id, 
+          'memberId', payer.id, 
           'firstName', payer.first_name, 
           'lastName', payer.last_name,
           'amount', 
             COALESCE(SUM(
               CASE 
-                WHEN ${groupTransactionParticipants.userId} = payer.id THEN ${groupTransactionParticipants.amount}
+                WHEN ${groupTransactionParticipants.memberId} = payer.id THEN ${groupTransactionParticipants.amount}
                 ELSE 0 
               END), 
             0)
         ) AS payer,
         jsonb_agg(
           jsonb_build_object(
-            'userId', ${groupTransactionParticipants.userId}, 'amount', ${groupTransactionParticipants.amount}, 'firstName', ${users.firstName}, 'lastName', ${users.lastName}
+            'memberId', ${groupTransactionParticipants.memberId}, 'amount', ${groupTransactionParticipants.amount}, 'firstName', ${users.firstName}, 'lastName', ${users.lastName}
           )
         ) AS participants,
         ${groupTransactions.date}
       FROM ${groupTransactions}
       JOIN ${groups} ON ${groupTransactions.groupId} = ${groups.id}
-      JOIN ${groupMembers} ON ${groups.id} = ${groupMembers.groupId} AND ${groupMembers.userId} = ${userId}
-      JOIN ${users} AS payer ON ${groupTransactions.payerUserId} = payer.id
+      JOIN ${groupMembers} ON ${groups.id} = ${groupMembers.groupId} AND ${groupMembers.memberId} = ${memberId}
+      JOIN ${users} AS payer ON ${groupTransactions.payerMemberId} = payer.id
       JOIN ${groupTransactionParticipants} ON ${groupTransactions.id} = ${groupTransactionParticipants.groupTransactionId}
-      JOIN ${users} ON ${groupTransactionParticipants.userId} = ${users.id}
+      JOIN ${users} ON ${groupTransactionParticipants.memberId} = ${users.id}
       WHERE ${groupTransactions.id} = ${id} 
         AND EXTRACT(YEAR FROM ${groupTransactions.date}) = EXTRACT(YEAR FROM NOW()) 
         AND EXTRACT(MONTH FROM ${groupTransactions.date}) = EXTRACT(MONTH FROM NOW())
@@ -61,7 +61,7 @@ export class GroupTransactionsDAO {
 
   async getGroupTransactionsByGroupId({
     groupId,
-    userId
+    memberId
   }: GetGroupTransactionsByGroupIdInputDTO): Promise<GetGroupTransactionsByGroupIdOutputDTO> {
     const query = sql`
       SELECT 
@@ -72,29 +72,29 @@ export class GroupTransactionsDAO {
         (
           SELECT 
             CASE 
-              WHEN ${groupTransactions.payerUserId} = ${userId} THEN amount 
+              WHEN ${groupTransactions.payerMemberId} = ${memberId} THEN amount 
               ELSE -amount 
             END
           FROM ${groupTransactionParticipants} 
           WHERE ${groupTransactionParticipants.groupTransactionId} = ${groupTransactions.id}
-            AND ${groupTransactionParticipants.userId} = ${userId}
+            AND ${groupTransactionParticipants.memberId} = ${memberId}
         ) AS contribution,
         jsonb_build_object(
-          'userId', payer.id, 
+          'memberId', payer.id, 
           'firstName', payer.first_name, 
           'lastName', payer.last_name,
           'amount', (
             SELECT amount 
             FROM ${groupTransactionParticipants} 
             WHERE ${groupTransactionParticipants.groupTransactionId} = ${groupTransactions.id}
-              AND ${groupTransactionParticipants.userId} = payer.id
+              AND ${groupTransactionParticipants.memberId} = payer.id
           )
         ) AS payer,
         group_transactions.date
       FROM group_transactions
       JOIN ${groups} ON ${groupTransactions.groupId} = ${groups.id}
-      JOIN ${groupMembers} ON ${groups.id} = ${groupMembers.groupId} AND ${groupMembers.userId} = ${userId}
-      JOIN ${users} AS payer ON ${groupTransactions.payerUserId} = payer.id
+      JOIN ${groupMembers} ON ${groups.id} = ${groupMembers.groupId} AND ${groupMembers.memberId} = ${memberId}
+      JOIN ${users} AS payer ON ${groupTransactions.payerMemberId} = payer.id
       WHERE ${groups.id} = ${groupId} 
         AND EXTRACT(YEAR FROM ${groupTransactions.date}) = EXTRACT(YEAR FROM NOW()) 
         AND EXTRACT(MONTH FROM ${groupTransactions.date}) = EXTRACT(MONTH FROM NOW())

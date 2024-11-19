@@ -12,11 +12,11 @@ export class RemoveGroupMemberCommand implements Command<RemoveGroupMemberDTO, P
   async execute(data: RemoveGroupMemberDTO): Promise<void> {
     const parsedData = removeGroupMemberValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error)
-    const { id, userId } = parsedData.data
+    const { id, memberId } = parsedData.data
     const group = await this.groupsRepository.findById(id)
     if (!group) throw new NotFoundException('Group')
-    const member = group.members.find(member => member.value === userId)
+    const member = group.members.find(member => member.value === memberId)
     if (!member) throw new NotFoundException('Member')
-    await this.groupsRepository.removeGroupMember(id, userId)
+    await this.groupsRepository.removeGroupMember(id, memberId)
   }
 }

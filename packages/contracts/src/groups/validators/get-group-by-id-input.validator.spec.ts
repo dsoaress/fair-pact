@@ -4,8 +4,8 @@ import { getGroupByIdInputValidator } from './get-group-by-id-input.validator'
 
 describe('getGroupByIdInputValidator', () => {
   it.each([
-    [{ id: IdValueObject.create().value, userId: IdValueObject.create().value }, true],
-    [{ userId: 'id' }, false],
+    [{ id: IdValueObject.create().value, memberId: IdValueObject.create().value }, true],
+    [{ memberId: 'id' }, false],
     [{}, false]
   ])('should validate the schema: %o (valid: %j)', (data, expected) => {
     const result = getGroupByIdInputValidator.safeParse(data)

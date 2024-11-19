@@ -22,9 +22,9 @@ export class GroupTransactionsController {
     request: FastifyRequest<{ Params: { groupTransactionId: string } }>,
     reply: FastifyReply
   ): Promise<void> {
-    const userId = request.user.sub
+    const memberId = request.user.sub
     const id = request.params.groupTransactionId
-    const groupTransaction = await this.GetGroupTransactionByIdQuery.execute({ id, userId })
+    const groupTransaction = await this.GetGroupTransactionByIdQuery.execute({ id, memberId })
     reply.status(httpStatusCode.OK).send({ data: groupTransaction })
   }
 
@@ -32,11 +32,11 @@ export class GroupTransactionsController {
     request: FastifyRequest<{ Params: { groupId: string } }>,
     reply: FastifyReply
   ): Promise<void> {
-    const userId = request.user.sub
+    const memberId = request.user.sub
     const { groupId } = request.params
     const groupTransaction = await this.GetGroupTransactionsByGroupIdQuery.execute({
       groupId,
-      userId
+      memberId
     })
     reply.status(httpStatusCode.OK).send({ data: groupTransaction })
   }
@@ -48,13 +48,13 @@ export class GroupTransactionsController {
     }>,
     reply: FastifyReply
   ): Promise<void> {
-    const userId = request.user.sub
+    const memberId = request.user.sub
     const { groupId } = request.params
     const data = request.body
     await this.createGroupTransactionCommand.execute({
       ...data,
       groupId,
-      createdBy: userId
+      createdBy: memberId
     })
     reply.status(httpStatusCode.CREATED).send()
   }

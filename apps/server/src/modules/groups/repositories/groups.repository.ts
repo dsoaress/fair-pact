@@ -16,7 +16,7 @@ type GroupResult = {
   updatedBy: string | null
   updatedAt: Date | null
   members: {
-    userId: string
+    memberId: string
   }[]
 }
 
@@ -26,7 +26,7 @@ export class GroupsRepository implements Omit<Repository<GroupModel>, 'create'> 
   async findById(id: string): Promise<GroupModel | null> {
     const result = await this.drizzleService.query.groups.findFirst({
       where: eq(groups.id, id),
-      with: { members: { columns: { userId: true } } }
+      with: { members: { columns: { memberId: true } } }
     })
     if (!result) return null
     return this.mapToModel(result)
@@ -46,7 +46,7 @@ export class GroupsRepository implements Omit<Repository<GroupModel>, 'create'> 
         .returning({ id: groups.id })
 
       await tx.insert(groupMembers).values({
-        userId: model.createdBy.value,
+        memberId: model.createdBy.value,
         groupId: model.id.value,
         createdAt: model.createdAt
       })
@@ -55,18 +55,18 @@ export class GroupsRepository implements Omit<Repository<GroupModel>, 'create'> 
     })
   }
 
-  async addGroupMember(groupId: string, userId: string): Promise<void> {
+  async addGroupMember(groupId: string, memberId: string): Promise<void> {
     await this.drizzleService.insert(groupMembers).values({
-      userId,
+      memberId,
       groupId,
       createdAt: new Date()
     })
   }
 
-  async removeGroupMember(groupId: string, userId: string): Promise<void> {
+  async removeGroupMember(groupId: string, memberId: string): Promise<void> {
     await this.drizzleService
       .delete(groupMembers)
-      .where(and(eq(groupMembers.groupId, groupId), eq(groupMembers.userId, userId)))
+      .where(and(eq(groupMembers.groupId, groupId), eq(groupMembers.memberId, memberId)))
   }
 
   async update(model: GroupModel): Promise<void> {
@@ -90,7 +90,7 @@ export class GroupsRepository implements Omit<Repository<GroupModel>, 'create'> 
       id: IdValueObject.create(result.id),
       name: result.name,
       currency: result.currency as CurrencyDTO,
-      members: result.members.map(member => IdValueObject.create(member.userId)),
+      members: result.members.map(member => IdValueObject.create(member.memberId)),
       createdBy: IdValueObject.create(result.createdBy),
       createdAt: result.createdAt,
       updatedAt: result.updatedAt ?? undefined,

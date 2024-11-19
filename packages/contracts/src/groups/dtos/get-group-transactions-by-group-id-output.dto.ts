@@ -5,7 +5,7 @@ export type GetGroupTransactionsByGroupIdOutputDTO = {
   amount: number
   contribution: number
   payer: {
-    userId: string
+    memberId: string
     amount: number
     firstName: string
     lastName: string

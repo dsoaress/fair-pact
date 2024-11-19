@@ -6,7 +6,7 @@ import { groupTransactionFake } from '../utils/tests/fakes/group-transaction.fak
 import { GroupTransactionsRepository } from './group-transactions.repository'
 
 describe('GroupTransactionsRepository', () => {
-  const userId = IdValueObject.create()
+  const memberId = IdValueObject.create()
   const groupId = IdValueObject.create()
   let groupTransactionsRepository: GroupTransactionsRepository
 
@@ -15,7 +15,7 @@ describe('GroupTransactionsRepository', () => {
 
     await drizzleService.transaction(async tx => {
       await tx.insert(users).values({
-        id: userId.value,
+        id: memberId.value,
         firstName: 'John',
         lastName: 'Doe',
         email: 'john.doe@test.com',
@@ -25,7 +25,7 @@ describe('GroupTransactionsRepository', () => {
         id: groupId.value,
         name: 'Group 1',
         currency: 'USD',
-        createdBy: userId.value,
+        createdBy: memberId.value,
         createdAt: new Date()
       })
     })
@@ -38,33 +38,33 @@ describe('GroupTransactionsRepository', () => {
   it('should find a group transaction by id', async () => {
     const groupTransaction = groupTransactionFake({
       groupId,
-      payerUserId: userId,
-      createdBy: userId,
-      participants: [{ userId, amount: 100 }]
+      payerMemberId: memberId,
+      createdBy: memberId,
+      participants: [{ memberId, amount: 100 }]
     })
     await groupTransactionsRepository.create(groupTransaction)
     const result = await groupTransactionsRepository.findById(groupTransaction.id.value)
     if (result) {
       result.id = result.id.value as unknown as IdValueObject
       result.groupId = result.groupId.value as unknown as IdValueObject
-      result.payerUserId = result.payerUserId.value as unknown as IdValueObject
+      result.payerMemberId = result.payerMemberId.value as unknown as IdValueObject
       result.createdBy = result.createdBy.value as unknown as IdValueObject
       result.participants = result.participants.map(participant => ({
-        userId: participant.userId.value as unknown as IdValueObject,
+        memberId: participant.memberId.value as unknown as IdValueObject,
         amount: participant.amount
       }))
     }
     expect(result).toMatchObject({
       id: groupTransaction.id.value,
       groupId: groupTransaction.groupId.value,
-      payerUserId: groupTransaction.payerUserId.value,
+      payerMemberId: groupTransaction.payerMemberId.value,
       createdBy: groupTransaction.createdBy.value,
       createdAt: groupTransaction.createdAt,
       updatedBy: undefined,
       updatedAt: undefined,
       participants: expect.arrayContaining([
         expect.objectContaining({
-          userId: groupTransaction.payerUserId.value,
+          memberId: groupTransaction.payerMemberId.value,
           amount: 100
         })
       ])
@@ -74,9 +74,9 @@ describe('GroupTransactionsRepository', () => {
   it('should create a group transaction with participants', async () => {
     const groupTransaction = groupTransactionFake({
       groupId,
-      payerUserId: userId,
-      createdBy: userId,
-      participants: [{ userId, amount: 100 }]
+      payerMemberId: memberId,
+      createdBy: memberId,
+      participants: [{ memberId, amount: 100 }]
     })
     await groupTransactionsRepository.create(groupTransaction)
     const result = await groupTransactionsRepository.findById(groupTransaction.id.value)
@@ -87,14 +87,14 @@ describe('GroupTransactionsRepository', () => {
     const groupTransaction = groupTransactionFake({
       groupId,
       amount: 50,
-      payerUserId: userId,
-      createdBy: userId,
-      participants: [{ userId, amount: 50 }]
+      payerMemberId: memberId,
+      createdBy: memberId,
+      participants: [{ memberId, amount: 50 }]
     })
     await groupTransactionsRepository.create(groupTransaction)
-    const newUserId = IdValueObject.create()
+    const newMemberId = IdValueObject.create()
     await drizzleService.insert(users).values({
-      id: newUserId.value,
+      id: newMemberId.value,
       firstName: 'Jane',
       lastName: 'Doe',
       email: 'jane.doe@test.com',
@@ -102,27 +102,27 @@ describe('GroupTransactionsRepository', () => {
     })
     await drizzleService
       .insert(groupMembers)
-      .values({ userId: newUserId.value, groupId: groupId.value, createdAt: new Date() })
+      .values({ memberId: newMemberId.value, groupId: groupId.value, createdAt: new Date() })
     const updatedGroupTransaction = {
       ...groupTransaction,
       name: 'Updated Group Transaction',
-      payerUserId: newUserId,
+      payerMemberId: newMemberId,
       amount: 200,
       date: new Date(),
       updatedAt: new Date(),
-      updatedBy: newUserId,
+      updatedBy: newMemberId,
       participants: [
-        { userId: userId, amount: 100 },
-        { userId: newUserId, amount: 100 }
+        { memberId: memberId, amount: 100 },
+        { memberId: newMemberId, amount: 100 }
       ]
     }
     await groupTransactionsRepository.update(updatedGroupTransaction)
     const result = await groupTransactionsRepository.findById(groupTransaction.id.value)
     expect(result?.name).toBe(updatedGroupTransaction.name)
-    expect(result?.payerUserId.value).toBe(newUserId.value)
+    expect(result?.payerMemberId.value).toBe(newMemberId.value)
     expect(String(result?.date)).toBe(String(updatedGroupTransaction.date))
     expect(result?.updatedAt).toBeDefined()
-    expect(result?.updatedBy?.value).toBe(newUserId.value)
+    expect(result?.updatedBy?.value).toBe(newMemberId.value)
     expect(result?.amount).toBe(updatedGroupTransaction.amount)
     expect(result?.participants).toHaveLength(2)
     expect(result?.participants).toEqual(
@@ -136,9 +136,9 @@ describe('GroupTransactionsRepository', () => {
   it('should delete a group transaction', async () => {
     const groupTransaction = groupTransactionFake({
       groupId,
-      payerUserId: userId,
-      createdBy: userId,
-      participants: [{ userId, amount: 100 }]
+      payerMemberId: memberId,
+      createdBy: memberId,
+      participants: [{ memberId, amount: 100 }]
     })
     await groupTransactionsRepository.create(groupTransaction)
     await groupTransactionsRepository.delete(groupTransaction.id.value)

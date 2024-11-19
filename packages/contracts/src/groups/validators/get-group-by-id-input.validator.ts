@@ -4,5 +4,5 @@ import { idValidator } from '../../shared/validators/id.validator'
 
 export const getGroupByIdInputValidator = z.object({
   id: idValidator,
-  userId: idValidator
+  memberId: idValidator
 })

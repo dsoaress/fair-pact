@@ -25,7 +25,7 @@ type Output = {
   }[]
   groupMembersData: {
     groupId: string
-    userId: string
+    memberId: string
     createdAt: Date
   }[]
   groupTransactionsData: {
@@ -33,16 +33,16 @@ type Output = {
     name: string
     amount: number
     groupId: string
-    payerUserId: string
+    payerMemberId: string
     date: Date
     createdBy: string
     createdAt: Date
   }[]
   groupTransactionParticipantsData: {
     groupTransactionId: string
-    userId: string
+    memberId: string
     amount: number
-    payerUserId: string
+    payerMemberId: string
     groupId: string
   }[]
 }
@@ -84,22 +84,22 @@ export function data({ usersCount, groupsCount, transactionsPerUserPerGroup }: I
   const groupMembersData = groupsData.flatMap(group =>
     Array.from({ length: usersCount }, (_, i) => ({
       groupId: group.id,
-      userId: usersData[i].id,
+      memberId: usersData[i].id,
       createdAt: faker.date.recent()
     }))
   )
 
   const groupTransactionsData = groupsData.flatMap((group, i) =>
     Array.from({ length: transactionsPerUserPerGroup }, (_, j) => {
-      const payerUserId = usersData[j % usersCount].id
+      const payerMemberId = usersData[j % usersCount].id
       return {
         id: i + j === 0 ? FIRST_GROUP_TRANSACTION_ID : randomUUID(),
         name: faker.lorem.words(2),
         amount: faker.number.int({ max: 100000 }),
         groupId: group.id,
-        payerUserId,
+        payerMemberId,
         date: faker.date.recent(),
-        createdBy: payerUserId,
+        createdBy: payerMemberId,
         createdAt: faker.date.recent()
       }
     })
@@ -111,9 +111,9 @@ export function data({ usersCount, groupsCount, transactionsPerUserPerGroup }: I
       .filter(member => member.groupId === transaction.groupId)
       .map(member => ({
         groupTransactionId: transaction.id,
-        userId: member.userId,
+        memberId: member.memberId,
         amount,
-        payerUserId: transaction.payerUserId,
+        payerMemberId: transaction.payerMemberId,
         groupId: transaction.groupId
       }))
   })

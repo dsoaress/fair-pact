@@ -37,17 +37,17 @@ export const groupMembers = pgTable(
     groupId: uuid('group_id')
       .notNull()
       .references(() => groups.id, { onDelete: 'cascade' }),
-    userId: uuid('user_id')
+    memberId: uuid('member_id')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     createdAt: timestamp('created_at', { withTimezone: true, precision: 6 }).notNull()
   },
-  t => [primaryKey({ columns: [t.groupId, t.userId] })]
+  t => [primaryKey({ columns: [t.groupId, t.memberId] })]
 )
 
 export const groupMemberRelations = relations(groupMembers, ({ one }) => ({
   group: one(groups, { fields: [groupMembers.groupId], references: [groups.id] }),
-  user: one(users, { fields: [groupMembers.userId], references: [users.id] })
+  user: one(users, { fields: [groupMembers.memberId], references: [users.id] })
 }))
 
 export const groupTransactions = pgTable(
@@ -59,7 +59,7 @@ export const groupTransactions = pgTable(
     groupId: uuid('group_id')
       .notNull()
       .references(() => groups.id, { onDelete: 'cascade' }),
-    payerUserId: uuid('payer_user_id')
+    payerMemberId: uuid('payer_member_id')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     date: timestamp('date', { withTimezone: true, precision: 6 }).notNull(),
@@ -77,7 +77,7 @@ export const groupTransactionRelations = relations(groupTransactions, ({ many, o
   participants: many(groupTransactionParticipants),
   group: one(groups, { fields: [groupTransactions.groupId], references: [groups.id] }),
   payer: one(users, {
-    fields: [groupTransactions.payerUserId],
+    fields: [groupTransactions.payerMemberId],
     references: [users.id],
     relationName: 'payer_user'
   }),
@@ -101,18 +101,18 @@ export const groupTransactionParticipants = pgTable(
       .references(() => groupTransactions.id, {
         onDelete: 'cascade'
       }),
-    userId: uuid('user_id')
+    memberId: uuid('member_id')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     groupId: uuid('group_id')
       .notNull()
       .references(() => groups.id, { onDelete: 'cascade' }),
-    payerUserId: uuid('payer_user_id')
+    payerMemberId: uuid('payer_member_id')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     amount: integer().notNull()
   },
-  t => [primaryKey({ columns: [t.groupTransactionId, t.userId] })]
+  t => [primaryKey({ columns: [t.groupTransactionId, t.memberId] })]
 )
 
 export const groupTransactionParticipantRelations = relations(
@@ -124,12 +124,12 @@ export const groupTransactionParticipantRelations = relations(
     }),
     group: one(groups, { fields: [groupTransactionParticipants.groupId], references: [groups.id] }),
     user: one(users, {
-      fields: [groupTransactionParticipants.userId],
+      fields: [groupTransactionParticipants.memberId],
       references: [users.id],
       relationName: 'user'
     }),
     payer: one(users, {
-      fields: [groupTransactionParticipants.payerUserId],
+      fields: [groupTransactionParticipants.payerMemberId],
       references: [users.id],
       relationName: 'payer_user'
     })

@@ -24,25 +24,25 @@ export class CreateGroupTransactionCommand
   async execute(data: CreateGroupTransactionDTO): Promise<void> {
     const parsedData = createGroupTransactionValidator.safeParse(data)
     if (!parsedData.success) throw new BadRequestException(parsedData.error)
-    const { groupId, payerUserId, participants, createdBy } = parsedData.data
+    const { groupId, payerMemberId, participants, createdBy } = parsedData.data
     const group = await this.groupsRepository.findById(groupId)
     if (!group) throw new NotFoundException('Group')
-    this.validateMembers(group, payerUserId, createdBy, participants)
+    this.validateMembers(group, payerMemberId, createdBy, participants)
     await this.groupTransactionsRepository.create(this.createGroupTransaction(parsedData.data))
   }
 
   private validateMembers(
     group: GroupModel,
-    payerUserId: string,
+    payerMemberId: string,
     createdBy: string,
     participants: CreateGroupTransactionDTO['participants']
   ): void {
-    const userIds = group.members.map(member => member.value)
-    const isValidUserId =
-      userIds.includes(payerUserId) &&
-      userIds.includes(createdBy) &&
-      participants?.every(p => userIds.includes(p.userId))
-    if (!isValidUserId) throw new BadRequestException('Invalid member id')
+    const memberIds = group.members.map(member => member.value)
+    const isValidMemberId =
+      memberIds.includes(payerMemberId) &&
+      memberIds.includes(createdBy) &&
+      participants?.every(p => memberIds.includes(p.memberId))
+    if (!isValidMemberId) throw new BadRequestException('Invalid member id')
   }
 
   private createGroupTransaction(data: CreateGroupTransactionDTO): GroupTransactionModel {
@@ -51,9 +51,9 @@ export class CreateGroupTransactionCommand
       name: data.name,
       amount: data.amount,
       groupId: IdValueObject.create(data.groupId),
-      payerUserId: IdValueObject.create(data.payerUserId),
+      payerMemberId: IdValueObject.create(data.payerMemberId),
       participants: (data.participants ?? []).map(member => ({
-        userId: IdValueObject.create(member.userId),
+        memberId: IdValueObject.create(member.memberId),
         amount: member.amount
       })),
       date: data.date,

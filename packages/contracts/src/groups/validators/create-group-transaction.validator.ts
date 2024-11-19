@@ -9,10 +9,10 @@ export const baseCreateGroupTransactionValidator = z
     name: z.string().min(3).max(255),
     amount: z.number().int(),
     groupId: idValidator,
-    payerUserId: idValidator,
+    payerMemberId: idValidator,
     participants: z
       .object({
-        userId: idValidator,
+        memberId: idValidator,
         amount: z.number().int()
       })
       .array()

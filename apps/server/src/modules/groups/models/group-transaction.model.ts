@@ -6,9 +6,9 @@ export interface GroupTransactionModel extends Model {
   name: string
   amount: number
   groupId: IdValueObject
-  payerUserId: IdValueObject
+  payerMemberId: IdValueObject
   participants: {
-    userId: IdValueObject
+    memberId: IdValueObject
     amount: number
   }[]
   date: Date
