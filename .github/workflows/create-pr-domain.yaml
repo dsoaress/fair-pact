@@ -44,3 +44,11 @@ jobs:
           railway domain
         env:
           RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
+
+      - name: Create domain for www app
+        run: |
+          railway link -p fair-pact -s www -e fair-pact-pr-${{ steps.pr_number.outputs.number }} &&
+          railway variables --set "PORT=3002" &&
+          railway domain
+        env:
+          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
