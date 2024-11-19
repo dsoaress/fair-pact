@@ -6,9 +6,5 @@ export const Route = createFileRoute('/transaction/')({
 })
 
 function RouteComponent(): JSX.Element {
-  return (
-    <>
-      <Header title="Nova transação" hasBackButton />
-    </>
-  )
+  return <Header title="Nova transação" hasBackButton />
 }

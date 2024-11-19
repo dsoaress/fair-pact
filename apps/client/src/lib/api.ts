@@ -50,11 +50,12 @@ api.interceptors.response.use(
             originalConfig.headers.Authorization = `Bearer ${token}`
             resolve(api(originalConfig))
           },
-          onFailure: (error: unknown): void => reject(error)
+          onFailure: (error: unknown): void =>
+            reject(error instanceof Error ? error : new Error(String(error)))
         })
       })
     }
 
-    return Promise.reject(error)
+    return Promise.reject(error instanceof Error ? error : new Error(String(error)))
   }
 )

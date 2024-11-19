@@ -6,9 +6,5 @@ export const Route = createFileRoute('/$group-id/$transaction-id/edit')({
 })
 
 function RouteComponent(): JSX.Element {
-  return (
-    <>
-      <Header title="Editar transação" hasBackButton />
-    </>
-  )
+  return <Header title="Editar transação" hasBackButton />
 }

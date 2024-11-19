@@ -2,11 +2,11 @@ import { useNavigate } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
 import type { ReactNode } from 'react'
 
-type HeaderProps = {
+type HeaderProps = Readonly<{
   title: string
   hasBackButton?: boolean
   children?: ReactNode
-}
+}>
 
 export function Header({ children, title, hasBackButton }: HeaderProps): JSX.Element {
   const navigate = useNavigate()
