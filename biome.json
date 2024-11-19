@@ -60,6 +60,23 @@
       }
     }
   },
+  "overrides": [
+    {
+      "include": ["*.astro"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useConst": "off",
+            "useImportType": "off"
+          },
+          "correctness": {
+            "noUnusedImports": "off",
+            "noUnusedVariables": "off"
+          }
+        }
+      }
+    }
+  ],
   "javascript": {
     "formatter": {
       "trailingCommas": "none",
