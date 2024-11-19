@@ -30,6 +30,7 @@ jobs:
           railway variables --set "CLIENT_URL=https://server-fair-pact-pr-${{ steps.pr_number.outputs.number }}.up.railway.app" \
                             --set "GOOGLE_OAUTH_REDIRECT_URL=https://server-fair-pact-pr-${{ steps.pr_number.outputs.number }}.up.railway.app/sessions/oauth/google" \
                             --set "NODE_ENV=development" \
+                            --set "JWT_SECRET=secret" \
                             --set "PORT=3000" &&
           railway domain
         env:
