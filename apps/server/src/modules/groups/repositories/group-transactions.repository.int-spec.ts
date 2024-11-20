@@ -1,7 +1,7 @@
 import { IdValueObject } from 'contracts'
 
 import { drizzleService } from '@/shared/database/drizzle/drizzle.service'
-import { groupMembers, groupTransactions, groups, users } from '@/shared/database/drizzle/schemas'
+import { groupMembers, groups, users } from '@/shared/database/drizzle/schemas'
 import { groupTransactionFake } from '../utils/tests/fakes/group-transaction.fake'
 import { GroupTransactionsRepository } from './group-transactions.repository'
 
@@ -10,7 +10,7 @@ describe('GroupTransactionsRepository', () => {
   const groupId = IdValueObject.create()
   let groupTransactionsRepository: GroupTransactionsRepository
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     groupTransactionsRepository = new GroupTransactionsRepository(drizzleService)
 
     await drizzleService.transaction(async tx => {
@@ -29,10 +29,6 @@ describe('GroupTransactionsRepository', () => {
         createdAt: new Date()
       })
     })
-  })
-
-  beforeEach(async () => {
-    await drizzleService.delete(groupTransactions)
   })
 
   it('should find a group transaction by id', async () => {

@@ -13,10 +13,6 @@ describe('GroupsRepository', () => {
     groupsRepository = new GroupsRepository(drizzleService)
   })
 
-  afterEach(async () => {
-    await drizzleService.delete(users)
-  })
-
   it('should find a group by id', async () => {
     const group = groupFake()
     await drizzleService.insert(users).values({

@@ -19,6 +19,7 @@
     "bradlc.vscode-tailwindcss",
     "wayou.vscode-todo-highlight",
     "vitest.explorer",
-    "redhat.vscode-yaml"
+    "redhat.vscode-yaml",
+    "miguelsolorio.symbols"
   ]
 }

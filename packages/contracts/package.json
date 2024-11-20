@@ -8,7 +8,7 @@
     "build": "tsup"
   },
   "peerDependencies": {
-    "zod": "~3"
+    "zod": "3"
   },
   "devDependencies": {
     "@types/node": "22.9.0",

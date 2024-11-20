@@ -242,7 +242,7 @@ importers:
   packages/contracts:
     dependencies:
       zod:
-        specifier: ~3
+        specifier: '3'
         version: 3.23.8
     devDependencies:
       '@types/node':

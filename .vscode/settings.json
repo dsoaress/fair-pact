@@ -18,5 +18,14 @@
   "sonarlint.connectedMode.project": {
     "connectionId": "dsoaress",
     "projectKey": "dsoaress_fair-pact"
+  },
+  "workbench.iconTheme": "symbols",
+  "symbols.files.associations": {
+    "vitest.environment.ts": "vitest",
+    "vitest.setup.ts": "vitest",
+    "*.e2e-spec.ts": "ts-test",
+    "*.int-spec.ts": "ts-test",
+    "*.spec.ts": "ts-test",
+    ".env.example": "gear"
   }
 }

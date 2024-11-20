@@ -1,15 +1,14 @@
-import tsconfigPaths from 'vite-tsconfig-paths'
-import { defineConfig } from 'vitest/config'
+import { defineConfig, mergeConfig } from 'vitest/config'
+import baseConfig from '../../vitest.config'
 
-export default defineConfig({
-  plugins: [tsconfigPaths()],
-  test: {
-    globals: true,
-    hookTimeout: 1000 * 10, // 10 seconds
-    testTimeout: 1000 * 10, // 10 seconds
-    include: ['**/?(*.){spec,int-spec,e2e-spec}.?(c|m)[jt]s?(x)'],
-    environmentMatchGlobs: [
-      ['**/?(*.){int-spec,e2e-spec}.?(c|m)[jt]s?(x)', './vitest.environment.ts']
-    ]
-  }
-})
+export default mergeConfig(
+  baseConfig,
+  defineConfig({
+    test: {
+      setupFiles: ['./vitest.setup.ts'],
+      environmentMatchGlobs: [
+        ['**/?(*.){int-spec,e2e-spec}.?(c|m)[jt]s?(x)', './vitest.environment.ts']
+      ]
+    }
+  })
+)
