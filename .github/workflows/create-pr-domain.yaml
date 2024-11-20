@@ -1,7 +1,7 @@
 name: Create PR Domain
 
 # This workflow is a workaround for the lack of support for the `pull_request` event in Railway.
-# It creates a domain for the server and client apps of the PR environment.
+# It creates a domain for the server, client and www apps of the PR environment.
 
 on:
   pull_request:
@@ -13,9 +13,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
 
       - name: Install Railway
         run: npm i -g @railway/cli
