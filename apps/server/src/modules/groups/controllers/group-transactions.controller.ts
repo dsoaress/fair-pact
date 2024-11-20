@@ -68,7 +68,9 @@ export class GroupTransactionsController {
   ): Promise<void> {
     const { groupTransactionId: id, groupId } = request.params
     const data = request.body
-    await this.updateGroupTransactionCommand.execute({ ...data, id, groupId })
+    // TODO: maybe updatedBy?
+    const memberId = request.user.sub
+    await this.updateGroupTransactionCommand.execute({ ...data, id, groupId, memberId })
     reply.status(httpStatusCode.NO_CONTENT).send()
   }
 

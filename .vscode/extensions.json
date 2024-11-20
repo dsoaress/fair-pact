@@ -1,0 +1,24 @@
+{
+  "recommendations": [
+    "astro-build.astro-vscode",
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-rename-tag",
+    "biomejs.biome",
+    "streetsidesoftware.code-spell-checker",
+    "streetsidesoftware.code-spell-checker-portuguese-brazilian",
+    "kamikillerto.vscode-colorize",
+    "fill-labs.dependi",
+    "ms-azuretools.vscode-docker",
+    "mikestead.dotenv",
+    "tamasfe.even-better-toml",
+    "qufiwefefwoyn.inline-sql-syntax",
+    "csstools.postcss",
+    "yoavbls.pretty-ts-errors",
+    "humao.rest-client",
+    "sonarsource.sonarlint-vscode",
+    "bradlc.vscode-tailwindcss",
+    "wayou.vscode-todo-highlight",
+    "vitest.explorer",
+    "redhat.vscode-yaml"
+  ]
+}
