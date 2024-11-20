@@ -3,8 +3,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host --port 3001",
-    "build": "tsc -b && vite build && cp serve.json dist/",
-    "start": "serve dist -p 3001"
+    "build": "tsc -b && vite build",
+    "start": "serve dist -s -p 3001"
   },
   "dependencies": {
     "@hookform/resolvers": "3.9.1",
