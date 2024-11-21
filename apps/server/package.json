@@ -3,9 +3,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch --clear-screen=false src/main.ts",
-    "build": "pnpm type:check && tsup",
+    "build": "tsc && tsup",
     "start": "node dist/main.js",
-    "type:check": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx src/shared/database/drizzle/seed"

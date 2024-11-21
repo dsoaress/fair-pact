@@ -39,7 +39,13 @@ export class GoogleOAuthService {
   private async fetchUserInfo(accessToken: string, idToken: string): Promise<Output> {
     const url = `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${accessToken}`
     const user = await fetch(url, { headers: { Authorization: `Bearer ${idToken}` } })
-    const userInfo = await user.json()
+    const userInfo = (await user.json()) as {
+      given_name: string
+      family_name: string
+      email: string
+      picture: string
+      verified_email: boolean
+    }
     if (!userInfo.verified_email) throw new Error('Email not verified')
     return {
       firstName: userInfo.given_name,
