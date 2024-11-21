@@ -1,19 +1,18 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext"],
     "target": "ESNext",
+    "lib": ["ESNext"],
     "module": "ESNext",
-    "moduleDetection": "force",
     "moduleResolution": "bundler",
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": true,
+    "skipLibCheck": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "verbatimModuleSyntax": true,
     "noEmit": true,
     "strict": true,
     "strictNullChecks": true,
-    "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
-    "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"]
