@@ -1,9 +1,46 @@
 {
-  "id": "82fe4999-6bbd-4687-bb68-1f77106955c4",
+  "id": "74ae4f4a-1d89-4a40-a31c-a44d2fa398f0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
+    "public.sessions": {
+      "name": "sessions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp (6) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "timestamp (6) with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.users": {
       "name": "users",
       "schema": "",
@@ -25,12 +62,36 @@
           "type": "varchar(50)",
           "primaryKey": false,
           "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "avatar": {
+          "name": "avatar",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp (6) with time zone",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
+      "uniqueConstraints": {
+        "users_email_unique": {
+          "name": "users_email_unique",
+          "nullsNotDistinct": false,
+          "columns": ["email"]
+        }
+      },
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
@@ -45,8 +106,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "user_id": {
-          "name": "user_id",
+        "member_id": {
+          "name": "member_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -69,20 +130,20 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "group_members_user_id_users_id_fk": {
-          "name": "group_members_user_id_users_id_fk",
+        "group_members_member_id_users_id_fk": {
+          "name": "group_members_member_id_users_id_fk",
           "tableFrom": "group_members",
           "tableTo": "users",
-          "columnsFrom": ["user_id"],
+          "columnsFrom": ["member_id"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "group_members_group_id_user_id_pk": {
-          "name": "group_members_group_id_user_id_pk",
-          "columns": ["group_id", "user_id"]
+        "group_members_group_id_member_id_pk": {
+          "name": "group_members_group_id_member_id_pk",
+          "columns": ["group_id", "member_id"]
         }
       },
       "uniqueConstraints": {},
@@ -100,8 +161,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "user_id": {
-          "name": "user_id",
+        "member_id": {
+          "name": "member_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -112,8 +173,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "payer_user_id": {
-          "name": "payer_user_id",
+        "payer_member_id": {
+          "name": "payer_member_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -136,11 +197,11 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "group_transaction_participants_user_id_users_id_fk": {
-          "name": "group_transaction_participants_user_id_users_id_fk",
+        "group_transaction_participants_member_id_users_id_fk": {
+          "name": "group_transaction_participants_member_id_users_id_fk",
           "tableFrom": "group_transaction_participants",
           "tableTo": "users",
-          "columnsFrom": ["user_id"],
+          "columnsFrom": ["member_id"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
@@ -154,20 +215,20 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "group_transaction_participants_payer_user_id_users_id_fk": {
-          "name": "group_transaction_participants_payer_user_id_users_id_fk",
+        "group_transaction_participants_payer_member_id_users_id_fk": {
+          "name": "group_transaction_participants_payer_member_id_users_id_fk",
           "tableFrom": "group_transaction_participants",
           "tableTo": "users",
-          "columnsFrom": ["payer_user_id"],
+          "columnsFrom": ["payer_member_id"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "group_transaction_participants_group_transaction_id_user_id_pk": {
-          "name": "group_transaction_participants_group_transaction_id_user_id_pk",
-          "columns": ["group_transaction_id", "user_id"]
+        "group_transaction_participants_group_transaction_id_member_id_pk": {
+          "name": "group_transaction_participants_group_transaction_id_member_id_pk",
+          "columns": ["group_transaction_id", "member_id"]
         }
       },
       "uniqueConstraints": {},
@@ -203,8 +264,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "payer_user_id": {
-          "name": "payer_user_id",
+        "payer_member_id": {
+          "name": "payer_member_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -267,11 +328,11 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "group_transactions_payer_user_id_users_id_fk": {
-          "name": "group_transactions_payer_user_id_users_id_fk",
+        "group_transactions_payer_member_id_users_id_fk": {
+          "name": "group_transactions_payer_member_id_users_id_fk",
           "tableFrom": "group_transactions",
           "tableTo": "users",
-          "columnsFrom": ["payer_user_id"],
+          "columnsFrom": ["payer_member_id"],
           "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"

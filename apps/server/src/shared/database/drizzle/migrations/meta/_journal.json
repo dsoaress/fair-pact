@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1731222394950,
-      "tag": "0000_sticky_sunspot",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1731265651889,
-      "tag": "0001_absurd_randall_flagg",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1731265984238,
-      "tag": "0002_tranquil_psylocke",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1731813652455,
-      "tag": "0003_colorful_steel_serpent",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1731813704845,
-      "tag": "0004_broad_the_hand",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1732041158199,
-      "tag": "0005_lovely_umar",
+      "when": 1732282978758,
+      "tag": "0000_lumpy_lester",
       "breakpoints": true
     }
   ]
