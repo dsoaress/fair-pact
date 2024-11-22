@@ -11,6 +11,8 @@ import type { UpdateGroupCommand } from '../commands/update-group.command'
 import type { GetGroupByIdQuery } from '../queries/get-group-by-id.query'
 import type { GetGroupsQuery } from '../queries/get-groups.query'
 
+const { PRIVATE } = permissions
+
 export class GroupsController implements Controller {
   constructor(
     private readonly server: HttpServer,
@@ -24,14 +26,14 @@ export class GroupsController implements Controller {
   ) {}
 
   initialize(): void {
-    this.server.get(permissions.PRIVATE, '/groups/:groupId', async (req, res) => {
+    this.server.get(PRIVATE, '/groups/:groupId', async (req, res) => {
       const memberId = req.userId
       const { groupId: id } = req.params
       const data = await this.getGroupByIdQuery.execute({ memberId, id })
       res.status(httpStatusCode.OK).send({ data })
     })
 
-    this.server.get(permissions.PRIVATE, '/groups', async (req, res) => {
+    this.server.get(PRIVATE, '/groups', async (req, res) => {
       const memberId = req.userId
       const data = await this.getGroupsQuery.execute({ memberId })
       res.status(httpStatusCode.OK).send({ data })
@@ -39,20 +41,20 @@ export class GroupsController implements Controller {
 
     this.server.post<{
       body: Pick<CreateGroupInputDTO, 'name' | 'currency'>
-    }>(permissions.PRIVATE, '/groups', async (req, res) => {
+    }>(PRIVATE, '/groups', async (req, res) => {
       const createdBy = req.userId
       const data = await this.createGroupCommand.execute({ ...req.body, createdBy })
       res.status(httpStatusCode.CREATED).send({ data })
     })
 
-    this.server.post(permissions.PRIVATE, '/groups/:groupId/join', async (req, res) => {
+    this.server.post(PRIVATE, '/groups/:groupId/join', async (req, res) => {
       const memberId = req.userId
       const { groupId: id } = req.params
       await this.joinGroupCommand.execute({ id, memberId })
       res.status(httpStatusCode.NO_CONTENT)
     })
 
-    this.server.post(permissions.PRIVATE, '/groups/:groupId/leave', async (req, res) => {
+    this.server.post(PRIVATE, '/groups/:groupId/leave', async (req, res) => {
       const memberId = req.userId
       const { groupId: id } = req.params
       await this.removeGroupMemberCommand.execute({ id, memberId })
@@ -61,7 +63,7 @@ export class GroupsController implements Controller {
 
     this.server.post<{
       body: { memberId: string }
-    }>(permissions.PRIVATE, '/groups/:groupId/members', async (req, res) => {
+    }>(PRIVATE, '/groups/:groupId/members', async (req, res) => {
       const { memberId } = req.body
       const { groupId: id } = req.params
       await this.removeGroupMemberCommand.execute({ id, memberId })
@@ -70,7 +72,7 @@ export class GroupsController implements Controller {
 
     this.server.patch<{
       body: Pick<UpdateGroupDTO, 'name' | 'currency'>
-    }>(permissions.PRIVATE, '/groups/:groupId', async (req, res) => {
+    }>(PRIVATE, '/groups/:groupId', async (req, res) => {
       const updatedBy = req.userId
       const data = req.body
       const { groupId: id } = req.params
@@ -78,7 +80,7 @@ export class GroupsController implements Controller {
       res.status(httpStatusCode.NO_CONTENT)
     })
 
-    this.server.delete(permissions.PRIVATE, '/groups/:groupId', async (req, res) => {
+    this.server.delete(PRIVATE, '/groups/:groupId', async (req, res) => {
       const id = req.params.groupId
       await this.deleteGroupCommand.execute({ id })
       res.status(httpStatusCode.NO_CONTENT)

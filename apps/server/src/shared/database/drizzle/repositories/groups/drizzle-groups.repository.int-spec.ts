@@ -3,14 +3,14 @@ import { IdValueObject } from 'contracts'
 import { drizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { users } from '@/shared/database/drizzle/schemas'
 
-import { groupFake } from '../utils/tests/fakes/group.fake'
-import { GroupsRepository } from './groups.repository'
+import { groupFake } from '@/modules/groups/utils/tests/fakes/group.fake'
+import { DrizzleGroupsRepository } from './drizzle-groups.repository'
 
 describe('GroupsRepository', () => {
-  let groupsRepository: GroupsRepository
+  let groupsRepository: DrizzleGroupsRepository
 
   beforeAll(async () => {
-    groupsRepository = new GroupsRepository(drizzleService)
+    groupsRepository = new DrizzleGroupsRepository(drizzleService)
   })
 
   it('should find a group by id', async () => {

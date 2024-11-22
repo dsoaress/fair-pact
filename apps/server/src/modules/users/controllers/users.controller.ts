@@ -3,6 +3,8 @@ import { type HttpServer, httpStatusCode, permissions } from '@/shared/base/http
 
 import type { GetUserProfileQuery } from '../queries/get-user-profile.query'
 
+const { PRIVATE } = permissions
+
 export class UsersControllers implements Controller {
   constructor(
     private readonly server: HttpServer,
@@ -10,7 +12,7 @@ export class UsersControllers implements Controller {
   ) {}
 
   initialize(): void {
-    this.server.get(permissions.PRIVATE, '/users/profile', async (req, res) => {
+    this.server.get(PRIVATE, '/users/profile', async (req, res) => {
       const id = req.userId
       const data = await this.getUserProfileQuery.execute({ id })
       res.status(httpStatusCode.OK).send({ data })

@@ -1,17 +1,18 @@
 import { IdValueObject } from 'contracts'
 
+import { groupTransactionFake } from '@/modules/groups/utils/tests/fakes/group-transaction.fake'
 import { drizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { groupMembers, groups, users } from '@/shared/database/drizzle/schemas'
-import { groupTransactionFake } from '../utils/tests/fakes/group-transaction.fake'
-import { GroupTransactionsRepository } from './group-transactions.repository'
 
-describe('GroupTransactionsRepository', () => {
+import { DrizzleGroupTransactionsRepository } from './drizzle-group-transactions.repository'
+
+describe('DrizzleGroupTransactionsRepository', () => {
   const memberId = IdValueObject.create()
   const groupId = IdValueObject.create()
-  let groupTransactionsRepository: GroupTransactionsRepository
+  let groupTransactionsRepository: DrizzleGroupTransactionsRepository
 
   beforeEach(async () => {
-    groupTransactionsRepository = new GroupTransactionsRepository(drizzleService)
+    groupTransactionsRepository = new DrizzleGroupTransactionsRepository(drizzleService)
 
     await drizzleService.transaction(async tx => {
       await tx.insert(users).values({

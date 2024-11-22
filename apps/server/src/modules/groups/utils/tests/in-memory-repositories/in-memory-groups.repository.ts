@@ -1,41 +1,39 @@
 import { IdValueObject } from 'contracts'
 
 import type { GroupModel } from '@/modules/groups/models/group.model'
-import { GroupsRepository } from '@/modules/groups/repositories/groups.repository'
+import type { GroupsRepository } from '@/modules/groups/repositories/groups.repository'
 
-export class InMemoryGroupsRepository extends GroupsRepository {
-  constructor(private readonly groups: GroupModel[] = []) {
-    super({} as never)
-  }
+export class InMemoryGroupsRepository implements GroupsRepository {
+  constructor(private readonly groups: GroupModel[] = []) {}
 
-  override async findById(id: string): Promise<GroupModel | null> {
+  async findById(id: string): Promise<GroupModel | null> {
     return this.groups.find(group => group.id.value === id) || null
   }
 
-  override async create(model: GroupModel): Promise<{ id: string }> {
+  async create(model: GroupModel): Promise<{ id: string }> {
     this.groups.push(model)
     return { id: model.id.value }
   }
 
-  override async addGroupMember(groupId: string, memberId: string): Promise<void> {
+  async addGroupMember(groupId: string, memberId: string): Promise<void> {
     const group = this.groups.find(group => group.id.value === groupId)
     if (!group) return
     group.members.push(IdValueObject.create(memberId))
   }
 
-  override async removeGroupMember(groupId: string, memberId: string): Promise<void> {
+  async removeGroupMember(groupId: string, memberId: string): Promise<void> {
     const group = this.groups.find(group => group.id.value === groupId)
     if (!group) return
     const index = group.members.findIndex(member => member.value === memberId)
     group.members.splice(index, 1)
   }
 
-  override async update(model: GroupModel): Promise<void> {
+  async update(model: GroupModel): Promise<void> {
     const index = this.groups.findIndex(group => group.id.value === model.id.value)
     this.groups[index] = model
   }
 
-  override async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<void> {
     const index = this.groups.findIndex(group => group.id.value === id)
     this.groups.splice(index, 1)
   }

@@ -9,6 +9,8 @@ import type { UpdateGroupTransactionCommand } from '../commands/update-group-tra
 import type { GetGroupTransactionByIdQuery } from '../queries/get-group-transaction-by-id.query'
 import type { GetGroupTransactionsByGroupIdQuery } from '../queries/get-group-transactions-by-group-id.query'
 
+const { PRIVATE } = permissions
+
 export class GroupTransactionsController implements Controller {
   constructor(
     private readonly server: HttpServer,
@@ -21,7 +23,7 @@ export class GroupTransactionsController implements Controller {
 
   initialize(): void {
     this.server.get(
-      permissions.PRIVATE,
+      PRIVATE,
       '/groups/:groupId/transactions/:groupTransactionId',
       async (req, res) => {
         const memberId = req.userId
@@ -31,7 +33,7 @@ export class GroupTransactionsController implements Controller {
       }
     )
 
-    this.server.get(permissions.PRIVATE, '/groups/:groupId/transactions', async (req, res) => {
+    this.server.get(PRIVATE, '/groups/:groupId/transactions', async (req, res) => {
       const memberId = req.userId
       const { groupId } = req.params
       const data = await this.GetGroupTransactionsByGroupIdQuery.execute({ groupId, memberId })
@@ -40,7 +42,7 @@ export class GroupTransactionsController implements Controller {
 
     this.server.post<{
       body: Omit<CreateGroupTransactionDTO, 'groupId' | 'createdBy'>
-    }>(permissions.PRIVATE, '/groups/:groupId/transactions', async (req, res) => {
+    }>(PRIVATE, '/groups/:groupId/transactions', async (req, res) => {
       const createdBy = req.userId
       const { groupId } = req.params
       const data = req.body
@@ -50,21 +52,17 @@ export class GroupTransactionsController implements Controller {
 
     this.server.patch<{
       body: Omit<CreateGroupTransactionDTO, 'groupId' | 'createdBy'>
-    }>(
-      permissions.PRIVATE,
-      '/groups/:groupId/transactions/:groupTransactionId',
-      async (req, res) => {
-        const { groupId, groupTransactionId: id } = req.params
-        const data = req.body
-        // TODO: maybe updatedBy?
-        const memberId = req.userId
-        await this.updateGroupTransactionCommand.execute({ ...data, id, groupId, memberId })
-        res.status(httpStatusCode.NO_CONTENT)
-      }
-    )
+    }>(PRIVATE, '/groups/:groupId/transactions/:groupTransactionId', async (req, res) => {
+      const { groupId, groupTransactionId: id } = req.params
+      const data = req.body
+      // TODO: maybe updatedBy?
+      const memberId = req.userId
+      await this.updateGroupTransactionCommand.execute({ ...data, id, groupId, memberId })
+      res.status(httpStatusCode.NO_CONTENT)
+    })
 
     this.server.delete(
-      permissions.PRIVATE,
+      PRIVATE,
       '/groups/:groupId/transactions/:groupTransactionId',
       async (req, res) => {
         const { groupTransactionId: id } = req.params

@@ -1,53 +1,9 @@
 import type { Repository } from '@/shared/base/repository'
-import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
-import { sessions } from '@/shared/database/drizzle/schemas'
 
-import { IdValueObject } from 'contracts'
-import { eq } from 'drizzle-orm'
 import type { SessionModel } from '../models/session.model'
 
-type SessionResult = {
-  id: string
-  userId: string
-  createdAt: Date
-  expiresAt: Date
-}
-
-export class SessionsRepository implements Omit<Repository<SessionModel>, 'create'> {
-  constructor(private readonly drizzleService: DrizzleService) {}
-
-  async findById(id: string): Promise<SessionModel | null> {
-    const result = await this.drizzleService.query.sessions.findFirst({
-      where: eq(sessions.id, id)
-    })
-    if (!result) return null
-    return this.mapToModel(result)
-  }
-
-  async create(model: SessionModel): Promise<{ id: string }> {
-    const result = await this.drizzleService
-      .insert(sessions)
-      .values({
-        id: model.id.value,
-        userId: model.userId.value,
-        createdAt: model.createdAt,
-        expiresAt: model.expiresAt
-      })
-      .returning({ id: sessions.id })
-
-    return { id: result[0].id }
-  }
-
-  async delete(id: string): Promise<void> {
-    await this.drizzleService.delete(sessions).where(eq(sessions.id, id))
-  }
-
-  private mapToModel(result: SessionResult): SessionModel {
-    return {
-      id: IdValueObject.create(result.id),
-      userId: IdValueObject.create(result.userId),
-      createdAt: result.createdAt,
-      expiresAt: result.expiresAt
-    }
-  }
+export interface SessionsRepository extends Omit<Repository<SessionModel>, 'create'> {
+  findById(id: string): Promise<SessionModel | null>
+  create(model: SessionModel): Promise<{ id: string }>
+  delete(id: string): Promise<void>
 }

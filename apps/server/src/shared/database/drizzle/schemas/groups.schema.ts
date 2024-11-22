@@ -15,20 +15,8 @@ export const groups = pgTable('groups', {
   updatedAt: timestamp('updated_at', { withTimezone: true, precision: 6 })
 })
 
-export const groupRelations = relations(groups, ({ many, one }) => ({
-  members: many(groupMembers),
-  transactions: many(groupTransactions),
-  transaction_participants: many(groupTransactionParticipants),
-  created_by_user: one(users, {
-    fields: [groups.createdBy],
-    references: [users.id],
-    relationName: 'created_by_user'
-  }),
-  updated_by_user: one(users, {
-    fields: [groups.updatedBy],
-    references: [users.id],
-    relationName: 'updated_by_user'
-  })
+export const groupRelations = relations(groups, ({ many }) => ({
+  members: many(groupMembers)
 }))
 
 export const groupMembers = pgTable(
@@ -46,8 +34,7 @@ export const groupMembers = pgTable(
 )
 
 export const groupMemberRelations = relations(groupMembers, ({ one }) => ({
-  group: one(groups, { fields: [groupMembers.groupId], references: [groups.id] }),
-  user: one(users, { fields: [groupMembers.memberId], references: [users.id] })
+  group: one(groups, { fields: [groupMembers.groupId], references: [groups.id] })
 }))
 
 export const groupTransactions = pgTable(
@@ -73,24 +60,8 @@ export const groupTransactions = pgTable(
   t => [index().on(t.groupId)]
 )
 
-export const groupTransactionRelations = relations(groupTransactions, ({ many, one }) => ({
-  participants: many(groupTransactionParticipants),
-  group: one(groups, { fields: [groupTransactions.groupId], references: [groups.id] }),
-  payer: one(users, {
-    fields: [groupTransactions.payerMemberId],
-    references: [users.id],
-    relationName: 'payer_user'
-  }),
-  created_by_user: one(users, {
-    fields: [groupTransactions.createdBy],
-    references: [users.id],
-    relationName: 'created_by_user'
-  }),
-  updated_by_user: one(users, {
-    fields: [groupTransactions.updatedBy],
-    references: [users.id],
-    relationName: 'updated_by_user'
-  })
+export const groupTransactionRelations = relations(groupTransactions, ({ many }) => ({
+  participants: many(groupTransactionParticipants)
 }))
 
 export const groupTransactionParticipants = pgTable(
@@ -121,17 +92,6 @@ export const groupTransactionParticipantRelations = relations(
     transaction: one(groupTransactions, {
       fields: [groupTransactionParticipants.groupTransactionId],
       references: [groupTransactions.id]
-    }),
-    group: one(groups, { fields: [groupTransactionParticipants.groupId], references: [groups.id] }),
-    user: one(users, {
-      fields: [groupTransactionParticipants.memberId],
-      references: [users.id],
-      relationName: 'user'
-    }),
-    payer: one(users, {
-      fields: [groupTransactionParticipants.payerMemberId],
-      references: [users.id],
-      relationName: 'payer_user'
     })
   })
 )

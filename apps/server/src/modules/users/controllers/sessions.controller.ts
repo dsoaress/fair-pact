@@ -7,6 +7,8 @@ import type { CreateSessionCommand } from '../commands/create-session.command'
 import type { RefreshSessionCommand } from '../commands/refresh-session.command'
 import type { GoogleOAuthService } from '../services/google-oauth.service'
 
+const { PUBLIC } = permissions
+
 export class SessionsController implements Controller {
   constructor(
     private readonly server: HttpServer,
@@ -17,7 +19,7 @@ export class SessionsController implements Controller {
   ) {}
 
   initialize(): void {
-    this.server.get(permissions.PUBLIC, '/sessions/oauth/google', async (req, res) => {
+    this.server.get(PUBLIC, '/sessions/oauth/google', async (req, res) => {
       try {
         const { code } = req.query
         const userInfo = await this.googleOAuthService.execute(code)
@@ -33,7 +35,7 @@ export class SessionsController implements Controller {
     })
 
     this.server.post<{ body: { refreshToken: string } }>(
-      permissions.PUBLIC,
+      PUBLIC,
       '/sessions/refresh',
       async (req, res) => {
         const { refreshToken } = req.body

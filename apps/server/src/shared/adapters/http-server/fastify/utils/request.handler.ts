@@ -7,9 +7,9 @@ export async function requestHandler<T>(
   permission: Permission,
   path: string,
   handler: Handler<T>,
-  app: FastifyInstance
+  server: FastifyInstance
 ): Promise<void> {
-  app[method](path, async (req, res) => {
+  server[method](path, async (req, res) => {
     await checkPermission(permission, req)
     const httpRequest: HttpRequest<T> = {
       body: req.body as T extends { body: infer B } ? B : undefined,

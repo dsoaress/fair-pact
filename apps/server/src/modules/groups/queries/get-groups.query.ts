@@ -1,8 +1,8 @@
 import { type GetGroupsInputDTO, type GetGroupsOutputDTO, getGroupsInputValidator } from 'contracts'
 
 import type { Query } from '@/shared/base/query'
-
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
+
 import type { GroupsDAO } from '../daos/groups.dao'
 
 export class GetGroupsQuery implements Query<GetGroupsInputDTO, Promise<GetGroupsOutputDTO>> {

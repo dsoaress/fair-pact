@@ -6,36 +6,36 @@ import { requestHandler } from './utils/request.handler'
 import { setup } from './utils/setup'
 
 export class FastifyHttpServerAdapter implements HttpServer {
-  constructor(private readonly app: FastifyInstance) {
-    setup(app)
+  constructor(private readonly server: FastifyInstance) {
+    setup(server)
   }
 
   async listen(port: number, callback?: () => void): Promise<void> {
-    await this.app.listen({ port })
+    await this.server.listen({ port })
     callback?.()
   }
 
   signJwt(payload: Record<string, unknown>): string {
-    return this.app.jwt.sign(payload)
+    return this.server.jwt.sign(payload)
   }
 
   async get<T>(permission: Permission, path: string, handler: Handler<T>): Promise<void> {
-    await requestHandler('get', permission, path, handler, this.app)
+    await requestHandler('get', permission, path, handler, this.server)
   }
 
   async post<T>(permission: Permission, path: string, handler: Handler<T>): Promise<void> {
-    await requestHandler('post', permission, path, handler, this.app)
+    await requestHandler('post', permission, path, handler, this.server)
   }
 
   async patch<T>(permission: Permission, path: string, handler: Handler<T>): Promise<void> {
-    await requestHandler('patch', permission, path, handler, this.app)
+    await requestHandler('patch', permission, path, handler, this.server)
   }
 
   async put<T>(permission: Permission, path: string, handler: Handler<T>): Promise<void> {
-    await requestHandler('put', permission, path, handler, this.app)
+    await requestHandler('put', permission, path, handler, this.server)
   }
 
   async delete<T>(permission: Permission, path: string, handler: Handler<T>): Promise<void> {
-    await requestHandler('delete', permission, path, handler, this.app)
+    await requestHandler('delete', permission, path, handler, this.server)
   }
 }

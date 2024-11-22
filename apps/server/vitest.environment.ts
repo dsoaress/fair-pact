@@ -9,7 +9,7 @@ export default (<Environment>{
     const databaseContainer = await new PostgreSqlContainer().start()
     const connectionUri = databaseContainer.getConnectionUri()
     process.env.DATABASE_URL = connectionUri
-    execSync(`cd ${__dirname} && DATABASE_URL=${connectionUri} npx drizzle-kit push`)
+    execSync(`cd ${import.meta.dirname} && DATABASE_URL=${connectionUri} npx drizzle-kit push`)
     return {
       async teardown(): Promise<void> {}
     }
