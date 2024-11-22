@@ -1,3 +1,5 @@
+import type { HttpServer } from '@/shared/base/http-server'
+
 import { GroupTransactionsController } from '../controllers/group-transactions.controller'
 import { GroupsController } from '../controllers/groups.controller'
 import { makeCommandsFactory } from './make-commands.factory'
@@ -5,12 +7,16 @@ import { makeDAOsFactory } from './make-daos.factory'
 import { makeQueriesFactory } from './make-queries.factory'
 import { makeRepositoriesFactory } from './make-repositories.factory'
 
+type Input = {
+  server: HttpServer
+}
+
 type Output = {
   groupsController: GroupsController
   groupTransactionsController: GroupTransactionsController
 }
 
-export function makeControllersFactory(): Output {
+export function makeGroupsControllersFactory({ server }: Input): Output {
   const { groupsDAO, groupTransactionsDAO } = makeDAOsFactory()
   const { groupsRepository, groupTransactionsRepository } = makeRepositoriesFactory()
   const {
@@ -31,6 +37,7 @@ export function makeControllersFactory(): Output {
   } = makeCommandsFactory({ groupsRepository, groupTransactionsRepository })
 
   const groupsController = new GroupsController(
+    server,
     getGroupByIdQuery,
     getGroupsQuery,
     createGroupCommand,
@@ -41,6 +48,7 @@ export function makeControllersFactory(): Output {
   )
 
   const groupTransactionsController = new GroupTransactionsController(
+    server,
     getGroupTransactionByIdQuery,
     getGroupTransactionsByGroupIdQuery,
     createGroupTransactionCommand,

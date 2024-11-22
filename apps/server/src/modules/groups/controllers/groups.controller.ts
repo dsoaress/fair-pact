@@ -1,7 +1,7 @@
 import type { CreateGroupInputDTO, UpdateGroupDTO } from 'contracts'
-import type { FastifyReply, FastifyRequest } from 'fastify'
 
-import { httpStatusCode } from '@/shared/base/http-status-code'
+import type { Controller } from '@/shared/base/controller'
+import { type HttpServer, httpStatusCode, permissions } from '@/shared/base/http-server'
 
 import type { CreateGroupCommand } from '../commands/create-group.command'
 import type { DeleteGroupCommand } from '../commands/delete-group.command'
@@ -11,8 +11,9 @@ import type { UpdateGroupCommand } from '../commands/update-group.command'
 import type { GetGroupByIdQuery } from '../queries/get-group-by-id.query'
 import type { GetGroupsQuery } from '../queries/get-groups.query'
 
-export class GroupsController {
+export class GroupsController implements Controller {
   constructor(
+    private readonly server: HttpServer,
     private readonly getGroupByIdQuery: GetGroupByIdQuery,
     private readonly getGroupsQuery: GetGroupsQuery,
     private readonly createGroupCommand: CreateGroupCommand,
@@ -22,91 +23,65 @@ export class GroupsController {
     private readonly deleteGroupCommand: DeleteGroupCommand
   ) {}
 
-  async getGroupById(
-    request: FastifyRequest<{ Params: { groupId: string } }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const memberId = request.user.sub
-    const { groupId: id } = request.params
-    const data = await this.getGroupByIdQuery.execute({ memberId, id })
-    reply.status(httpStatusCode.OK).send({ data })
-  }
+  initialize(): void {
+    this.server.get(permissions.PRIVATE, '/groups/:groupId', async (req, res) => {
+      const memberId = req.userId
+      const { groupId: id } = req.params
+      const data = await this.getGroupByIdQuery.execute({ memberId, id })
+      res.status(httpStatusCode.OK).send({ data })
+    })
 
-  async getGroups(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const memberId = request.user.sub
-    const data = await this.getGroupsQuery.execute({ memberId })
-    reply.status(httpStatusCode.OK).send({ data })
-  }
+    this.server.get(permissions.PRIVATE, '/groups', async (req, res) => {
+      const memberId = req.userId
+      const data = await this.getGroupsQuery.execute({ memberId })
+      res.status(httpStatusCode.OK).send({ data })
+    })
 
-  async createGroup(
-    request: FastifyRequest<{
-      Body: Pick<CreateGroupInputDTO, 'name' | 'currency'>
-    }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const createdBy = request.user.sub
-    const data = request.body
-    const result = await this.createGroupCommand.execute({ ...data, createdBy })
-    reply.status(httpStatusCode.CREATED).send(result)
-  }
+    this.server.post<{
+      body: Pick<CreateGroupInputDTO, 'name' | 'currency'>
+    }>(permissions.PRIVATE, '/groups', async (req, res) => {
+      const createdBy = req.userId
+      const data = await this.createGroupCommand.execute({ ...req.body, createdBy })
+      res.status(httpStatusCode.CREATED).send({ data })
+    })
 
-  async joinGroup(
-    request: FastifyRequest<{
-      Params: { groupId: string }
-    }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const memberId = request.user.sub
-    const groupId = request.params.groupId
-    await this.joinGroupCommand.execute({ id: groupId, memberId })
-    reply.status(httpStatusCode.NO_CONTENT).send()
-  }
+    this.server.post(permissions.PRIVATE, '/groups/:groupId/join', async (req, res) => {
+      const memberId = req.userId
+      const { groupId: id } = req.params
+      await this.joinGroupCommand.execute({ id, memberId })
+      res.status(httpStatusCode.NO_CONTENT)
+    })
 
-  async leaveGroup(
-    request: FastifyRequest<{
-      Params: { groupId: string }
-    }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const memberId = request.user.sub
-    const groupId = request.params.groupId
-    await this.removeGroupMemberCommand.execute({ id: groupId, memberId })
-    reply.status(httpStatusCode.NO_CONTENT).send()
-  }
+    this.server.post(permissions.PRIVATE, '/groups/:groupId/leave', async (req, res) => {
+      const memberId = req.userId
+      const { groupId: id } = req.params
+      await this.removeGroupMemberCommand.execute({ id, memberId })
+      res.status(httpStatusCode.NO_CONTENT)
+    })
 
-  async removeGroupMember(
-    request: FastifyRequest<{
-      Params: { groupId: string }
-      Body: { memberId: string }
-    }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const { memberId } = request.body
-    const groupId = request.params.groupId
-    await this.removeGroupMemberCommand.execute({ id: groupId, memberId })
-    reply.status(httpStatusCode.NO_CONTENT).send()
-  }
+    this.server.post<{
+      body: { memberId: string }
+    }>(permissions.PRIVATE, '/groups/:groupId/members', async (req, res) => {
+      const { memberId } = req.body
+      const { groupId: id } = req.params
+      await this.removeGroupMemberCommand.execute({ id, memberId })
+      res.status(httpStatusCode.NO_CONTENT)
+    })
 
-  async updateGroup(
-    request: FastifyRequest<{
-      Body: Pick<UpdateGroupDTO, 'name' | 'currency'>
-      Params: { groupId: string }
-    }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const updatedBy = request.user.sub
-    const data = request.body
-    const id = request.params.groupId
-    await this.updateGroupCommand.execute({ ...data, id, updatedBy })
-    reply.status(httpStatusCode.NO_CONTENT).send()
-  }
+    this.server.patch<{
+      body: Pick<UpdateGroupDTO, 'name' | 'currency'>
+    }>(permissions.PRIVATE, '/groups/:groupId', async (req, res) => {
+      const updatedBy = req.userId
+      const data = req.body
+      const { groupId: id } = req.params
+      await this.updateGroupCommand.execute({ ...data, id, updatedBy })
+      res.status(httpStatusCode.NO_CONTENT)
+    })
 
-  async deleteGroup(
-    request: FastifyRequest<{ Params: { groupId: string } }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const id = request.params.groupId
-    await this.deleteGroupCommand.execute({ id })
-    reply.status(httpStatusCode.NO_CONTENT).send()
+    this.server.delete(permissions.PRIVATE, '/groups/:groupId', async (req, res) => {
+      const id = req.params.groupId
+      await this.deleteGroupCommand.execute({ id })
+      res.status(httpStatusCode.NO_CONTENT)
+    })
   }
 }

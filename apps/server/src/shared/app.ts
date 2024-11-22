@@ -1,26 +1,22 @@
-import cors from '@fastify/cors'
-import jwt from '@fastify/jwt'
 import { fastify } from 'fastify'
 
-import { groupsRoutes } from '@/modules/groups/routes/groups.routes'
-import { sessionsRoutes } from '@/modules/users/routes/sessions.routes'
-import { usersRoutes } from '@/modules/users/routes/users.routes'
+import { makeGroupsControllersFactory } from '@/modules/groups/factories/make-controllers.factories'
+import { makeUsersControllersFactory } from '@/modules/users/factories/make-controllers.factories'
 
-import { httpStatusCode } from './base/http-status-code'
+import { FastifyHttpServerAdapter } from './adapters/http-server/fastify/fastify-http-server.adapter'
 import { env } from './config/env'
 import { logger } from './config/logger'
-import { errorHandlerMiddleware } from './middleares/error-handlers.middleware'
 
-const app = fastify({ logger })
+export async function app(): Promise<void> {
+  const server = new FastifyHttpServerAdapter(fastify({ logger }))
 
-app.register(jwt, { secret: env.JWT_SECRET, sign: { expiresIn: '15m' } })
-app.register(cors)
+  const { groupsController, groupTransactionsController } = makeGroupsControllersFactory({ server })
+  const { sessionsController, usersController } = makeUsersControllersFactory({ server })
 
-app.get('/health', async (_request, reply) => reply.status(httpStatusCode.OK).send())
-app.register(groupsRoutes, { prefix: '/groups' })
-app.register(sessionsRoutes, { prefix: '/sessions' })
-app.register(usersRoutes, { prefix: '/users' })
+  groupsController.initialize()
+  groupTransactionsController.initialize()
+  sessionsController.initialize()
+  usersController.initialize()
 
-app.setErrorHandler(errorHandlerMiddleware)
-
-export { app }
+  await server.listen(env.PORT)
+}

@@ -1,15 +1,19 @@
-import type { FastifyReply, FastifyRequest } from 'fastify'
-
-import { httpStatusCode } from '@/shared/base/http-status-code'
+import type { Controller } from '@/shared/base/controller'
+import { type HttpServer, httpStatusCode, permissions } from '@/shared/base/http-server'
 
 import type { GetUserProfileQuery } from '../queries/get-user-profile.query'
 
-export class UsersControllers {
-  constructor(private readonly getUserProfileQuery: GetUserProfileQuery) {}
+export class UsersControllers implements Controller {
+  constructor(
+    private readonly server: HttpServer,
+    private readonly getUserProfileQuery: GetUserProfileQuery
+  ) {}
 
-  async getUserProfile(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    const id = request.user.sub
-    const data = await this.getUserProfileQuery.execute({ id })
-    reply.status(httpStatusCode.OK).send({ data })
+  initialize(): void {
+    this.server.get(permissions.PRIVATE, '/users/profile', async (req, res) => {
+      const id = req.userId
+      const data = await this.getUserProfileQuery.execute({ id })
+      res.status(httpStatusCode.OK).send({ data })
+    })
   }
 }

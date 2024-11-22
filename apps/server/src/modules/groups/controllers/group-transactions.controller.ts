@@ -1,7 +1,7 @@
-import type { CreateGroupTransactionDTO, UpdateGroupTransactionDTO } from 'contracts'
-import type { FastifyReply, FastifyRequest } from 'fastify'
+import type { CreateGroupTransactionDTO } from 'contracts'
 
-import { httpStatusCode } from '@/shared/base/http-status-code'
+import type { Controller } from '@/shared/base/controller'
+import { type HttpServer, httpStatusCode, permissions } from '@/shared/base/http-server'
 
 import type { CreateGroupTransactionCommand } from '../commands/create-group-transaction.command'
 import type { DeleteGroupTransactionCommand } from '../commands/delete-group-transaction.command'
@@ -9,8 +9,9 @@ import type { UpdateGroupTransactionCommand } from '../commands/update-group-tra
 import type { GetGroupTransactionByIdQuery } from '../queries/get-group-transaction-by-id.query'
 import type { GetGroupTransactionsByGroupIdQuery } from '../queries/get-group-transactions-by-group-id.query'
 
-export class GroupTransactionsController {
+export class GroupTransactionsController implements Controller {
   constructor(
+    private readonly server: HttpServer,
     private readonly GetGroupTransactionByIdQuery: GetGroupTransactionByIdQuery,
     private readonly GetGroupTransactionsByGroupIdQuery: GetGroupTransactionsByGroupIdQuery,
     private readonly createGroupTransactionCommand: CreateGroupTransactionCommand,
@@ -18,68 +19,58 @@ export class GroupTransactionsController {
     private readonly deleteGroupTransactionCommand: DeleteGroupTransactionCommand
   ) {}
 
-  async getGroupTransactionById(
-    request: FastifyRequest<{ Params: { groupTransactionId: string } }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const memberId = request.user.sub
-    const id = request.params.groupTransactionId
-    const groupTransaction = await this.GetGroupTransactionByIdQuery.execute({ id, memberId })
-    reply.status(httpStatusCode.OK).send({ data: groupTransaction })
-  }
+  initialize(): void {
+    this.server.get(
+      permissions.PRIVATE,
+      '/groups/:groupId/transactions/:groupTransactionId',
+      async (req, res) => {
+        const memberId = req.userId
+        const { groupTransactionId: id } = req.params
+        const data = await this.GetGroupTransactionByIdQuery.execute({ id, memberId })
+        res.status(httpStatusCode.OK).send({ data })
+      }
+    )
 
-  async getGroupTransactionsByGroupId(
-    request: FastifyRequest<{ Params: { groupId: string } }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const memberId = request.user.sub
-    const { groupId } = request.params
-    const groupTransaction = await this.GetGroupTransactionsByGroupIdQuery.execute({
-      groupId,
-      memberId
+    this.server.get(permissions.PRIVATE, '/groups/:groupId/transactions', async (req, res) => {
+      const memberId = req.userId
+      const { groupId } = req.params
+      const data = await this.GetGroupTransactionsByGroupIdQuery.execute({ groupId, memberId })
+      res.status(httpStatusCode.OK).send({ data })
     })
-    reply.status(httpStatusCode.OK).send({ data: groupTransaction })
-  }
 
-  async createGroupTransaction(
-    request: FastifyRequest<{
-      Params: { groupId: string }
-      Body: Omit<CreateGroupTransactionDTO, 'groupId' | 'createdBy'>
-    }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const memberId = request.user.sub
-    const { groupId } = request.params
-    const data = request.body
-    await this.createGroupTransactionCommand.execute({
-      ...data,
-      groupId,
-      createdBy: memberId
+    this.server.post<{
+      body: Omit<CreateGroupTransactionDTO, 'groupId' | 'createdBy'>
+    }>(permissions.PRIVATE, '/groups/:groupId/transactions', async (req, res) => {
+      const createdBy = req.userId
+      const { groupId } = req.params
+      const data = req.body
+      await this.createGroupTransactionCommand.execute({ ...data, groupId, createdBy })
+      res.status(httpStatusCode.CREATED)
     })
-    reply.status(httpStatusCode.CREATED).send()
-  }
 
-  async updateGroupTransaction(
-    request: FastifyRequest<{
-      Params: { groupTransactionId: string; groupId: string }
-      Body: Omit<UpdateGroupTransactionDTO, 'id' | 'groupId'>
-    }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const { groupTransactionId: id, groupId } = request.params
-    const data = request.body
-    // TODO: maybe updatedBy?
-    const memberId = request.user.sub
-    await this.updateGroupTransactionCommand.execute({ ...data, id, groupId, memberId })
-    reply.status(httpStatusCode.NO_CONTENT).send()
-  }
+    this.server.patch<{
+      body: Omit<CreateGroupTransactionDTO, 'groupId' | 'createdBy'>
+    }>(
+      permissions.PRIVATE,
+      '/groups/:groupId/transactions/:groupTransactionId',
+      async (req, res) => {
+        const { groupId, groupTransactionId: id } = req.params
+        const data = req.body
+        // TODO: maybe updatedBy?
+        const memberId = req.userId
+        await this.updateGroupTransactionCommand.execute({ ...data, id, groupId, memberId })
+        res.status(httpStatusCode.NO_CONTENT)
+      }
+    )
 
-  async deleteGroupTransaction(
-    request: FastifyRequest<{ Params: { groupTransactionId: string } }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const id = request.params.groupTransactionId
-    await this.deleteGroupTransactionCommand.execute({ id })
-    reply.status(httpStatusCode.NO_CONTENT).send()
+    this.server.delete(
+      permissions.PRIVATE,
+      '/groups/:groupId/transactions/:groupTransactionId',
+      async (req, res) => {
+        const { groupTransactionId: id } = req.params
+        await this.deleteGroupTransactionCommand.execute({ id })
+        res.status(httpStatusCode.NO_CONTENT)
+      }
+    )
   }
 }

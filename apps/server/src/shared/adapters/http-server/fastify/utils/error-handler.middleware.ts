@@ -1,6 +1,6 @@
 import type { FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 
-import { httpStatusCode } from '@/shared/base/http-status-code'
+import { httpStatusCode } from '@/shared/base/http-server'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { ConflictException } from '@/shared/exceptions/conflict.exception'
 import { ForbiddenException } from '@/shared/exceptions/forbidden.exception'
@@ -15,7 +15,7 @@ function safeParseErrorMessage(error: FastifyError): Record<string, unknown> | s
   }
 }
 
-export async function errorHandlerMiddleware(
+export async function errorHandler(
   error: FastifyError,
   request: FastifyRequest,
   reply: FastifyReply

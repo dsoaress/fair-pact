@@ -1,6 +1,5 @@
-import type { FastifyReply, FastifyRequest } from 'fastify'
-
-import { httpStatusCode } from '@/shared/base/http-status-code'
+import type { Controller } from '@/shared/base/controller'
+import { type HttpServer, httpStatusCode, permissions } from '@/shared/base/http-server'
 import { env } from '@/shared/config/env'
 
 import type { CreateOrUpdateUserCommand } from '../commands/create-or-update-user.command'
@@ -8,40 +7,40 @@ import type { CreateSessionCommand } from '../commands/create-session.command'
 import type { RefreshSessionCommand } from '../commands/refresh-session.command'
 import type { GoogleOAuthService } from '../services/google-oauth.service'
 
-export class SessionsController {
+export class SessionsController implements Controller {
   constructor(
+    private readonly server: HttpServer,
     private readonly createOrUpdateUserCommand: CreateOrUpdateUserCommand,
     private readonly createSessionCommand: CreateSessionCommand,
     private readonly refreshSessionCommand: RefreshSessionCommand,
     private readonly googleOAuthService: GoogleOAuthService
   ) {}
 
-  async createGoogleSession(
-    request: FastifyRequest<{ Querystring: { code: string } }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    try {
-      const { code } = request.query
-      const userInfo = await this.googleOAuthService.execute(code)
-      const { id } = await this.createOrUpdateUserCommand.execute(userInfo)
-      const token = await reply.jwtSign({}, { sign: { sub: id } })
-      const { id: sessionId } = await this.createSessionCommand.execute(id)
-      reply
-        .status(httpStatusCode.REDIRECT)
-        .redirect(`${env.CLIENT_URL}/sign-in?token=${token}&refresh-token=${sessionId}`)
-    } catch (error) {
-      request.log.error(error)
-      reply.status(httpStatusCode.REDIRECT).redirect(`${env.CLIENT_URL}/sign-in?error=google`)
-    }
-  }
+  initialize(): void {
+    this.server.get(permissions.PUBLIC, '/sessions/oauth/google', async (req, res) => {
+      try {
+        const { code } = req.query
+        const userInfo = await this.googleOAuthService.execute(code)
+        const { id } = await this.createOrUpdateUserCommand.execute(userInfo)
+        const token = this.server.signJwt({ sub: id })
+        const { id: sessionId } = await this.createSessionCommand.execute(id)
+        res
+          .status(httpStatusCode.REDIRECT)
+          .redirect(`${env.CLIENT_URL}/sign-in?token=${token}&refresh-token=${sessionId}`)
+      } catch {
+        res.status(httpStatusCode.REDIRECT).redirect(`${env.CLIENT_URL}/sign-in?error=google`)
+      }
+    })
 
-  async refreshSession(
-    request: FastifyRequest<{ Body: { refreshToken: string } }>,
-    reply: FastifyReply
-  ): Promise<void> {
-    const { refreshToken } = request.body
-    const { sessionId, userId } = await this.refreshSessionCommand.execute(refreshToken)
-    const token = await reply.jwtSign({}, { sign: { sub: userId } })
-    reply.status(httpStatusCode.OK).send({ token, refreshToken: sessionId })
+    this.server.post<{ body: { refreshToken: string } }>(
+      permissions.PUBLIC,
+      '/sessions/refresh',
+      async (req, res) => {
+        const { refreshToken } = req.body
+        const { sessionId, userId } = await this.refreshSessionCommand.execute(refreshToken)
+        const token = this.server.signJwt({ sub: userId })
+        res.status(httpStatusCode.OK).send({ data: { token, refreshToken: sessionId } })
+      }
+    )
   }
 }
