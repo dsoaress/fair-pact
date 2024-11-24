@@ -16,7 +16,7 @@ const LINKS = [
   {
     icon: <CircleFadingPlus size={48} />,
     label: '',
-    url: '/transaction'
+    url: '/new-transaction'
   },
   {
     icon: <BellDot />,

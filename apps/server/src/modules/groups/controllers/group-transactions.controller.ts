@@ -1,4 +1,4 @@
-import type { CreateGroupTransactionDTO } from 'contracts'
+import type { CreateGroupTransactionDTO, GetGroupTransactionsByGroupIdInputDTO } from 'contracts'
 
 import type { Controller } from '@/shared/base/controller'
 import { type HttpServer, httpStatusCode, permissions } from '@/shared/base/http-server'
@@ -33,10 +33,16 @@ export class GroupTransactionsController implements Controller {
       }
     )
 
-    this.server.get(PRIVATE, '/groups/:groupId/transactions', async (req, res) => {
+    this.server.get<{
+      query: Omit<GetGroupTransactionsByGroupIdInputDTO, 'groupId' | 'memberId'>
+    }>(PRIVATE, '/groups/:groupId/transactions', async (req, res) => {
       const memberId = req.userId
       const { groupId } = req.params
-      const data = await this.GetGroupTransactionsByGroupIdQuery.execute({ groupId, memberId })
+      const data = await this.GetGroupTransactionsByGroupIdQuery.execute({
+        groupId,
+        memberId,
+        ...req.query
+      })
       res.status(httpStatusCode.OK).send({ data })
     })
 

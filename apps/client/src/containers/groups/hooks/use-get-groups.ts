@@ -2,8 +2,9 @@ import { type DefinedUseQueryResult, useQuery, useQueryClient } from '@tanstack/
 import type { GetGroupByIdOutputDTO, GetGroupsOutputDTO } from 'contracts'
 
 import { queryKeys } from '@/constants/query-keys'
-import { getGroupById } from '@/containers/groups/services/get-group-by-id'
-import { getGroups } from '@/services/get-groups'
+
+import { getGroupById } from '../services/get-group-by-id'
+import { getGroups } from '../services/get-groups'
 
 type UseGetGroupsOutput = {
   groups: GetGroupsOutputDTO
