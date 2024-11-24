@@ -10,16 +10,16 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
-import { Route as TransactionIndexImport } from './routes/transaction/index'
-import { Route as SignInIndexImport } from './routes/sign-in/index'
-import { Route as FriendsIndexImport } from './routes/friends/index'
-import { Route as ActivitiesIndexImport } from './routes/activities/index'
-import { Route as AccountIndexImport } from './routes/account/index'
-import { Route as GroupIdIndexImport } from './routes/$group-id/index'
-import { Route as GroupIdTransactionIdIndexImport } from './routes/$group-id/$transaction-id/index'
-import { Route as GroupIdTransactionIdEditImport } from './routes/$group-id/$transaction-id/edit'
+import { Route as rootRoute } from './app/__root'
+import { Route as IndexImport } from './app/index'
+import { Route as TransactionIndexImport } from './app/transaction/index'
+import { Route as SignInIndexImport } from './app/sign-in/index'
+import { Route as FriendsIndexImport } from './app/friends/index'
+import { Route as ActivitiesIndexImport } from './app/activities/index'
+import { Route as AccountIndexImport } from './app/account/index'
+import { Route as GroupIdIndexImport } from './app/$group-id/index'
+import { Route as GroupIdTransactionIdIndexImport } from './app/$group-id/$transaction-id/index'
+import { Route as GroupIdTransactionIdEditImport } from './app/$group-id/$transaction-id/edit'
 
 // Create/Update Routes
 

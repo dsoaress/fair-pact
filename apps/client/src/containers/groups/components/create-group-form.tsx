@@ -1,13 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import type { CurrencyDTO } from 'contracts'
+import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 import { useCreateGroup } from '@/hooks/use-create-group'
 
-import { Loader2 } from 'lucide-react'
-import { Button } from './ui/button'
-import { DrawerClose, DrawerFooter } from './ui/drawer'
+import { Button } from '@/components/ui/button'
+import { DrawerClose, DrawerFooter } from '@/components/ui/drawer'
 import {
   Form,
   FormControl,
@@ -16,8 +16,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage
-} from './ui/form'
-import { Input } from './ui/input'
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
@@ -25,7 +25,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue
-} from './ui/select'
+} from '@/components/ui/select'
 
 const CURRENCIES = [
   { code: 'BRL', name: 'Real brasileiro' },

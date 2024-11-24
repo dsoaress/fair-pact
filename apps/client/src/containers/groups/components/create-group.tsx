@@ -1,7 +1,6 @@
 import { PlusCircle } from 'lucide-react'
 
-import { CreateGroupForm } from './create-group-form'
-import { Button } from './ui/button'
+import { Button } from '@/components/ui/button'
 import {
   Drawer,
   DrawerContent,
@@ -9,7 +8,9 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger
-} from './ui/drawer'
+} from '@/components/ui/drawer'
+
+import { CreateGroupForm } from './create-group-form'
 
 export function CreateGroup(): JSX.Element {
   return (

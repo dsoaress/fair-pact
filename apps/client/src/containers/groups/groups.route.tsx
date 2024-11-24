@@ -1,19 +1,19 @@
 import { createFileRoute } from '@tanstack/react-router'
-import type { JSX } from 'react'
 
-import { CreateGroup } from '@/components/create-group'
-import { GroupItem } from '@/components/group-item'
 // import { cn } from '@/lib/utils'
 // import { formatPrice } from '@/utils/format-price'
 import { Header } from '@/components/haeder'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useGetGroups } from '@/hooks/use-get-groups'
 
-export const Route = createFileRoute('/')({
-  component: Index
+import { CreateGroup } from './components/create-group'
+import { GroupItem } from './components/group-item'
+
+export const GroupsRoute = createFileRoute('/')({
+  component: Groups
 })
 
-function Index(): JSX.Element {
+function Groups(): JSX.Element {
   const { data } = useGetGroups()
 
   if (!data) return <div>Loading...</div>
