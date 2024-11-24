@@ -1,4 +1,4 @@
-import type { GetUserProfileOutputDTO } from 'contracts'
+import type { GetUserProfileOutputDTO } from '~/get-user-profile-output.dto'
 
 import { api } from '@/lib/api'
 

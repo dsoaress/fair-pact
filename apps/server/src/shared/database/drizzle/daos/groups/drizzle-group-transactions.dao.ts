@@ -1,12 +1,10 @@
-import type {
-  GetGroupTransactionByIdInputDTO,
-  GetGroupTransactionByIdOutputDTO,
-  GetGroupTransactionsByGroupIdInputDTO,
-  GetGroupTransactionsByGroupIdOutputDTO
-} from 'contracts'
 import { eq, sql } from 'drizzle-orm'
 
 import type { GroupTransactionsDAO } from '@/modules/groups/daos/group-transactions.dao'
+import type { GetGroupTransactionByIdInputDTO } from '@/modules/groups/dtos/get-group-transaction-by-id-input.dto'
+import type { GetGroupTransactionByIdOutputDTO } from '@/modules/groups/dtos/get-group-transaction-by-id-output.dto'
+import type { GetGroupTransactionsByGroupIdInputDTO } from '@/modules/groups/dtos/get-group-transactions-by-group-id-input.dto'
+import type { GetGroupTransactionsByGroupIdOutputDTO } from '@/modules/groups/dtos/get-group-transactions-by-group-id-output.dto'
 import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
 import {
   groupMembers,

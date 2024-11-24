@@ -1,6 +1,7 @@
+import type { GetGroupByIdOutputDTO } from '~/get-group-by-id-output.dto'
+
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import { useParams } from '@tanstack/react-router'
-import type { GetGroupByIdOutputDTO } from 'contracts'
 
 import { queryKeys } from '@/constants/query-keys'
 import { getGroupById } from '../services/get-group-by-id'

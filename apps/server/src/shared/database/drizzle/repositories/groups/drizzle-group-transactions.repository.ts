@@ -1,10 +1,10 @@
-import { IdValueObject } from 'contracts'
 import { eq } from 'drizzle-orm'
 
 import type { GroupTransactionModel } from '@/modules/groups/models/group-transaction.model'
 import type { GroupTransactionsRepository } from '@/modules/groups/repositories/group-transactions.repository'
 import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { groupTransactionParticipants, groupTransactions } from '@/shared/database/drizzle/schemas'
+import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 type GroupTransactionResult = {
   id: string

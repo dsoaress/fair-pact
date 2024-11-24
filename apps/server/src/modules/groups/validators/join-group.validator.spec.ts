@@ -1,14 +1,13 @@
-import { IdValueObject } from '../../shared/value-objects/id.value-object'
+import { IdValueObject } from '@/shared/value-objects/id.value-object'
+import { joinGroupValidator } from './join-group.validator'
 
-import { removeGroupMemberValidator } from './remove-group-member.validator'
-
-describe('removeGroupMemberValidator', () => {
+describe('joinGroupValidator', () => {
   it.each([
     [{ id: IdValueObject.create().value, memberId: IdValueObject.create().value }, true],
     [{ memberId: 'id' }, false],
     [{}, false]
   ])('should validate the schema: %o (valid: %j)', (data, expected) => {
-    const result = removeGroupMemberValidator.safeParse(data)
+    const result = joinGroupValidator.safeParse(data)
     expect(result.success).toBe(expected)
   })
 })

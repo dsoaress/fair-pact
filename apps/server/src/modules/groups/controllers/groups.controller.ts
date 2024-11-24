@@ -1,5 +1,3 @@
-import type { CreateGroupInputDTO, UpdateGroupDTO } from 'contracts'
-
 import type { Controller } from '@/shared/base/controller'
 import { type HttpServer, httpStatusCode, permissions } from '@/shared/base/http-server'
 
@@ -8,6 +6,8 @@ import type { DeleteGroupCommand } from '../commands/delete-group.command'
 import type { JoinGroupCommand } from '../commands/join-group.command'
 import type { RemoveGroupMemberCommand } from '../commands/remove-group-member.command'
 import type { UpdateGroupCommand } from '../commands/update-group.command'
+import type { CreateGroupInputDTO } from '../dtos/create-group-input.dto'
+import type { UpdateGroupDTO } from '../dtos/update-group.dto'
 import type { GetGroupByIdQuery } from '../queries/get-group-by-id.query'
 import type { GetGroupsQuery } from '../queries/get-groups.query'
 

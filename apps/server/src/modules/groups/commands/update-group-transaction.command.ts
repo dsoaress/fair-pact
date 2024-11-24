@@ -1,16 +1,13 @@
-import {
-  IdValueObject,
-  type UpdateGroupTransactionDTO,
-  updateGroupTransactionValidator
-} from 'contracts'
-
 import type { Command } from '@/shared/base/command'
 
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
+import { IdValueObject } from '@/shared/value-objects/id.value-object'
+import type { UpdateGroupTransactionDTO } from '../dtos/update-group-transaction.dto'
 import type { GroupTransactionModel } from '../models/group-transaction.model'
 import type { GroupTransactionsRepository } from '../repositories/group-transactions.repository'
 import type { GroupsRepository } from '../repositories/groups.repository'
+import { updateGroupTransactionValidator } from '../validators/update-group-transaction.validator'
 
 export class UpdateGroupTransactionCommand
   implements Command<UpdateGroupTransactionDTO, Promise<void>>

@@ -1,5 +1,7 @@
 import { type DefinedUseQueryResult, useQuery, useQueryClient } from '@tanstack/react-query'
-import type { GetGroupByIdOutputDTO, GetGroupsOutputDTO } from 'contracts'
+
+import type { GetGroupByIdOutputDTO } from '~/get-group-by-id-output.dto'
+import type { GetGroupsOutputDTO } from '~/get-groups-output.dto'
 
 import { queryKeys } from '@/constants/query-keys'
 import { getGroupById } from '@/containers/groups/services/get-group-by-id'

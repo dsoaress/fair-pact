@@ -1,9 +1,8 @@
-import { IdValueObject } from 'contracts'
-
 import { groupTransactionFake } from '@/modules/groups/utils/tests/fakes/group-transaction.fake'
 import { drizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { groupMembers, groups, users } from '@/shared/database/drizzle/schemas'
 
+import { IdValueObject } from '@/shared/value-objects/id.value-object'
 import { DrizzleGroupTransactionsRepository } from './drizzle-group-transactions.repository'
 
 describe('DrizzleGroupTransactionsRepository', () => {

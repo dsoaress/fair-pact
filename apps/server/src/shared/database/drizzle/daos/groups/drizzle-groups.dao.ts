@@ -1,9 +1,3 @@
-import type {
-  GetGroupByIdInputDTO,
-  GetGroupByIdOutputDTO,
-  GetGroupsInputDTO,
-  GetGroupsOutputDTO
-} from 'contracts'
 import { and, eq, sql } from 'drizzle-orm'
 
 import type { GroupsDAO } from '@/modules/groups/daos/groups.dao'
@@ -15,6 +9,10 @@ import {
   users
 } from '@/shared/database/drizzle/schemas'
 
+import type { GetGroupByIdInputDTO } from '@/modules/groups/dtos/get-group-by-id-input.dto'
+import type { GetGroupByIdOutputDTO } from '@/modules/groups/dtos/get-group-by-id-output.dto'
+import type { GetGroupsInputDTO } from '@/modules/groups/dtos/get-groups-input.dto'
+import type { GetGroupsOutputDTO } from '@/modules/groups/dtos/get-groups-output.dto'
 import type { DrizzleService } from '../../drizzle.service'
 
 export class DrizzleGroupsDAO implements GroupsDAO {

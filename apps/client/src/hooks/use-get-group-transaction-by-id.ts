@@ -1,6 +1,7 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import { useParams } from '@tanstack/react-router'
-import type { GetGroupTransactionByIdOutputDTO } from 'contracts'
+
+import type { GetGroupTransactionByIdOutputDTO } from '~/get-group-transaction-by-id-output.dto'
 
 import { queryKeys } from '@/constants/query-keys'
 import { getGroupTransactionById } from '@/services/get-group-transaction-by-id'
