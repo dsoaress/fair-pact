@@ -14,7 +14,6 @@
     "build:client": "pnpm --filter client build",
     "build:www": "pnpm --filter www build",
     "build:server": "pnpm --filter server build",
-    "build:contracts": "pnpm --filter contracts build",
     "start": "pnpm --parallel start",
     "start:client": "pnpm --filter client start",
     "start:www": "pnpm --filter www start",
@@ -48,5 +47,5 @@
     "node": "22.11.0",
     "pnpm": ">=9.12.3"
   },
-  "packageManager": "pnpm@9.13.2"
+  "packageManager": "pnpm@9.14.2"
 }

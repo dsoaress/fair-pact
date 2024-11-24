@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
-import type { GetGroupsOutputDTO } from 'contracts'
+
+import type { GetGroupsOutputDTO } from '~/get-groups-output.dto'
 
 import { cn } from '@/lib/utils'
 import { formatPrice } from '@/utils/format-price'

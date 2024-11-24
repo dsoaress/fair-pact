@@ -1,8 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import type { CurrencyDTO } from 'contracts'
 import { Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+
+import type { CurrencyDTO } from '~/currency.dto'
 
 import { useCreateGroup } from '@/hooks/use-create-group'
 

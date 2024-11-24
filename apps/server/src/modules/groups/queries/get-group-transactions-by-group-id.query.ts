@@ -1,14 +1,11 @@
-import {
-  type GetGroupTransactionsByGroupIdInputDTO,
-  type GetGroupTransactionsByGroupIdOutputDTO,
-  getGroupTransactionsByGroupIdInputValidator
-} from 'contracts'
-
 import type { Query } from '@/shared/base/query'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
 import type { GroupTransactionsDAO } from '../daos/group-transactions.dao'
+import type { GetGroupTransactionsByGroupIdInputDTO } from '../dtos/get-group-transactions-by-group-id-input.dto'
+import type { GetGroupTransactionsByGroupIdOutputDTO } from '../dtos/get-group-transactions-by-group-id-output.dto'
+import { getGroupTransactionsByGroupIdInputValidator } from '../validators/get-group-transactions-by-group-id-input.validator'
 
 export class GetGroupTransactionsByGroupIdQuery
   implements

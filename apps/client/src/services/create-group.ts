@@ -1,4 +1,5 @@
-import type { CreateGroupInputDTO, CreateGroupOutputDTO } from 'contracts'
+import type { CreateGroupInputDTO } from '~/create-group-input.dto'
+import type { CreateGroupOutputDTO } from '~/create-group-output.dto'
 
 import { api } from '@/lib/api'
 

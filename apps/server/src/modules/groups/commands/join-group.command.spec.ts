@@ -1,9 +1,8 @@
-import { IdValueObject } from 'contracts'
-
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { ConflictException } from '@/shared/exceptions/conflict.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
+import { IdValueObject } from '@/shared/value-objects/id.value-object'
 import type { GroupsRepository } from '../repositories/groups.repository'
 import { groupFake } from '../utils/tests/fakes/group.fake'
 import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'

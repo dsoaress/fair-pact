@@ -1,11 +1,11 @@
-import { type JoinGroupDTO, joinGroupValidator } from 'contracts'
-
 import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { ConflictException } from '@/shared/exceptions/conflict.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
+import type { JoinGroupDTO } from '../dtos/join-group.dto'
 import type { GroupsRepository } from '../repositories/groups.repository'
+import { joinGroupValidator } from '../validators/join-group.validator'
 
 export class JoinGroupCommand implements Command<JoinGroupDTO, Promise<void>> {
   constructor(private readonly groupsRepository: GroupsRepository) {}

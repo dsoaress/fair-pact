@@ -3,7 +3,7 @@
   "build": {
     "builder": "NIXPACKS",
     "buildEnvironment": "V2",
-    "buildCommand": "pnpm build:contracts && pnpm build:server",
+    "buildCommand": "pnpm build:server",
     "nixpacksPlan": {
       "providers": ["node"]
     }

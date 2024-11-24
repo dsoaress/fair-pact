@@ -1,4 +1,4 @@
-import type { IdValueObject } from 'contracts'
+import type { IdValueObject } from '../value-objects/id.value-object'
 
 export interface Model {
   id: IdValueObject

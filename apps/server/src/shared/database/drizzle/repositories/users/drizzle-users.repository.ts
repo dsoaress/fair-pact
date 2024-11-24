@@ -1,10 +1,10 @@
-import { IdValueObject } from 'contracts'
 import { eq } from 'drizzle-orm'
 
 import type { UserModel } from '@/modules/users/models/user.model'
 import type { UsersRepository } from '@/modules/users/repositories/users.repository'
 import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { users } from '@/shared/database/drizzle/schemas'
+import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 type UserResult = {
   id: string

@@ -1,10 +1,11 @@
-import { type CurrencyDTO, IdValueObject } from 'contracts'
 import { and, eq } from 'drizzle-orm'
 
+import type { CurrencyDTO } from '@/modules/groups/dtos/currency.dto'
 import type { GroupModel } from '@/modules/groups/models/group.model'
 import type { GroupsRepository } from '@/modules/groups/repositories/groups.repository'
 import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { groupMembers, groups } from '@/shared/database/drizzle/schemas'
+import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 type GroupResult = {
   id: string

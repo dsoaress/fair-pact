@@ -1,13 +1,10 @@
-import {
-  type CreateOrUpdateUserInputDTO,
-  type CreateOrUpdateUserOutputDTO,
-  IdValueObject,
-  createOrUpdateUserValidator
-} from 'contracts'
-
 import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
+import { IdValueObject } from '@/shared/value-objects/id.value-object'
+import type { CreateOrUpdateUserInputDTO } from '../dtos/create-or-update-user-input.dto'
+import type { CreateOrUpdateUserOutputDTO } from '../dtos/create-or-update-user-output.dto'
 import type { UsersRepository } from '../repositories/users.repository'
+import { createOrUpdateUserValidator } from '../validators/create-or-update-user.validator'
 
 export class CreateOrUpdateUserCommand
   implements Command<CreateOrUpdateUserInputDTO, Promise<CreateOrUpdateUserOutputDTO>>

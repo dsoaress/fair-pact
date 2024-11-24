@@ -1,9 +1,10 @@
-import { type GetGroupsInputDTO, type GetGroupsOutputDTO, getGroupsInputValidator } from 'contracts'
-
 import type { Query } from '@/shared/base/query'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 
 import type { GroupsDAO } from '../daos/groups.dao'
+import type { GetGroupsInputDTO } from '../dtos/get-groups-input.dto'
+import type { GetGroupsOutputDTO } from '../dtos/get-groups-output.dto'
+import { getGroupsInputValidator } from '../validators/get-groups-input.validator'
 
 export class GetGroupsQuery implements Query<GetGroupsInputDTO, Promise<GetGroupsOutputDTO>> {
   constructor(private readonly groupsDAO: GroupsDAO) {}

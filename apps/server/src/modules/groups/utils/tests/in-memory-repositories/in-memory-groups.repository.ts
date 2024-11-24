@@ -1,7 +1,6 @@
-import { IdValueObject } from 'contracts'
-
 import type { GroupModel } from '@/modules/groups/models/group.model'
 import type { GroupsRepository } from '@/modules/groups/repositories/groups.repository'
+import { IdValueObject } from '@/shared/value-objects/id.value-object'
 
 export class InMemoryGroupsRepository implements GroupsRepository {
   constructor(private readonly groups: GroupModel[] = []) {}

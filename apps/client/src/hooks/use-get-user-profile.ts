@@ -1,5 +1,6 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
-import type { GetUserProfileOutputDTO } from 'contracts'
+
+import type { GetUserProfileOutputDTO } from '~/get-user-profile-output.dto'
 
 import { queryKeys } from '@/constants/query-keys'
 import { getUserProfile } from '@/services/get-user-profile'

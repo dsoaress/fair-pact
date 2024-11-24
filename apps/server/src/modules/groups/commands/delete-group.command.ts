@@ -1,10 +1,10 @@
-import { type DeleteGroupDTO, deleteGroupValidator } from 'contracts'
-
 import type { Command } from '@/shared/base/command'
 import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
 import { NotFoundException } from '@/shared/exceptions/not-found.exception'
 
+import type { DeleteGroupDTO } from '../dtos/delete-group.dto'
 import type { GroupsRepository } from '../repositories/groups.repository'
+import { deleteGroupValidator } from '../validators/delete-group.validator'
 
 export class DeleteGroupCommand implements Command<DeleteGroupDTO, Promise<void>> {
   constructor(private readonly groupsRepository: GroupsRepository) {}

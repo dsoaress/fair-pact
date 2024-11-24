@@ -1,11 +1,11 @@
-import type { CreateGroupTransactionDTO, GetGroupTransactionsByGroupIdInputDTO } from 'contracts'
-
 import type { Controller } from '@/shared/base/controller'
 import { type HttpServer, httpStatusCode, permissions } from '@/shared/base/http-server'
 
 import type { CreateGroupTransactionCommand } from '../commands/create-group-transaction.command'
 import type { DeleteGroupTransactionCommand } from '../commands/delete-group-transaction.command'
 import type { UpdateGroupTransactionCommand } from '../commands/update-group-transaction.command'
+import type { CreateGroupTransactionDTO } from '../dtos/create-group-transaction.dto'
+import type { GetGroupTransactionsByGroupIdInputDTO } from '../dtos/get-group-transactions-by-group-id-input.dto'
 import type { GetGroupTransactionByIdQuery } from '../queries/get-group-transaction-by-id.query'
 import type { GetGroupTransactionsByGroupIdQuery } from '../queries/get-group-transactions-by-group-id.query'
 

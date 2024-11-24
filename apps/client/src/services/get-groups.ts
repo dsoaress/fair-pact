@@ -1,4 +1,4 @@
-import type { GetGroupsOutputDTO } from 'contracts'
+import type { GetGroupsOutputDTO } from '~/get-groups-output.dto'
 
 import { api } from '@/lib/api'
 

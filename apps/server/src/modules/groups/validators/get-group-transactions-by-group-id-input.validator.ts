@@ -1,5 +1,5 @@
+import { idValidator } from '@/shared/validators/id.validator'
 import { z } from 'zod'
-import { idValidator } from '../../shared/validators/id.validator'
 import { paginationParamsValidator } from './pagination-params.validator'
 
 export const getGroupTransactionsByGroupIdInputValidator = paginationParamsValidator.extend({
