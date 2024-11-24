@@ -1,10 +1,10 @@
 import { Header } from '@/components/haeder'
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/transaction/')({
-  component: RouteComponent
+export const NewTransactionRoute = createFileRoute('/new-transaction/')({
+  component: NewTransaction
 })
 
-function RouteComponent(): JSX.Element {
+function NewTransaction(): JSX.Element {
   return <Header title="Nova transação" hasBackButton />
 }
