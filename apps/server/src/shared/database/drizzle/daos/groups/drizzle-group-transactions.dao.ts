@@ -4,7 +4,7 @@ import type {
   GetGroupTransactionsByGroupIdInputDTO,
   GetGroupTransactionsByGroupIdOutputDTO
 } from 'contracts'
-import { sql } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 
 import type { GroupTransactionsDAO } from '@/modules/groups/daos/group-transactions.dao'
 import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
@@ -61,7 +61,12 @@ export class DrizzleGroupTransactionsDAO implements GroupTransactionsDAO {
 
   async getGroupTransactionsByGroupId({
     groupId,
-    memberId
+    memberId,
+    page,
+    'per-page': limit,
+    order,
+    dir,
+    search
   }: GetGroupTransactionsByGroupIdInputDTO): Promise<GetGroupTransactionsByGroupIdOutputDTO> {
     const query = sql`
       SELECT 
@@ -98,10 +103,21 @@ export class DrizzleGroupTransactionsDAO implements GroupTransactionsDAO {
       WHERE ${groups.id} = ${groupId} 
         AND EXTRACT(YEAR FROM ${groupTransactions.date}) = EXTRACT(YEAR FROM NOW()) 
         AND EXTRACT(MONTH FROM ${groupTransactions.date}) = EXTRACT(MONTH FROM NOW())
+        ${search?.trim() ? sql`AND LOWER(${groupTransactions.name}) LIKE LOWER(${`%${search}%`})` : sql``}
       GROUP BY ${groupTransactions.id}, ${groups.currency}, payer.id, payer.first_name, payer.last_name
-      ORDER BY ${groupTransactions.date} DESC;
+      ORDER BY ${groupTransactions[order]} ${dir === 'asc' ? sql`ASC` : sql`DESC`}
+      LIMIT ${limit} 
+      OFFSET ${(page - 1) * limit};
     `
-    const { rows } = await this.drizzleService.execute(query)
-    return rows as GetGroupTransactionsByGroupIdOutputDTO
+
+    const { rows, count } = await this.drizzleService.transaction(async tx => {
+      const { rows } = await tx.execute(query)
+      const count = await tx.$count(groupTransactions, eq(groupTransactions.groupId, groupId))
+      return { rows: rows as GetGroupTransactionsByGroupIdOutputDTO, count }
+    })
+
+    console.log('count', count)
+
+    return rows
   }
 }
