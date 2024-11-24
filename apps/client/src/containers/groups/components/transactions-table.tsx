@@ -27,7 +27,7 @@ export function TransactionsTable<TData, TValue>({
   data,
   filterColumn,
   filterPlaceholder
-}: DataTableProps<TData, TValue>): JSX.Element {
+}: Readonly<DataTableProps<TData, TValue>>): JSX.Element {
   const { search } = routeApi.useSearch()
   const navigate = routeApi.useNavigate()
   const [tempSearch, setTempSearch] = useState<string | undefined>(search)
@@ -44,7 +44,7 @@ export function TransactionsTable<TData, TValue>({
     navigate({
       search: (prev): typeof navigate.arguments => ({
         ...prev,
-        search: debouncedSearch || undefined
+        search: debouncedSearch ?? undefined
       })
     })
   }, [debouncedSearch, navigate])
