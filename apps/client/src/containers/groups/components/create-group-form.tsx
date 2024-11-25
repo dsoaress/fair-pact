@@ -5,8 +5,6 @@ import { z } from 'zod'
 
 import type { CurrencyDTO } from '~/currency.dto'
 
-import { useCreateGroup } from '@/hooks/use-create-group'
-
 import { Button } from '@/components/ui/button'
 import { DrawerClose, DrawerFooter } from '@/components/ui/drawer'
 import {
@@ -27,6 +25,8 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
+
+import { useCreateGroup } from '../hooks/use-create-group'
 
 const CURRENCIES = [
   { code: 'BRL', name: 'Real brasileiro' },

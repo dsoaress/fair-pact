@@ -1,8 +1,10 @@
-import { Header } from '@/components/haeder'
 import { Button } from '@/components/ui/button'
+
+import { Header } from '@/components/haeder'
 import { useSignOut } from '@/hooks/use-auth'
-import { useGetUserProfile } from '@/hooks/use-get-user-profile'
 import { createFileRoute } from '@tanstack/react-router'
+
+import { useGetUserProfile } from './hooks/use-get-user-profile'
 
 export const AccountRoute = createFileRoute('/account/')({
   component: Account

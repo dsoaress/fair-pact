@@ -3,7 +3,8 @@ import { Pencil } from 'lucide-react'
 
 import { Header } from '@/components/haeder'
 import { Button } from '@/components/ui/button'
-import { useGetGroupTransactionById } from '@/hooks/use-get-group-transaction-by-id'
+
+import { useGetGroupTransactionById } from './hooks/use-get-group-transaction-by-id'
 
 export const TransactionIdRoute = createFileRoute('/$group-id/$transaction-id/')({
   component: TransactionId

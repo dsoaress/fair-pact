@@ -1,5 +1,6 @@
-import { Header } from '@/components/haeder'
 import { createFileRoute } from '@tanstack/react-router'
+
+import { Header } from '@/components/haeder'
 
 export const FriendsRoute = createFileRoute('/friends/')({
   component: Friends

@@ -3,7 +3,8 @@ import { useEffect } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { useSignIn } from '@/hooks/use-auth'
-import { googleOathSignIn } from '@/services/google-oauth-sign-in'
+
+import { googleOathSignIn } from './services/google-oauth-sign-in'
 
 type Params = {
   token?: string

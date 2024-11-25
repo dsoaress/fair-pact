@@ -5,7 +5,8 @@ import { toast } from 'sonner'
 import type { CreateGroupOutputDTO } from '~/create-group-output.dto'
 
 import { queryKeys } from '@/constants/query-keys'
-import { type CreateGroupProps, createGroup } from '@/services/create-group'
+
+import { type CreateGroupProps, createGroup } from '../services/create-group'
 
 export function useCreateGroup(): UseMutationResult<CreateGroupOutputDTO, Error, CreateGroupProps> {
   const queryClient = useQueryClient()

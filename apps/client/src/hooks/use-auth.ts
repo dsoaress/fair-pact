@@ -1,8 +1,9 @@
-import { api } from '@/lib/api'
 import { useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+
+import { api } from '@/lib/api'
 
 interface AuthStore {
   isAuthenticated: boolean

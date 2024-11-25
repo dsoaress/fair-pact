@@ -1,11 +1,12 @@
-import { Header } from '@/components/haeder'
 import { createFileRoute } from '@tanstack/react-router'
 import { zodValidator } from '@tanstack/zod-adapter'
+
+import { Header } from '@/components/haeder'
+
 import { transactionsColumns } from './components/transactions-columns'
 import { TransactionsTable } from './components/transactions-table'
 import { useGetGroupById } from './hooks/use-get-group-by-id'
 import { useGetGroupTransactionsByGroupId } from './hooks/use-get-group-transactions-by-group-id'
-
 import { getGroupTransactionsByGroupIdSearchParams } from './utils/get-group-transactions-by-group-id-search-params'
 
 export const GroupIdRoute = createFileRoute('/$group-id/')({

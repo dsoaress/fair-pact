@@ -4,7 +4,8 @@ import { useParams } from '@tanstack/react-router'
 import type { GetGroupTransactionByIdOutputDTO } from '~/get-group-transaction-by-id-output.dto'
 
 import { queryKeys } from '@/constants/query-keys'
-import { getGroupTransactionById } from '@/services/get-group-transaction-by-id'
+
+import { getGroupTransactionById } from '../services/get-group-transaction-by-id'
 
 export function useGetGroupTransactionById(): UseQueryResult<GetGroupTransactionByIdOutputDTO> {
   const { 'group-id': groupId, 'transaction-id': transactionId } = useParams({ strict: false })

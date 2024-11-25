@@ -4,10 +4,10 @@ import { createFileRoute } from '@tanstack/react-router'
 // import { formatPrice } from '@/utils/format-price'
 import { Header } from '@/components/haeder'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { useGetGroups } from '@/hooks/use-get-groups'
 
 import { CreateGroup } from './components/create-group'
 import { GroupItem } from './components/group-item'
+import { useGetGroups } from './hooks/use-get-groups'
 
 export const GroupsRoute = createFileRoute('/')({
   component: Groups
