@@ -1,11 +1,16 @@
 import type { CacheService } from '@/shared/base/cache-service'
+import { env } from '@/shared/config/env'
 import Redis from 'ioredis'
 
 export class RedisCacheServiceAdapter implements CacheService {
   private readonly redisService: Redis
 
   constructor() {
-    this.redisService = new Redis({})
+    this.redisService = new Redis({
+      host: env.REDIS_HOST,
+      port: env.REDIS_PORT,
+      password: env.REDIS_PASSWORD
+    })
   }
 
   async get<T>(key: string): Promise<T | undefined> {
