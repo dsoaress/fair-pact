@@ -3,6 +3,7 @@ import { and, eq } from 'drizzle-orm'
 import type { CurrencyDTO } from '@/modules/groups/dtos/currency.dto'
 import type { GroupModel } from '@/modules/groups/models/group.model'
 import type { GroupsRepository } from '@/modules/groups/repositories/groups.repository'
+import type { CacheService } from '@/shared/base/cache-service'
 import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { groupMembers, groups } from '@/shared/database/drizzle/schemas'
 import { IdValueObject } from '@/shared/value-objects/id.value-object'
@@ -21,7 +22,10 @@ type GroupResult = {
 }
 
 export class DrizzleGroupsRepository implements GroupsRepository {
-  constructor(private readonly drizzleService: DrizzleService) {}
+  constructor(
+    private readonly drizzleService: DrizzleService,
+    private readonly cacheService: CacheService
+  ) {}
 
   async findById(id: string): Promise<GroupModel | null> {
     const result = await this.drizzleService.query.groups.findFirst({

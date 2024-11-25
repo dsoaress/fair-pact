@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm'
 
 import type { UserModel } from '@/modules/users/models/user.model'
 import type { UsersRepository } from '@/modules/users/repositories/users.repository'
+import type { CacheService } from '@/shared/base/cache-service'
 import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { users } from '@/shared/database/drizzle/schemas'
 import { IdValueObject } from '@/shared/value-objects/id.value-object'
@@ -16,7 +17,10 @@ type UserResult = {
 }
 
 export class DrizzleUsersRepository implements UsersRepository {
-  constructor(private readonly drizzleService: DrizzleService) {}
+  constructor(
+    private readonly drizzleService: DrizzleService,
+    private readonly cacheService: CacheService
+  ) {}
 
   async findById(id: string): Promise<UserModel | null> {
     const result = await this.drizzleService.query.users.findFirst({

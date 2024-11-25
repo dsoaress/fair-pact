@@ -1,13 +1,16 @@
 import { groupsModule } from '@/modules/groups/groups.module'
 import { usersModule } from '@/modules/users/users.module'
-import type { HttpServer } from './base/http-server'
-import { drizzleModule } from './database/drizzle/drizzle.module'
+import fastify from 'fastify'
+import { RedisCacheServiceAdapter } from './adapters/cache-service/redis/redis-cache-service.adapter'
+import { FastifyHttpServerAdapter } from './adapters/http-server/fastify/fastify-http-server.adapter'
+import { env } from './config/env'
+import { logger } from './config/logger'
+import { databaseModule } from './database/database.module'
 
-type Input = {
-  server: HttpServer
-}
+export async function appModule(): Promise<void> {
+  const server = new FastifyHttpServerAdapter(fastify({ logger }))
+  const cacheService = new RedisCacheServiceAdapter()
 
-export function appModule({ server }: Input): void {
   const {
     groupTransactionsDAO,
     groupTransactionsRepository,
@@ -16,7 +19,7 @@ export function appModule({ server }: Input): void {
     sessionsRepository,
     usersDAO,
     usersRepository
-  } = drizzleModule()
+  } = databaseModule({ cacheService })
 
   groupsModule({
     groupTransactionsDAO,
@@ -32,4 +35,6 @@ export function appModule({ server }: Input): void {
     usersDAO,
     usersRepository
   })
+
+  await server.listen(env.PORT)
 }

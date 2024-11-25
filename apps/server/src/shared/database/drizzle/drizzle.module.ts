@@ -2,6 +2,7 @@ import type { GroupTransactionsDAO } from '@/modules/groups/daos/group-transacti
 import type { GroupsDAO } from '@/modules/groups/daos/groups.dao'
 import type { GroupTransactionsRepository } from '@/modules/groups/repositories/group-transactions.repository'
 import type { GroupsRepository } from '@/modules/groups/repositories/groups.repository'
+import type { CacheService } from '@/shared/base/cache-service'
 import { DrizzleGroupTransactionsDAO } from './daos/groups/drizzle-group-transactions.dao'
 import { DrizzleGroupsDAO } from './daos/groups/drizzle-groups.dao'
 import { DrizzleUsersDAO } from './daos/users/drizzle-users.dao'
@@ -10,6 +11,10 @@ import { DrizzleGroupTransactionsRepository } from './repositories/groups/drizzl
 import { DrizzleGroupsRepository } from './repositories/groups/drizzle-groups.repository'
 import { DrizzleSessionsRepository } from './repositories/users/drizzle-sessions.repository'
 import { DrizzleUsersRepository } from './repositories/users/drizzle-users.repository'
+
+type Input = {
+  cacheService: CacheService
+}
 
 type Output = {
   usersDAO: DrizzleUsersDAO
@@ -21,14 +26,17 @@ type Output = {
   groupsRepository: GroupsRepository
 }
 
-export function drizzleModule(): Output {
-  const usersDAO = new DrizzleUsersDAO(drizzleService)
-  const groupsDAO = new DrizzleGroupsDAO(drizzleService)
-  const groupTransactionsDAO = new DrizzleGroupTransactionsDAO(drizzleService)
+export function drizzleModule({ cacheService }: Input): Output {
+  const usersDAO = new DrizzleUsersDAO(drizzleService, cacheService)
+  const groupsDAO = new DrizzleGroupsDAO(drizzleService, cacheService)
+  const groupTransactionsDAO = new DrizzleGroupTransactionsDAO(drizzleService, cacheService)
   const sessionsRepository = new DrizzleSessionsRepository(drizzleService)
-  const usersRepository = new DrizzleUsersRepository(drizzleService)
-  const groupTransactionsRepository = new DrizzleGroupTransactionsRepository(drizzleService)
-  const groupsRepository = new DrizzleGroupsRepository(drizzleService)
+  const usersRepository = new DrizzleUsersRepository(drizzleService, cacheService)
+  const groupTransactionsRepository = new DrizzleGroupTransactionsRepository(
+    drizzleService,
+    cacheService
+  )
+  const groupsRepository = new DrizzleGroupsRepository(drizzleService, cacheService)
 
   return {
     usersDAO,

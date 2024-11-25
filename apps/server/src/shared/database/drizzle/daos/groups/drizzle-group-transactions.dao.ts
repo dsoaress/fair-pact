@@ -5,6 +5,7 @@ import type { GetGroupTransactionByIdInputDTO } from '@/modules/groups/dtos/get-
 import type { GetGroupTransactionByIdOutputDTO } from '@/modules/groups/dtos/get-group-transaction-by-id-output.dto'
 import type { GetGroupTransactionsByGroupIdInputDTO } from '@/modules/groups/dtos/get-group-transactions-by-group-id-input.dto'
 import type { GetGroupTransactionsByGroupIdOutputDTO } from '@/modules/groups/dtos/get-group-transactions-by-group-id-output.dto'
+import type { CacheService } from '@/shared/base/cache-service'
 import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
 import {
   groupMembers,
@@ -15,12 +16,20 @@ import {
 } from '@/shared/database/drizzle/schemas'
 
 export class DrizzleGroupTransactionsDAO implements GroupTransactionsDAO {
-  constructor(private readonly drizzleService: DrizzleService) {}
+  constructor(
+    private readonly drizzleService: DrizzleService,
+    private readonly cacheService: CacheService
+  ) {}
 
   async getGroupTransactionById({
     id,
     memberId
   }: GetGroupTransactionByIdInputDTO): Promise<GetGroupTransactionByIdOutputDTO | null> {
+    const cache = await this.cacheService.get<GetGroupTransactionByIdOutputDTO>(
+      `group-transaction:${id}:${memberId}`
+    )
+    if (cache) return cache
+
     const query = sql`
       SELECT ${groupTransactions.id}, ${groupTransactions.name}, ${groups.currency}, ${groupTransactions.amount},
         jsonb_build_object(
@@ -54,6 +63,9 @@ export class DrizzleGroupTransactionsDAO implements GroupTransactionsDAO {
     `
     const { rows } = await this.drizzleService.execute(query)
     if (rows.length === 0) return null
+
+    await this.cacheService.set(`group-transaction:${id}:${memberId}`, rows[0])
+
     return rows[0] as GetGroupTransactionByIdOutputDTO
   }
 
@@ -66,6 +78,11 @@ export class DrizzleGroupTransactionsDAO implements GroupTransactionsDAO {
     dir,
     search
   }: GetGroupTransactionsByGroupIdInputDTO): Promise<GetGroupTransactionsByGroupIdOutputDTO> {
+    const cache = await this.cacheService.get<GetGroupTransactionsByGroupIdOutputDTO>(
+      `group-transactions:${groupId}:${memberId}:${page}:${limit}:${order}:${dir}:${search}`
+    )
+    if (cache) return cache
+
     const query = sql`
       SELECT 
         ${groupTransactions.id}, 
@@ -115,6 +132,11 @@ export class DrizzleGroupTransactionsDAO implements GroupTransactionsDAO {
     })
 
     console.log('count', count)
+
+    await this.cacheService.set(
+      `group-transactions:${groupId}:${memberId}:${page}:${limit}:${order}:${dir}:${search}`,
+      rows
+    )
 
     return rows
   }

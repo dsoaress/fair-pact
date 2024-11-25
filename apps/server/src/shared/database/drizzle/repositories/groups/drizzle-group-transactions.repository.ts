@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm'
 
 import type { GroupTransactionModel } from '@/modules/groups/models/group-transaction.model'
 import type { GroupTransactionsRepository } from '@/modules/groups/repositories/group-transactions.repository'
+import type { CacheService } from '@/shared/base/cache-service'
 import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { groupTransactionParticipants, groupTransactions } from '@/shared/database/drizzle/schemas'
 import { IdValueObject } from '@/shared/value-objects/id.value-object'
@@ -24,7 +25,10 @@ type GroupTransactionResult = {
 }
 
 export class DrizzleGroupTransactionsRepository implements GroupTransactionsRepository {
-  constructor(private readonly drizzleService: DrizzleService) {}
+  constructor(
+    private readonly drizzleService: DrizzleService,
+    private readonly cacheService: CacheService
+  ) {}
 
   async findById(id: string): Promise<GroupTransactionModel | null> {
     const result = await this.drizzleService.query.groupTransactions.findFirst({
