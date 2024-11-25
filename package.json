@@ -22,7 +22,7 @@
     "test:watch": "pnpm setenv:test vitest",
     "test:ui": "pnpm setenv:test vitest --ui",
     "lint": "pnpm biome check --write .",
-    "lint:ci": "pnpm biome ci src",
+    "lint:ci": "pnpm biome ci .",
     "db:generate": "pnpm setenv pnpm --filter server db:generate",
     "db:migrate": "pnpm setenv pnpm --filter server db:migrate",
     "db:migrate:ci": "pnpm --filter server db:migrate",
