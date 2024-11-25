@@ -6,6 +6,7 @@ export class RedisCacheServiceAdapter implements CacheService {
   private readonly redisService: Redis
 
   constructor() {
+    console.log(env)
     this.redisService = new Redis({
       host: env.REDIS_HOST,
       port: env.REDIS_PORT,
