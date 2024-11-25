@@ -118,7 +118,7 @@ export class DrizzleGroupTransactionsDAO implements GroupTransactionsDAO {
       WHERE ${groups.id} = ${groupId} 
         AND EXTRACT(YEAR FROM ${groupTransactions.date}) = EXTRACT(YEAR FROM NOW()) 
         AND EXTRACT(MONTH FROM ${groupTransactions.date}) = EXTRACT(MONTH FROM NOW())
-        ${search?.trim() ? sql`AND LOWER(${groupTransactions.name}) LIKE LOWER(${`%${search}%`})` : sql``}
+        ${search?.trim() ? sql`AND LOWER(${groupTransactions.name}) LIKE LOWER(%${search}%)` : sql``}
       GROUP BY ${groupTransactions.id}, ${groups.currency}, payer.id, payer.first_name, payer.last_name
       ORDER BY ${groupTransactions[order]} ${dir === 'asc' ? sql`ASC` : sql`DESC`}
       LIMIT ${limit} 

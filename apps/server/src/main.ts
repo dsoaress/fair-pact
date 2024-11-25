@@ -1,3 +1,3 @@
-import { appModule } from './shared/app.module'
+import { server } from './shared/server'
 
-appModule()
+server()

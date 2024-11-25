@@ -37,56 +37,92 @@ export class DrizzleGroupsRepository implements GroupsRepository {
   }
 
   async create(model: GroupModel): Promise<{ id: string }> {
-    return this.drizzleService.transaction(async tx => {
-      const result = await tx
-        .insert(groups)
-        .values({
-          id: model.id.value,
-          name: model.name,
-          currency: model.currency,
-          createdAt: model.createdAt,
-          createdBy: model.createdBy.value
+    const [, data] = await Promise.all([
+      this.cacheService.remove(`groups:${model.createdBy.value}`),
+      this.drizzleService.transaction(async tx => {
+        const result = await tx
+          .insert(groups)
+          .values({
+            id: model.id.value,
+            name: model.name,
+            currency: model.currency,
+            createdAt: model.createdAt,
+            createdBy: model.createdBy.value
+          })
+          .returning({ id: groups.id })
+
+        await tx.insert(groupMembers).values({
+          memberId: model.createdBy.value,
+          groupId: model.id.value,
+          createdAt: model.createdAt
         })
-        .returning({ id: groups.id })
 
-      await tx.insert(groupMembers).values({
-        memberId: model.createdBy.value,
-        groupId: model.id.value,
-        createdAt: model.createdAt
+        return { id: result[0].id }
       })
-
-      return { id: result[0].id }
-    })
+    ])
+    return data
   }
 
   async addGroupMember(groupId: string, memberId: string): Promise<void> {
-    await this.drizzleService.insert(groupMembers).values({
-      memberId,
-      groupId,
-      createdAt: new Date()
+    const members = await this.drizzleService.query.groupMembers.findMany({
+      where: eq(groupMembers.groupId, groupId),
+      columns: { memberId: true }
     })
+    await Promise.all([
+      ...members.map(({ memberId }) => this.cacheService.remove(`groups:${memberId}`)),
+      this.cacheService.remove(`group:${groupId}`),
+      this.drizzleService.insert(groupMembers).values({
+        memberId,
+        groupId,
+        createdAt: new Date()
+      })
+    ])
   }
 
   async removeGroupMember(groupId: string, memberId: string): Promise<void> {
-    await this.drizzleService
-      .delete(groupMembers)
-      .where(and(eq(groupMembers.groupId, groupId), eq(groupMembers.memberId, memberId)))
+    const members = await this.drizzleService.query.groupMembers.findMany({
+      where: eq(groupMembers.groupId, groupId),
+      columns: { memberId: true }
+    })
+    await Promise.all([
+      ...members.map(({ memberId }) => this.cacheService.remove(`groups:${memberId}`)),
+      this.cacheService.remove(`group:${groupId}`),
+      this.drizzleService
+        .delete(groupMembers)
+        .where(and(eq(groupMembers.groupId, groupId), eq(groupMembers.memberId, memberId)))
+    ])
   }
 
   async update(model: GroupModel): Promise<void> {
-    await this.drizzleService
-      .update(groups)
-      .set({
-        name: model.name,
-        currency: model.currency,
-        updatedAt: model.updatedAt,
-        updatedBy: model.updatedBy?.value
-      })
-      .where(eq(groups.id, model.id.value))
+    const members = await this.drizzleService.query.groupMembers.findMany({
+      where: eq(groupMembers.groupId, model.id.value),
+      columns: { memberId: true }
+    })
+    await Promise.all([
+      ...members.map(({ memberId }) => this.cacheService.remove(`groups:${memberId}`)),
+      this.cacheService.remove(`group:${model.id.value}`),
+      this.drizzleService
+        .update(groups)
+        .set({
+          name: model.name,
+          currency: model.currency,
+          updatedAt: model.updatedAt,
+          updatedBy: model.updatedBy?.value
+        })
+        .where(eq(groups.id, model.id.value))
+    ])
   }
 
   async delete(id: string): Promise<void> {
-    await this.drizzleService.delete(groups).where(eq(groups.id, id))
+    const members = await this.drizzleService.query.groupMembers.findMany({
+      where: eq(groupMembers.groupId, id),
+      columns: { memberId: true }
+    })
+    await Promise.all([
+      ...members.map(({ memberId }) => this.cacheService.remove(`groups:${memberId}`)),
+      this.cacheService.remove(`group:${id}`),
+      this.drizzleService.delete(groups).where(eq(groups.id, id))
+    ])
   }
 
   private mapToModel(result: GroupResult): GroupModel {

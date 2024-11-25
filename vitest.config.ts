@@ -10,6 +10,7 @@ export default defineConfig({
     restoreMocks: true,
     hookTimeout: 1000 * 10, // 10 seconds
     testTimeout: 1000 * 10, // 10 seconds
+    slowTestThreshold: 0,
     include: ['**/?(*.){spec,int-spec,e2e-spec}.?(c|m)[jt]s?(x)'],
     coverage: {
       enabled: true,

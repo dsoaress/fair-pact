@@ -3,11 +3,11 @@ import { usersModule } from '@/modules/users/users.module'
 import fastify from 'fastify'
 import { RedisCacheServiceAdapter } from './adapters/cache-service/redis/redis-cache-service.adapter'
 import { FastifyHttpServerAdapter } from './adapters/http-server/fastify/fastify-http-server.adapter'
-import { env } from './config/env'
+import type { HttpServer } from './base/http-server'
 import { logger } from './config/logger'
 import { databaseModule } from './database/database.module'
 
-export async function appModule(): Promise<void> {
+export function serverModule(): HttpServer {
   const server = new FastifyHttpServerAdapter(fastify({ logger }))
   const cacheService = new RedisCacheServiceAdapter()
 
@@ -36,5 +36,5 @@ export async function appModule(): Promise<void> {
     usersRepository
   })
 
-  await server.listen(env.PORT)
+  return server
 }

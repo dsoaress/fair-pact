@@ -1,3 +1,5 @@
+import type { Server } from 'node:http'
+
 export const permissions = {
   PUBLIC: 'PUBLIC',
   PRIVATE: 'PRIVATE'
@@ -22,12 +24,15 @@ export type Handler<T> = (req: HttpRequest<T>, res: HttpResponse) => Promise<voi
 
 export interface HttpServer {
   listen(port: number, callback?: () => void): Promise<void>
+  ready(): Promise<void>
+  close(): Promise<void>
   signJwt(payload: Record<string, unknown>): string
   get<T>(permission: Permission, path: string, handler: Handler<T>): Promise<void>
   post<T>(permission: Permission, path: string, handler: Handler<T>): Promise<void>
   patch<T>(permission: Permission, path: string, handler: Handler<T>): Promise<void>
   put<T>(permission: Permission, path: string, handler: Handler<T>): Promise<void>
   delete<T>(permission: Permission, path: string, handler: Handler<T>): Promise<void>
+  getRawServer(): Server
 }
 
 export interface HttpRequest<T> {
