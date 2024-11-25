@@ -1,4 +1,4 @@
-import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
+import { BadRequestException } from '@/core/exceptions/bad-request.exception'
 
 import type { GroupsRepository } from '../repositories/groups.repository'
 import { groupFake } from '../utils/tests/fakes/group.fake'

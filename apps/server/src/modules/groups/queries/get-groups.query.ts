@@ -1,5 +1,5 @@
-import type { Query } from '@/shared/base/query'
-import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
+import type { Query } from '@/core/base/query'
+import { BadRequestException } from '@/core/exceptions/bad-request.exception'
 
 import type { GroupsDAO } from '../daos/groups.dao'
 import type { GetGroupsInputDTO } from '../dtos/get-groups-input.dto'

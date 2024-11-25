@@ -1,5 +1,5 @@
-import type { Command } from '@/shared/base/command'
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
+import type { Command } from '@/core/base/command'
+import { IdValueObject } from '@/core/value-objects/id.value-object'
 import type { SessionsRepository } from '../repositories/sessions.repository'
 
 export class CreateSessionCommand implements Command<string, Promise<{ id: string }>> {

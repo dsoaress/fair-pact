@@ -1,8 +1,8 @@
-import type { Command } from '@/shared/base/command'
-import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
-import { NotFoundException } from '@/shared/exceptions/not-found.exception'
+import type { Command } from '@/core/base/command'
+import { BadRequestException } from '@/core/exceptions/bad-request.exception'
+import { NotFoundException } from '@/core/exceptions/not-found.exception'
 
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
+import { IdValueObject } from '@/core/value-objects/id.value-object'
 import type { CreateGroupTransactionDTO } from '../dtos/create-group-transaction.dto'
 import type { GroupTransactionModel } from '../models/group-transaction.model'
 import type { GroupModel } from '../models/group.model'

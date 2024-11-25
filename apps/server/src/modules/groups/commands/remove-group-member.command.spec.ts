@@ -1,7 +1,7 @@
-import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
-import { NotFoundException } from '@/shared/exceptions/not-found.exception'
+import { BadRequestException } from '@/core/exceptions/bad-request.exception'
+import { NotFoundException } from '@/core/exceptions/not-found.exception'
 
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
+import { IdValueObject } from '@/core/value-objects/id.value-object'
 import type { GroupsRepository } from '../repositories/groups.repository'
 import { groupFake } from '../utils/tests/fakes/group.fake'
 import { InMemoryGroupsRepository } from '../utils/tests/in-memory-repositories/in-memory-groups.repository'

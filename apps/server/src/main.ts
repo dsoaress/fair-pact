@@ -1,3 +1,3 @@
-import { server } from './shared/server'
+import { server } from './infra/server'
 
 server()

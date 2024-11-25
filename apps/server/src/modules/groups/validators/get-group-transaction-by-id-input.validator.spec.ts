@@ -1,4 +1,4 @@
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
+import { IdValueObject } from '@/core/value-objects/id.value-object'
 import { getGroupTransactionByIdInputValidator } from './get-group-transaction-by-id-input.validator'
 
 describe('getGroupTransactionByIdInputValidator', () => {

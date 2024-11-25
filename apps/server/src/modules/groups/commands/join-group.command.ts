@@ -1,7 +1,7 @@
-import type { Command } from '@/shared/base/command'
-import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
-import { ConflictException } from '@/shared/exceptions/conflict.exception'
-import { NotFoundException } from '@/shared/exceptions/not-found.exception'
+import type { Command } from '@/core/base/command'
+import { BadRequestException } from '@/core/exceptions/bad-request.exception'
+import { ConflictException } from '@/core/exceptions/conflict.exception'
+import { NotFoundException } from '@/core/exceptions/not-found.exception'
 
 import type { JoinGroupDTO } from '../dtos/join-group.dto'
 import type { GroupsRepository } from '../repositories/groups.repository'

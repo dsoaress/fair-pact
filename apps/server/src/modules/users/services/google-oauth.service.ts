@@ -1,4 +1,4 @@
-import { env } from '@/shared/config/env'
+import { env } from '@/infra/config/env'
 
 type Output = {
   firstName: string

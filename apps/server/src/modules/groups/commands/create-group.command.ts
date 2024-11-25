@@ -1,7 +1,7 @@
-import type { Command } from '@/shared/base/command'
-import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
+import type { Command } from '@/core/base/command'
+import { BadRequestException } from '@/core/exceptions/bad-request.exception'
 
-import { IdValueObject } from '@/shared/value-objects/id.value-object'
+import { IdValueObject } from '@/core/value-objects/id.value-object'
 import type { CreateGroupInputDTO } from '../dtos/create-group-input.dto'
 import type { CreateGroupOutputDTO } from '../dtos/create-group-output.dto'
 import type { GroupModel } from '../models/group.model'

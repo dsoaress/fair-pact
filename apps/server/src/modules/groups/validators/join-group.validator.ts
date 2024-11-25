@@ -1,4 +1,4 @@
-import { idValidator } from '@/shared/validators/id.validator'
+import { idValidator } from '@/core/validators/id.validator'
 import { z } from 'zod'
 
 export const joinGroupValidator = z.object({

@@ -1,4 +1,4 @@
-import type { Repository } from '@/shared/base/repository'
+import type { Repository } from '@/core/base/repository'
 
 import type { GroupModel } from '../models/group.model'
 

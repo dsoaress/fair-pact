@@ -1,6 +1,6 @@
-import type { Query } from '@/shared/base/query'
-import { BadRequestException } from '@/shared/exceptions/bad-request.exception'
-import { NotFoundException } from '@/shared/exceptions/not-found.exception'
+import type { Query } from '@/core/base/query'
+import { BadRequestException } from '@/core/exceptions/bad-request.exception'
+import { NotFoundException } from '@/core/exceptions/not-found.exception'
 
 import type { GroupsDAO } from '../daos/groups.dao'
 import type { GetGroupByIdInputDTO } from '../dtos/get-group-by-id-input.dto'
