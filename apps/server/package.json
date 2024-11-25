@@ -14,11 +14,13 @@
     "@fastify/jwt": "9.0.1",
     "drizzle-orm": "0.36.4",
     "fastify": "5.1.0",
+    "ioredis": "5.4.1",
     "pg": "8.13.1",
     "zod": "3.23.8"
   },
   "devDependencies": {
     "@faker-js/faker": "9.2.0",
+    "@testcontainers/redis": "10.15.0",
     "@types/node": "22.9.3",
     "@types/pg": "8.11.10",
     "@types/supertest": "6.0.2",

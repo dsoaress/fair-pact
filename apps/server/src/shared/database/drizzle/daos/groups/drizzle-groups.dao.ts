@@ -13,15 +13,22 @@ import type { GetGroupByIdInputDTO } from '@/modules/groups/dtos/get-group-by-id
 import type { GetGroupByIdOutputDTO } from '@/modules/groups/dtos/get-group-by-id-output.dto'
 import type { GetGroupsInputDTO } from '@/modules/groups/dtos/get-groups-input.dto'
 import type { GetGroupsOutputDTO } from '@/modules/groups/dtos/get-groups-output.dto'
+import type { CacheService } from '@/shared/base/cache-service'
 import type { DrizzleService } from '../../drizzle.service'
 
 export class DrizzleGroupsDAO implements GroupsDAO {
-  constructor(private readonly drizzleService: DrizzleService) {}
+  constructor(
+    private readonly drizzleService: DrizzleService,
+    private readonly cacheService: CacheService
+  ) {}
 
   async getGroupById({
     id,
     memberId
   }: GetGroupByIdInputDTO): Promise<GetGroupByIdOutputDTO | null> {
+    const cache = await this.cacheService.get<GetGroupByIdOutputDTO>(`group:${id}:${memberId}`)
+    if (cache) return cache
+
     const query = sql`
       SELECT 
         ${groups.id}, 
@@ -84,10 +91,16 @@ export class DrizzleGroupsDAO implements GroupsDAO {
       if (!result) return null
       return result[0]
     }
+
+    this.cacheService.set(`group:${id}:${memberId}`, rows[0])
+
     return rows[0] as GetGroupByIdOutputDTO
   }
 
   async getGroups({ memberId }: GetGroupsInputDTO): Promise<GetGroupsOutputDTO> {
+    const cache = await this.cacheService.get<GetGroupsOutputDTO>(`groups:${memberId}`)
+    if (cache) return cache
+
     const query = sql`
       SELECT
         ${groups.id}, 
@@ -118,6 +131,8 @@ export class DrizzleGroupsDAO implements GroupsDAO {
       ORDER BY ${groups.createdAt} DESC;
     `
     const { rows } = await this.drizzleService.execute(query)
+    this.cacheService.set(`groups:${memberId}`, rows as GetGroupsOutputDTO)
+
     return rows as GetGroupsOutputDTO
   }
 }

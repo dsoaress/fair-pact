@@ -1,3 +1,3 @@
-import { app } from './shared/app'
+import { server } from './shared/server'
 
-app()
+server()

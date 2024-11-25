@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm'
 
 import type { GroupTransactionModel } from '@/modules/groups/models/group-transaction.model'
 import type { GroupTransactionsRepository } from '@/modules/groups/repositories/group-transactions.repository'
+import type { CacheService } from '@/shared/base/cache-service'
 import type { DrizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { groupTransactionParticipants, groupTransactions } from '@/shared/database/drizzle/schemas'
 import { IdValueObject } from '@/shared/value-objects/id.value-object'
@@ -24,7 +25,10 @@ type GroupTransactionResult = {
 }
 
 export class DrizzleGroupTransactionsRepository implements GroupTransactionsRepository {
-  constructor(private readonly drizzleService: DrizzleService) {}
+  constructor(
+    private readonly drizzleService: DrizzleService,
+    private readonly cacheService: CacheService
+  ) {}
 
   async findById(id: string): Promise<GroupTransactionModel | null> {
     const result = await this.drizzleService.query.groupTransactions.findFirst({
@@ -36,71 +40,83 @@ export class DrizzleGroupTransactionsRepository implements GroupTransactionsRepo
   }
 
   async create(model: GroupTransactionModel): Promise<void> {
-    await this.drizzleService.transaction(async tx => {
-      await tx.insert(groupTransactions).values({
-        id: model.id.value,
-        name: model.name,
-        groupId: model.groupId.value,
-        payerMemberId: model.payerMemberId.value,
-        amount: model.amount,
-        date: model.date,
-        createdBy: model.createdBy.value,
-        createdAt: model.createdAt
-      })
-
-      await tx.insert(groupTransactionParticipants).values(
-        model.participants.map(participant => ({
-          groupTransactionId: model.id.value,
-          memberId: participant.memberId.value,
-          amount: participant.amount,
+    await Promise.all([
+      this.cacheService.remove(`group-transactions:${model.groupId.value}`),
+      this.drizzleService.transaction(async tx => {
+        await tx.insert(groupTransactions).values({
+          id: model.id.value,
+          name: model.name,
+          groupId: model.groupId.value,
           payerMemberId: model.payerMemberId.value,
-          groupId: model.groupId.value
-        }))
-      )
-    })
+          amount: model.amount,
+          date: model.date,
+          createdBy: model.createdBy.value,
+          createdAt: model.createdAt
+        })
+
+        await tx.insert(groupTransactionParticipants).values(
+          model.participants.map(participant => ({
+            groupTransactionId: model.id.value,
+            memberId: participant.memberId.value,
+            amount: participant.amount,
+            payerMemberId: model.payerMemberId.value,
+            groupId: model.groupId.value
+          }))
+        )
+      })
+    ])
   }
 
   async update(model: GroupTransactionModel): Promise<void> {
-    await this.drizzleService.transaction(async tx => {
-      await tx
-        .update(groupTransactions)
-        .set({
-          name: model.name,
-          payerMemberId: model.payerMemberId.value,
-          date: model.date,
-          amount: model.amount,
-          updatedAt: model.updatedAt,
-          updatedBy: model.updatedBy?.value
-        })
-        .where(eq(groupTransactions.id, model.id.value))
-      await Promise.all(
-        model.participants.map(participant =>
-          tx
-            .insert(groupTransactionParticipants)
-            .values({
-              groupTransactionId: model.id.value,
-              memberId: participant.memberId.value,
-              amount: participant.amount,
-              payerMemberId: model.payerMemberId.value,
-              groupId: model.groupId.value
-            })
-            .onConflictDoUpdate({
-              target: [
-                groupTransactionParticipants.groupTransactionId,
-                groupTransactionParticipants.memberId
-              ],
-              set: { amount: participant.amount, payerMemberId: model.payerMemberId.value }
-            })
+    await Promise.all([
+      this.cacheService.remove(`group-transactions:${model.groupId.value}`),
+      this.cacheService.remove(`group-transaction:${model.id.value}`),
+      this.drizzleService.transaction(async tx => {
+        await tx
+          .update(groupTransactions)
+          .set({
+            name: model.name,
+            payerMemberId: model.payerMemberId.value,
+            date: model.date,
+            amount: model.amount,
+            updatedAt: model.updatedAt,
+            updatedBy: model.updatedBy?.value
+          })
+          .where(eq(groupTransactions.id, model.id.value))
+        await Promise.all(
+          model.participants.map(participant =>
+            tx
+              .insert(groupTransactionParticipants)
+              .values({
+                groupTransactionId: model.id.value,
+                memberId: participant.memberId.value,
+                amount: participant.amount,
+                payerMemberId: model.payerMemberId.value,
+                groupId: model.groupId.value
+              })
+              .onConflictDoUpdate({
+                target: [
+                  groupTransactionParticipants.groupTransactionId,
+                  groupTransactionParticipants.memberId
+                ],
+                set: { amount: participant.amount, payerMemberId: model.payerMemberId.value }
+              })
+          )
         )
-      )
-    })
+      })
+    ])
   }
 
   async delete(id: string): Promise<void> {
-    await this.drizzleService
-      .delete(groupTransactionParticipants)
-      .where(eq(groupTransactionParticipants.groupTransactionId, id))
-    await this.drizzleService.delete(groupTransactions).where(eq(groupTransactions.id, id))
+    const groupId = await this.drizzleService.query.groupTransactions.findFirst({
+      where: eq(groupTransactions.id, id),
+      columns: { groupId: true }
+    })
+    await Promise.all([
+      this.cacheService.remove(`group-transactions:${groupId}`),
+      this.cacheService.remove(`group-transaction:${id}`),
+      this.drizzleService.delete(groupTransactions).where(eq(groupTransactions.id, id))
+    ])
   }
 
   private mapToModel(result: GroupTransactionResult): GroupTransactionModel {
