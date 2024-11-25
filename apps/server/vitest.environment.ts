@@ -13,8 +13,7 @@ export default (<Environment>{
     ])
     const databaseConnectionUri = databaseContainer.getConnectionUri()
     process.env.DATABASE_URL = databaseConnectionUri
-    process.env.REDIS_HOST = cacheContainer.getHost()
-    process.env.REDIS_PORT = cacheContainer.getPort().toString()
+    process.env.REDIS_URL = cacheContainer.getConnectionUrl()
     execSync(
       `cd ${import.meta.dirname} && DATABASE_URL=${databaseConnectionUri} npx drizzle-kit push`
     )

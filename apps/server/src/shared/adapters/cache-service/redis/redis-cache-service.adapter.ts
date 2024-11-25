@@ -6,11 +6,7 @@ export class RedisCacheServiceAdapter implements CacheService {
   private readonly redisService: Redis
 
   constructor() {
-    this.redisService = new Redis({
-      host: env.REDIS_HOST,
-      port: env.REDIS_PORT,
-      password: env.REDIS_PASSWORD
-    })
+    this.redisService = new Redis(env.REDIS_URL)
   }
 
   async get<T>(key: string): Promise<T | undefined> {
