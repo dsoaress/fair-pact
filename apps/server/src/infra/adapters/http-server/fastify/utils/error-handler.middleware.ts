@@ -7,14 +7,6 @@ import { ForbiddenException } from '@/core/exceptions/forbidden.exception'
 import { NotFoundException } from '@/core/exceptions/not-found.exception'
 import { UnauthorizedException } from '@/core/exceptions/unauthorized.exception'
 
-function safeParseErrorMessage(error: FastifyError): Record<string, unknown> | string {
-  try {
-    return JSON.parse(error.message)
-  } catch {
-    return error.message
-  }
-}
-
 export async function errorHandler(
   error: FastifyError,
   request: FastifyRequest,
@@ -23,30 +15,30 @@ export async function errorHandler(
   const { url, log } = request
   const baseError = { url, date: new Date() }
 
-  switch (true) {
-    case error instanceof BadRequestException:
+  switch (Error.constructor) {
+    case BadRequestException:
       return reply.code(httpStatusCode.BAD_REQUEST).send({
         statusCode: httpStatusCode.BAD_REQUEST,
-        error: safeParseErrorMessage(error),
+        error: error.message,
         ...baseError
       })
-    case error instanceof ConflictException:
+    case ConflictException:
       return reply
         .code(httpStatusCode.CONFLICT)
         .send({ statusCode: httpStatusCode.CONFLICT, error: error.message, ...baseError })
-    case error instanceof UnauthorizedException:
+    case UnauthorizedException:
       return reply.code(httpStatusCode.UNAUTHORIZED).send({
         statusCode: httpStatusCode.UNAUTHORIZED,
         error: error.message,
         ...baseError
       })
-    case error instanceof ForbiddenException:
+    case ForbiddenException:
       return reply.code(httpStatusCode.FORBIDDEN).send({
         statusCode: httpStatusCode.FORBIDDEN,
         error: error.message,
         ...baseError
       })
-    case error instanceof NotFoundException:
+    case NotFoundException:
       return reply.code(httpStatusCode.NOT_FOUND).send({
         statusCode: httpStatusCode.NOT_FOUND,
         error: error.message,
