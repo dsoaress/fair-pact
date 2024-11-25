@@ -79,7 +79,7 @@ export class DrizzleGroupTransactionsDAO implements GroupTransactionsDAO {
     search
   }: GetGroupTransactionsByGroupIdInputDTO): Promise<GetGroupTransactionsByGroupIdOutputDTO> {
     const cache = await this.cacheService.get<GetGroupTransactionsByGroupIdOutputDTO>(
-      `group-transactions:${groupId}:${memberId}:${page}:${limit}:${order}:${dir}:${search}`
+      `group-transactions:${groupId}:${memberId}:${page}:${limit}:${order}:${dir}:${search ?? 'without-search'}`
     )
     if (cache) return cache
 
@@ -134,7 +134,7 @@ export class DrizzleGroupTransactionsDAO implements GroupTransactionsDAO {
     console.log('count', count)
 
     await this.cacheService.set(
-      `group-transactions:${groupId}:${memberId}:${page}:${limit}:${order}:${dir}:${search}`,
+      `group-transactions:${groupId}:${memberId}:${page}:${limit}:${order}:${dir}:${search ?? 'without-search'}`,
       rows
     )
 

@@ -11,7 +11,7 @@ export class FastifyHttpServerAdapter implements HttpServer {
   }
 
   async listen(port: number, callback?: () => void): Promise<void> {
-    await this.server.listen({ port })
+    await this.server.listen({ port, host: '0.0.0.0' })
     callback?.()
   }
 
