@@ -2,16 +2,23 @@ import { groupTransactionFake } from '@/modules/groups/utils/tests/fakes/group-t
 import { drizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { groupMembers, groups, users } from '@/shared/database/drizzle/schemas'
 
+import { RedisCacheServiceAdapter } from '@/shared/adapters/cache-service/redis/redis-cache-service.adapter'
+import type { CacheService } from '@/shared/base/cache-service'
 import { IdValueObject } from '@/shared/value-objects/id.value-object'
 import { DrizzleGroupTransactionsRepository } from './drizzle-group-transactions.repository'
 
 describe('DrizzleGroupTransactionsRepository', () => {
   const memberId = IdValueObject.create()
   const groupId = IdValueObject.create()
+  let cacheService: CacheService
   let groupTransactionsRepository: DrizzleGroupTransactionsRepository
 
   beforeEach(async () => {
-    groupTransactionsRepository = new DrizzleGroupTransactionsRepository(drizzleService)
+    cacheService = new RedisCacheServiceAdapter()
+    groupTransactionsRepository = new DrizzleGroupTransactionsRepository(
+      drizzleService,
+      cacheService
+    )
 
     await drizzleService.transaction(async tx => {
       await tx.insert(users).values({

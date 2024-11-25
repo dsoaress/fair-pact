@@ -2,14 +2,18 @@ import { drizzleService } from '@/shared/database/drizzle/drizzle.service'
 import { users } from '@/shared/database/drizzle/schemas'
 
 import { groupFake } from '@/modules/groups/utils/tests/fakes/group.fake'
+import { RedisCacheServiceAdapter } from '@/shared/adapters/cache-service/redis/redis-cache-service.adapter'
+import type { CacheService } from '@/shared/base/cache-service'
 import { IdValueObject } from '@/shared/value-objects/id.value-object'
 import { DrizzleGroupsRepository } from './drizzle-groups.repository'
 
 describe('GroupsRepository', () => {
+  let cacheService: CacheService
   let groupsRepository: DrizzleGroupsRepository
 
   beforeAll(async () => {
-    groupsRepository = new DrizzleGroupsRepository(drizzleService)
+    cacheService = new RedisCacheServiceAdapter()
+    groupsRepository = new DrizzleGroupsRepository(drizzleService, cacheService)
   })
 
   it('should find a group by id', async () => {
