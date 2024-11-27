@@ -15,30 +15,30 @@ export async function errorHandler(
   const { url, log } = request
   const baseError = { url, date: new Date() }
 
-  switch (Error.constructor) {
-    case BadRequestException:
+  switch (true) {
+    case error instanceof BadRequestException:
       return reply.code(httpStatusCode.BAD_REQUEST).send({
         statusCode: httpStatusCode.BAD_REQUEST,
         error: error.message,
         ...baseError
       })
-    case ConflictException:
+    case error instanceof ConflictException:
       return reply
         .code(httpStatusCode.CONFLICT)
         .send({ statusCode: httpStatusCode.CONFLICT, error: error.message, ...baseError })
-    case UnauthorizedException:
+    case error instanceof UnauthorizedException:
       return reply.code(httpStatusCode.UNAUTHORIZED).send({
         statusCode: httpStatusCode.UNAUTHORIZED,
         error: error.message,
         ...baseError
       })
-    case ForbiddenException:
+    case error instanceof ForbiddenException:
       return reply.code(httpStatusCode.FORBIDDEN).send({
         statusCode: httpStatusCode.FORBIDDEN,
         error: error.message,
         ...baseError
       })
-    case NotFoundException:
+    case error instanceof NotFoundException:
       return reply.code(httpStatusCode.NOT_FOUND).send({
         statusCode: httpStatusCode.NOT_FOUND,
         error: error.message,
