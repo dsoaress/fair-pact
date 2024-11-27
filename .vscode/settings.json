@@ -17,7 +17,7 @@
   },
   "sonarlint.connectedMode.project": {
     "connectionId": "dsoaress",
-    "projectKey": "dsoaress_fair-pact"
+    "projectKey": "dsoaress_divisio"
   },
   "workbench.iconTheme": "symbols",
   "symbols.files.associations": {
@@ -29,5 +29,6 @@
     "*.int-spec.ts": "ts-test",
     "*.spec.ts": "ts-test",
     ".env.example": "gear"
-  }
+  },
+  "cSpell.words": ["divisio"]
 }

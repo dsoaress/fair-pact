@@ -5,7 +5,7 @@ export function Hello(): JSX.Element {
 
   return (
     <main>
-      <h1 className="text-3xl">Fair Pact</h1>
+      <h1 className="text-3xl">Divisio</h1>
       <p className="text-lg">{counter}</p>
       <button type="button" onClick={(): void => setCounter(prev => prev + 1)}>
         Increment

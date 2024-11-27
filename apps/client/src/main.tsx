@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 
 const localStoragePersister = createSyncStoragePersister({
   storage: window.localStorage,
-  key: 'FAIR_PACT_CLIENT'
+  key: 'DIVISIO_CLIENT'
 })
 
 persistQueryClient({
