@@ -1,3 +1,5 @@
+import './docs/docs.module'
+
 import type { HttpServer } from '@/core/base/http-server'
 import { CreateGroupTransactionCommand } from '@/modules/groups/commands/create-group-transaction.command'
 import { CreateGroupCommand } from '@/modules/groups/commands/create-group.command'

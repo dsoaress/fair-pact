@@ -1,4 +1,5 @@
 import type { Server } from 'node:http'
+import type { ZodSchema } from 'zod'
 
 export const permissions = {
   PUBLIC: 'PUBLIC',
@@ -18,6 +19,29 @@ export const httpStatusCode = {
   NOT_FOUND: 404,
   CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500
+}
+
+export type Doc = {
+  path: string
+  description: string
+  summary: string
+  security?: unknown
+  permission: Permission
+  request?: {
+    params?: ZodSchema
+    query?: ZodSchema
+    body?: ZodSchema
+  }
+  response?: {
+    [status: number]: {
+      description: string
+      content?: {
+        'application/json': {
+          schema: ZodSchema
+        }
+      }
+    }
+  }
 }
 
 export type Handler<T> = (req: HttpRequest<T>, res: HttpResponse) => Promise<void>

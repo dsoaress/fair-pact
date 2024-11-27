@@ -21,7 +21,7 @@
     "test": "pnpm setenv:test vitest run",
     "test:watch": "pnpm setenv:test vitest",
     "test:ui": "pnpm setenv:test vitest --ui",
-    "lint": "pnpm biome check --write .",
+    "lint": "pnpm biome check --write --unsafe .",
     "lint:ci": "pnpm biome ci .",
     "db:generate": "pnpm setenv pnpm --filter server db:generate",
     "db:migrate": "pnpm setenv pnpm --filter server db:migrate",

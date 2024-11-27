@@ -56,7 +56,7 @@
         "noHeadImportInDocument": "error",
         "noDocumentCookie": "error",
         "useCollapsedIf": "error",
-        "useExplicitType": "error"
+        "useExplicitType": "off"
       }
     }
   },
