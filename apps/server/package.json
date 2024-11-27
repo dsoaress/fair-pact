@@ -7,7 +7,7 @@
     "start": "node dist/main.js",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:seed": "tsx src/shared/database/drizzle/seed"
+    "db:seed": "tsx src/infra/database/drizzle/seed"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "7.2.0",
