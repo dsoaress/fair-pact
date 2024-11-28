@@ -18,6 +18,7 @@
     "test:ui": "pnpm setenv:test vitest --ui",
     "lint": "pnpm biome check --write --unsafe .",
     "lint:ci": "pnpm biome ci .",
+    "orval": "pnpm setenv pnpm --filter mobile orval && pnpm lint",
     "db:generate": "pnpm setenv pnpm --filter server db:generate",
     "db:migrate": "pnpm setenv pnpm --filter server db:migrate",
     "db:migrate:ci": "pnpm --filter server db:migrate",
