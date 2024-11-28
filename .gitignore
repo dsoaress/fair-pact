@@ -13,14 +13,27 @@ node_modules/
 # dotenv environment variable files
 .env
 
-# build output
+# Build output
 .astro
-.next
-.turbo
+.expo
 out
 dist
 dist-ssr
 dev-dist
+
+# Expo
+expo-env.d.ts
+
+# Native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
 
 # OS files
 .DS_Store

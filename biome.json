@@ -56,7 +56,8 @@
         "noHeadImportInDocument": "error",
         "noDocumentCookie": "error",
         "useCollapsedIf": "error",
-        "useExplicitType": "error"
+        "useExplicitType": "error",
+        "useSortedClasses": "error"
       }
     }
   },
@@ -72,6 +73,16 @@
           "correctness": {
             "noUnusedImports": "off",
             "noUnusedVariables": "off"
+          }
+        }
+      }
+    },
+    {
+      "include": ["*.tsx"],
+      "linter": {
+        "rules": {
+          "nursery": {
+            "useExplicitType": "off"
           }
         }
       }
