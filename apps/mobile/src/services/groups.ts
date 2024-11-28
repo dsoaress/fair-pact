@@ -6,12 +6,8 @@
  */
 import { useQuery } from '@tanstack/react-query'
 import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
   QueryFunction,
   QueryKey,
-  UndefinedInitialDataOptions,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
@@ -49,7 +45,7 @@ export const getGetGroupsQueryOptions = <
   TData = Awaited<ReturnType<typeof getGroups>>,
   TError = unknown
 >(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroups>>, TError, TData>>
+  query?: UseQueryOptions<Awaited<ReturnType<typeof getGroups>>, TError, TData>
   fetch?: RequestInit
 }) => {
   const { query: queryOptions, fetch: fetchOptions } = options ?? {}
@@ -63,41 +59,12 @@ export const getGetGroupsQueryOptions = <
     Awaited<ReturnType<typeof getGroups>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: QueryKey }
 }
 
 export type GetGroupsQueryResult = NonNullable<Awaited<ReturnType<typeof getGroups>>>
 export type GetGroupsQueryError = unknown
 
-export function useGetGroups<
-  TData = Awaited<ReturnType<typeof getGroups>>,
-  TError = unknown
->(options: {
-  query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroups>>, TError, TData>> &
-    Pick<
-      DefinedInitialDataOptions<Awaited<ReturnType<typeof getGroups>>, TError, TData>,
-      'initialData'
-    >
-  fetch?: RequestInit
-}): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetGroups<
-  TData = Awaited<ReturnType<typeof getGroups>>,
-  TError = unknown
->(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroups>>, TError, TData>> &
-    Pick<
-      UndefinedInitialDataOptions<Awaited<ReturnType<typeof getGroups>>, TError, TData>,
-      'initialData'
-    >
-  fetch?: RequestInit
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetGroups<
-  TData = Awaited<ReturnType<typeof getGroups>>,
-  TError = unknown
->(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroups>>, TError, TData>>
-  fetch?: RequestInit
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get groups
  */
@@ -106,14 +73,12 @@ export function useGetGroups<
   TData = Awaited<ReturnType<typeof getGroups>>,
   TError = unknown
 >(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroups>>, TError, TData>>
+  query?: UseQueryOptions<Awaited<ReturnType<typeof getGroups>>, TError, TData>
   fetch?: RequestInit
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetGroupsQueryOptions(options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
-  }
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
   query.queryKey = queryOptions.queryKey
 
@@ -157,7 +122,7 @@ export const getGetGroupsGroupIdQueryOptions = <
 >(
   groupId: string,
   options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroupsGroupId>>, TError, TData>>
+    query?: UseQueryOptions<Awaited<ReturnType<typeof getGroupsGroupId>>, TError, TData>
     fetch?: RequestInit
   }
 ) => {
@@ -172,50 +137,12 @@ export const getGetGroupsGroupIdQueryOptions = <
     Awaited<ReturnType<typeof getGroupsGroupId>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: QueryKey }
 }
 
 export type GetGroupsGroupIdQueryResult = NonNullable<Awaited<ReturnType<typeof getGroupsGroupId>>>
 export type GetGroupsGroupIdQueryError = unknown
 
-export function useGetGroupsGroupId<
-  TData = Awaited<ReturnType<typeof getGroupsGroupId>>,
-  TError = unknown
->(
-  groupId: string,
-  options: {
-    query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroupsGroupId>>, TError, TData>> &
-      Pick<
-        DefinedInitialDataOptions<Awaited<ReturnType<typeof getGroupsGroupId>>, TError, TData>,
-        'initialData'
-      >
-    fetch?: RequestInit
-  }
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetGroupsGroupId<
-  TData = Awaited<ReturnType<typeof getGroupsGroupId>>,
-  TError = unknown
->(
-  groupId: string,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroupsGroupId>>, TError, TData>> &
-      Pick<
-        UndefinedInitialDataOptions<Awaited<ReturnType<typeof getGroupsGroupId>>, TError, TData>,
-        'initialData'
-      >
-    fetch?: RequestInit
-  }
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetGroupsGroupId<
-  TData = Awaited<ReturnType<typeof getGroupsGroupId>>,
-  TError = unknown
->(
-  groupId: string,
-  options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroupsGroupId>>, TError, TData>>
-    fetch?: RequestInit
-  }
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get group
  */
@@ -226,15 +153,13 @@ export function useGetGroupsGroupId<
 >(
   groupId: string,
   options?: {
-    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroupsGroupId>>, TError, TData>>
+    query?: UseQueryOptions<Awaited<ReturnType<typeof getGroupsGroupId>>, TError, TData>
     fetch?: RequestInit
   }
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetGroupsGroupIdQueryOptions(groupId, options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
-  }
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
   query.queryKey = queryOptions.queryKey
 

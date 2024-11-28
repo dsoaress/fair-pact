@@ -10,11 +10,7 @@ export default defineConfig({
       httpClient: 'fetch',
       client: 'react-query',
       mock: false,
-      mode: 'tags',
-      fileExtension: '.gen.ts'
-    },
-    hooks: {
-      afterAllFilesWrite: 'pnpm biome check --write --unsafe .'
+      mode: 'tags'
     }
   }
 })

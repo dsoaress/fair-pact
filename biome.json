@@ -78,7 +78,7 @@
       }
     },
     {
-      "include": ["*.tsx"],
+      "include": ["*.tsx", "./apps/mobile/src/services/*.ts"],
       "linter": {
         "rules": {
           "nursery": {

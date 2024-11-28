@@ -6,12 +6,8 @@
  */
 import { useQuery } from '@tanstack/react-query'
 import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
   QueryFunction,
   QueryKey,
-  UndefinedInitialDataOptions,
   UseQueryOptions,
   UseQueryResult
 } from '@tanstack/react-query'
@@ -49,7 +45,7 @@ export const getGetUsersProfileQueryOptions = <
   TData = Awaited<ReturnType<typeof getUsersProfile>>,
   TError = unknown
 >(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersProfile>>, TError, TData>>
+  query?: UseQueryOptions<Awaited<ReturnType<typeof getUsersProfile>>, TError, TData>
   fetch?: RequestInit
 }) => {
   const { query: queryOptions, fetch: fetchOptions } = options ?? {}
@@ -63,41 +59,12 @@ export const getGetUsersProfileQueryOptions = <
     Awaited<ReturnType<typeof getUsersProfile>>,
     TError,
     TData
-  > & { queryKey: DataTag<QueryKey, TData> }
+  > & { queryKey: QueryKey }
 }
 
 export type GetUsersProfileQueryResult = NonNullable<Awaited<ReturnType<typeof getUsersProfile>>>
 export type GetUsersProfileQueryError = unknown
 
-export function useGetUsersProfile<
-  TData = Awaited<ReturnType<typeof getUsersProfile>>,
-  TError = unknown
->(options: {
-  query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersProfile>>, TError, TData>> &
-    Pick<
-      DefinedInitialDataOptions<Awaited<ReturnType<typeof getUsersProfile>>, TError, TData>,
-      'initialData'
-    >
-  fetch?: RequestInit
-}): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUsersProfile<
-  TData = Awaited<ReturnType<typeof getUsersProfile>>,
-  TError = unknown
->(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersProfile>>, TError, TData>> &
-    Pick<
-      UndefinedInitialDataOptions<Awaited<ReturnType<typeof getUsersProfile>>, TError, TData>,
-      'initialData'
-    >
-  fetch?: RequestInit
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
-export function useGetUsersProfile<
-  TData = Awaited<ReturnType<typeof getUsersProfile>>,
-  TError = unknown
->(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersProfile>>, TError, TData>>
-  fetch?: RequestInit
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> }
 /**
  * @summary Get user profile
  */
@@ -106,14 +73,12 @@ export function useGetUsersProfile<
   TData = Awaited<ReturnType<typeof getUsersProfile>>,
   TError = unknown
 >(options?: {
-  query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getUsersProfile>>, TError, TData>>
+  query?: UseQueryOptions<Awaited<ReturnType<typeof getUsersProfile>>, TError, TData>
   fetch?: RequestInit
-}): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData> } {
+}): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
   const queryOptions = getGetUsersProfileQueryOptions(options)
 
-  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
-    queryKey: DataTag<QueryKey, TData>
-  }
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & { queryKey: QueryKey }
 
   query.queryKey = queryOptions.queryKey
 

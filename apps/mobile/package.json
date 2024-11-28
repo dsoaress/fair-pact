@@ -3,8 +3,7 @@
   "main": "expo-router/entry",
   "scripts": {
     "dev": "expo start",
-    "test": "jest",
-    "test:watch": "jest --watch"
+    "orval": "orval"
   },
   "dependencies": {
     "@expo/vector-icons": "14.0.2",
@@ -31,6 +30,7 @@
   "devDependencies": {
     "@babel/core": "7.25.2",
     "@types/react": "18.3.12",
+    "orval": "7.3.0",
     "typescript": "5.7.2"
   }
 }
