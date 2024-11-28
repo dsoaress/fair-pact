@@ -28,8 +28,11 @@ jobs:
       - name: Lint code
         run: pnpm lint:ci
 
-      - name: Build apps
-        run: pnpm build
+      - name: Build server
+        run: pnpm build:server
+
+      - name: Build www
+        run: pnpm build:www
 
       - name: Run tests
         run: pnpm test
