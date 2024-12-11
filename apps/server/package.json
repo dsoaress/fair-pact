@@ -21,7 +21,7 @@
   "devDependencies": {
     "@faker-js/faker": "9.2.0",
     "@testcontainers/redis": "10.15.0",
-    "@types/node": "22.9.3",
+    "@types/node": "22.10.2",
     "@types/pg": "8.11.10",
     "@types/supertest": "6.0.2",
     "drizzle-kit": "0.28.1",
